@@ -11,22 +11,28 @@ import org.springframework.stereotype.Component;
 @Component("AnalyseTask")
 @Scope("prototype")
 public class AnalyseTask implements Runnable {
-    private AnalyserPage ap;
+    private Analyser analyser;
+    private Page page;
+
     @Override
     public void run() {
-        if(ap == null)
-            return;
-
-        Analyser analyser = ap.getAnalyser();
-        Page page = ap.getPage();
         analyser.analyse(page);
     }
 
-    public AnalyserPage getAp() {
-        return ap;
+    /**getter、setter方法**/
+    public Analyser getAnalyser() {
+        return analyser;
     }
 
-    public void setAp(AnalyserPage ap) {
-        this.ap = ap;
+    public void setAnalyser(Analyser analyser) {
+        this.analyser = analyser;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
     }
 }

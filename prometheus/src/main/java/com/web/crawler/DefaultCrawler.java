@@ -4,7 +4,6 @@ import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 import cn.edu.hfut.dmic.webcollector.model.Links;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.analyser.Analyser;
-import com.web.analyser.AnalyserPage;
 import com.web.service.AnalyserService;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +41,7 @@ public class DefaultCrawler extends BreadthCrawler {
 
     @Override
     public void visit(Page page, Links nextLinks) {
-        AnalyserPage ap = factory.create(AnalyserPage.class);
-        ap.setAnalyser(analyser);
-        ap.setPage(page);
-        service.analyse(ap);
+        service.analyse(DefaultCrawler.class , page);
     }
 
     @Override

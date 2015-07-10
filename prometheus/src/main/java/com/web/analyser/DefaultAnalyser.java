@@ -1,6 +1,8 @@
 package com.web.analyser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
+import com.web.annotation.BindCrawler;
+import com.web.crawler.DefaultCrawler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Component;
  * @since v1.0
  */
 @Component("DefaultAnalyser")
+@BindCrawler(clazz = DefaultCrawler.class)
 public class DefaultAnalyser implements Analyser {
     @Override
     public void analyse(Page page) {

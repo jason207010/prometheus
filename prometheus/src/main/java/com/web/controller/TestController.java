@@ -2,8 +2,8 @@ package com.web.controller;
 
 import com.web.service.CrawlerService;
 import com.web.task.CrawlerTask;
-import com.web.task.CrawlerTaskFactory;
 import com.web.task.DefaultCrawlerTask;
+import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class TestController {
     @Autowired
-    private CrawlerTaskFactory factory;
+    private SpringFactory factory;
     @Autowired
     private CrawlerService service;
 
@@ -20,7 +20,7 @@ public class TestController {
     @RequestMapping("test")
 
     public String test(){
-        CrawlerTask task = factory.get(DefaultCrawlerTask.class);
+        CrawlerTask task = factory.create(DefaultCrawlerTask.class);
         service.addTask(task);
         return "test";
     }
