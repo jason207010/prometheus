@@ -3,14 +3,10 @@ package com.web.crawler;
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 import cn.edu.hfut.dmic.webcollector.model.Links;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.web.analyser.Analyser;
 import com.web.service.AnalyserService;
-import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 /**
  * @author jayson   2015-07-09-12:17
@@ -19,11 +15,6 @@ import javax.annotation.Resource;
 @Component("DefaultCrawler")
 @Scope("prototype")
 public class DefaultCrawler extends BreadthCrawler {
-    private String crawlPath = null;
-    @Resource(name = "DefaultAnalyser")
-    private Analyser analyser;
-    @Autowired
-    private SpringFactory factory;
     @Autowired
     private AnalyserService service;
 
@@ -46,18 +37,6 @@ public class DefaultCrawler extends BreadthCrawler {
 
     @Override
     public void start(int depth) throws Exception {
-        if(crawlPath == null){
-            throw new NullPointerException("crawlPath is null!");
-        }
         super.start(depth);
-    }
-
-    /**getter、setter方法**/
-    public String getCrawlPath() {
-        return crawlPath;
-    }
-
-    public void setCrawlPath(String crawlPath) {
-        this.crawlPath = crawlPath;
     }
 }

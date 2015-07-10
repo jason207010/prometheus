@@ -236,6 +236,12 @@ public abstract class Crawler implements VisitorFactory {
     public void setMaxRetry(int maxRetry) {
         this.maxRetry = maxRetry;
     }
-   
 
+    public String getCrawlPath() {
+        return crawlPath;
+    }
+
+    public void setCrawlPath(String crawlPath) {
+        this.crawlPath = crawlPath;
+    }
 }
