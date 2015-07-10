@@ -3,6 +3,7 @@ package com.web.service;
 import com.web.task.CrawlerTask;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
@@ -21,5 +22,10 @@ public class CrawlerServiceImpl implements CrawlerService {
     public void addTask(CrawlerTask task) {
         pool.execute(task);
         tasks.put(task.getId() , task);
+    }
+
+    @Override
+    public List<CrawlerTask> tasks() {
+        return null;
     }
 }

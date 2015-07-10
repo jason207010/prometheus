@@ -24,15 +24,17 @@ public abstract class CrawlerTask implements Runnable , CrawlerContext {
         return id;
     }
 
-    public void setId(long id) {
+    public CrawlerTask setId(long id) {
         this.id = id;
+        return this;
     }
 
     public String getDesc() {
         return desc;
     }
 
-    public void setDesc(String desc) {
+    public CrawlerTask setDesc(String desc) {
         this.desc = desc;
+        return this;
     }
 }

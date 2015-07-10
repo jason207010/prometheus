@@ -3,6 +3,7 @@ package com.web.controller;
 import com.web.service.CrawlerService;
 import com.web.task.CrawlerTask;
 import com.web.task.DefaultCrawlerTask;
+import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,12 +16,16 @@ public class TestController {
     private SpringFactory factory;
     @Autowired
     private CrawlerService service;
+    @Autowired
+    private IDGenerator generator;
 
     @RequestMapping("test")
 
     public String test(){
         CrawlerTask task = factory.create(DefaultCrawlerTask.class);
-        task.setDepth(5)
+        task.setId(generator.generate())
+                .setDesc("DefaultCrawlerTask")
+                .setDepth(5)
                 .setAutoParse(true)
                 .setThreads(5)
                 .setTopN(100)
