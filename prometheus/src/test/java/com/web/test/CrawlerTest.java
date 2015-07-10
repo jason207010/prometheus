@@ -29,7 +29,10 @@ public class CrawlerTest {
                 .setAutoParse(true)
                 .setThreads(5)
                 .setTopN(100)
-                .setCrawlPath("E:\\data");
+                .setResumable(false)
+                .setCrawlPath("E:\\data")
+                .addSeed("http://blog.csdn.net")
+                .addRegex("http://.*blog.csdn.net/.*/article/details/\\d+$");
         service.addTask(task);
     }
 }
