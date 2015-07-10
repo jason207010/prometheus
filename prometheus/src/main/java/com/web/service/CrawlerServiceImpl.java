@@ -20,6 +20,6 @@ public class CrawlerServiceImpl implements CrawlerService {
     @Override
     public void addTask(CrawlerTask task) {
         pool.execute(task);
-        tasks.put(1L , task);
+        tasks.put(task.getId() , task);
     }
 }
