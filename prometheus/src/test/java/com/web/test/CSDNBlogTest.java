@@ -16,7 +16,7 @@ public class CSDNBlogTest {
     public void test() throws Exception {
         crawler.setThreads(Runtime.getRuntime().availableProcessors() + 1);
 //        crawler.setResumable(true);
-        crawler.setTopN(9999);
+//        crawler.setTopN(9999);
         crawler.start(30);
     }
 }
