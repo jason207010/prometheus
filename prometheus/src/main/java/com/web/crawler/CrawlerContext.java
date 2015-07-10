@@ -6,15 +6,16 @@ package com.web.crawler;
  */
 
 public interface CrawlerContext{
-    public abstract CrawlerContext setTopN(int topN);
-    public abstract CrawlerContext setAutoParse(boolean autoParse);
-    public abstract CrawlerContext setCrawlPath(String crawlPath);
-    public abstract CrawlerContext setThreads(int threadNum);
-    public abstract CrawlerContext setResumable(boolean resumable);
-    public abstract CrawlerContext addSeed(String seed);
-    public abstract CrawlerContext addRegex(String regex);
-    public abstract CrawlerContext setMaxRetry(int maxRetry);
-    public abstract CrawlerContext setRetry(int retry);
-    public abstract CrawlerContext setDepth(int depth);
-    public abstract void start();
+    public CrawlerContext setTopN(int topN);
+    public CrawlerContext setAutoParse(boolean autoParse);
+    public CrawlerContext setCrawlPath(String crawlPath);
+    public CrawlerContext setThreads(int threadNum);
+    public CrawlerContext setResumable(boolean resumable);
+    public CrawlerContext addSeed(String seed);
+    public CrawlerContext addRegex(String regex);
+    public CrawlerContext setMaxRetry(int maxRetry);
+    public CrawlerContext setRetry(int retry);
+    public CrawlerContext setDepth(int depth);
+    public void start();
+    public void stop();
 }

@@ -90,4 +90,9 @@ public class DefaultCrawlerTask extends CrawlerTask {
     public void start() {
         context.start();
     }
+
+    @Override
+    public void stop() {
+        context.stop();
+    }
 }

@@ -2,6 +2,7 @@ package com.web.crawler;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class DefaultCrawlerContext implements CrawlerContext {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCrawlerContext.class);
+    @Autowired
     private DefaultCrawler crawler;
     private int depth = 0;
 
@@ -83,5 +85,10 @@ public class DefaultCrawlerContext implements CrawlerContext {
         } catch (Exception e) {
             LOGGER.error("" , e);
         }
+    }
+
+    @Override
+    public void stop() {
+        crawler.stop();
     }
 }

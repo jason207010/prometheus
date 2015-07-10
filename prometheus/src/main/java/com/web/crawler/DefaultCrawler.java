@@ -12,9 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component("DefaultCrawler")
 @Scope("prototype")
-public abstract class DefaultCrawler extends BreadthCrawler {
+public class DefaultCrawler extends BreadthCrawler {
     private String crawlPath = null;
-    private boolean autoParse = true;
     /**
      * @param crawlPath 维护URL信息的文件夹，如果爬虫需要断点爬取，每次请选择相同的crawlPath
      * @param autoParse 是否自动抽取符合正则的链接并加入后续任务
@@ -37,7 +36,6 @@ public abstract class DefaultCrawler extends BreadthCrawler {
         if(crawlPath == null){
             throw new NullPointerException("crawlPath is null!");
         }
-        setAutoParse(autoParse);
         super.start(depth);
     }
 
@@ -48,15 +46,5 @@ public abstract class DefaultCrawler extends BreadthCrawler {
 
     public void setCrawlPath(String crawlPath) {
         this.crawlPath = crawlPath;
-    }
-
-    @Override
-    public boolean isAutoParse() {
-        return autoParse;
-    }
-
-    @Override
-    public void setAutoParse(boolean autoParse) {
-        this.autoParse = autoParse;
     }
 }
