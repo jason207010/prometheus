@@ -4,6 +4,7 @@ import com.web.service.CrawlerService;
 import com.web.task.CrawlerTask;
 import com.web.task.DefaultCrawlerTask;
 import com.web.util.SpringFactory;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,7 @@ public class CrawlerTest {
 
     @Autowired
     private CrawlerService service;
+    @Test
     public void test(){
         CrawlerTask task = factory.create(DefaultCrawlerTask.class);
         task.setDepth(5)
