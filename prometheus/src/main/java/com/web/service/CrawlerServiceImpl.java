@@ -1,6 +1,6 @@
 package com.web.service;
 
-import com.web.task.CrawlerTask;
+import com.web.crawler.CrawlerTask;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

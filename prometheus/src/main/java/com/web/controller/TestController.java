@@ -1,8 +1,8 @@
 package com.web.controller;
 
 import com.web.service.CrawlerService;
-import com.web.task.CrawlerTask;
-import com.web.task.DefaultCrawlerTask;
+import com.web.crawler.CrawlerTask;
+import com.web.crawler.DefaultCrawlerTask;
 import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;

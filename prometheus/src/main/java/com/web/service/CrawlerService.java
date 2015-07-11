@@ -1,6 +1,6 @@
 package com.web.service;
 
-import com.web.task.CrawlerTask;
+import com.web.crawler.CrawlerTask;
 
 import java.util.List;
 

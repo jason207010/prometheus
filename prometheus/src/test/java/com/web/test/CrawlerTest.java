@@ -1,8 +1,8 @@
 package com.web.test;
 
 import com.web.service.CrawlerService;
-import com.web.task.CrawlerTask;
-import com.web.task.DefaultCrawlerTask;
+import com.web.crawler.CrawlerTask;
+import com.web.crawler.DefaultCrawlerTask;
 import com.web.util.SpringFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;

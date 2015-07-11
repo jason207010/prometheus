@@ -1,6 +1,4 @@
-package com.web.task;
-
-import com.web.crawler.CrawlerContext;
+package com.web.crawler;
 
 /**
  * @author jayson   2015-07-09-12:13

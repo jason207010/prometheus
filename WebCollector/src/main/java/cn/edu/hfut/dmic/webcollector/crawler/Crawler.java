@@ -244,4 +244,8 @@ public abstract class Crawler implements VisitorFactory {
     public void setCrawlPath(String crawlPath) {
         this.crawlPath = crawlPath;
     }
+
+    public int getStatus() {
+        return status;
+    }
 }
