@@ -21,7 +21,7 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     private SpringFactory factory;
     @Autowired
     private IDGenerator generator;
-
+    @Autowired
     private CrawlerContext context;
     private Crawler crawler;
 
@@ -80,11 +80,8 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
         return this;
     }
 
-    public CrawlerTaskBuilder setContext(CrawlerContext context){
-        this.context = context;
-        return this;
-    }
-    public CrawlerTaskBuilder setCrawler(Crawler crawler){
+    public <T extends Crawler> CrawlerTaskBuilder setCrawler(Class<T> clazz){
+        T crawler = factory.create(clazz);
         this.crawler = crawler;
         return this;
     }
