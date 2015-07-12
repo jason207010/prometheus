@@ -5,5 +5,7 @@ package com.web.task;
  * @since v1.0
  */
 public interface Task {
+
     public void execute();
+
 }

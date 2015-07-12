@@ -1,13 +1,10 @@
 package com.web.service;
 
 import com.web.crawler.CrawlerTask;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @author jayson   2015-07-10-14:26
@@ -15,17 +12,21 @@ import java.util.concurrent.Executors;
  */
 @Service("CrawlerServiceImpl")
 public class CrawlerServiceImpl implements CrawlerService {
-    private ExecutorService pool = Executors.newCachedThreadPool();
-    private Map<Long , CrawlerTask> tasks = new ConcurrentHashMap<>();
+    @Autowired
+    private CrawlerTaskService manager;
 
     @Override
     public void addTask(CrawlerTask task) {
-        pool.execute(task);
-        tasks.put(task.getId() , task);
+        manager.addTask(task);
+    }
+
+    @Override
+    public void removeTask(long id) {
+        manager.removeTask(id);
     }
 
     @Override
     public List<CrawlerTask> tasks() {
-        return null;
+        return manager.tasks();
     }
 }

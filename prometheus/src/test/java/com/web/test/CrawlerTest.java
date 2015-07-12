@@ -1,8 +1,6 @@
 package com.web.test;
 
 import com.web.service.CrawlerService;
-import com.web.crawler.CrawlerTask;
-import com.web.crawler.DefaultCrawlerTask;
 import com.web.util.SpringFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,15 +22,6 @@ public class CrawlerTest {
     private CrawlerService service;
     @Test
     public void test(){
-        CrawlerTask task = factory.create(DefaultCrawlerTask.class);
-        task.setDepth(5)
-                .setAutoParse(true)
-                .setThreads(5)
-                .setTopN(100)
-                .setResumable(false)
-                .setCrawlPath("E:\\data")
-                .addSeed("http://blog.csdn.net")
-                .addRegex("http://.*blog.csdn.net/.*/article/details/\\d+$");
-        service.addTask(task);
+
     }
 }

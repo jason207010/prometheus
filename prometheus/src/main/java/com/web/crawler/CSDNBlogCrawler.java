@@ -1,4 +1,4 @@
-package com.web.crawlerr;
+package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 import cn.edu.hfut.dmic.webcollector.model.Links;

@@ -1,4 +1,4 @@
-package com.web.crawlerr;
+package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import org.slf4j.Logger;
@@ -10,19 +10,13 @@ import org.springframework.stereotype.Component;
  * @author jayson   2015-07-11-17:20
  * @since v1.0
  */
-@Component("CSDNBlogCrawlerContext")
+@Component("CrawlerContextImpl")
 @Scope("prototype")
-public class CSDNBlogCrawlerContext implements CrawlerContext {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogCrawlerContext.class);
-    private Crawler crawler;
-    private CrawlerInfo info;
-    @Override
-    public void setCrawlerInfo(CrawlerInfo info) {
-        this.info = info;
-    }
+public class CrawlerContextImpl extends CrawlerContext {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerContextImpl.class);
 
     @Override
-    public void start() {
+    public void execute() {
         try {
             crawler.start(info.getDepth());
         } catch (Exception e) {

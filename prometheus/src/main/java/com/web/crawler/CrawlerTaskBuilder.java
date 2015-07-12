@@ -1,6 +1,8 @@
-package com.web.crawlerr;
+package com.web.crawler;
 
+import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import com.web.builder.Builder;
+import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -17,12 +19,11 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     private CrawlerInfo info;
     @Autowired
     private SpringFactory factory;
-    private CrawlerContext context;
+    @Autowired
+    private IDGenerator generator;
 
-    public CrawlerTaskBuilder setId(long id) {
-        info.setId(id);
-        return this;
-    }
+    private CrawlerContext context;
+    private Crawler crawler;
 
     public CrawlerTaskBuilder setDesc(String desc) {
         info.setDesc(desc);
@@ -83,11 +84,17 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
         this.context = context;
         return this;
     }
+    public CrawlerTaskBuilder setCrawler(Crawler crawler){
+        this.crawler = crawler;
+        return this;
+    }
 
     @Override
     public CrawlerTask build() {
         CrawlerTaskImpl task = factory.create(CrawlerTaskImpl.class);
-        context.setCrawlerInfo(info);
+        info.setId(generator.generate());
+        context.setInfo(info);
+        context.setCrawler(crawler);
         task.setContext(context);
         return task;
     }

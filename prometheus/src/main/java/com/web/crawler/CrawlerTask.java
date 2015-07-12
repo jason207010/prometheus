@@ -1,38 +1,28 @@
 package com.web.crawler;
 
+import com.web.task.Task;
+
 /**
- * @author jayson   2015-07-09-12:13
+ * @author jayson   2015-07-11-16:58
  * @since v1.0
  */
-public abstract class CrawlerTask implements Runnable , CrawlerContext {
-    private long id;
-    private String desc;
-    public abstract void before();
-    public abstract void after();
+public abstract class CrawlerTask implements Task , Runnable {
+    private CrawlerContext context;
+
+    public abstract void stop();
+    public abstract CrawlerTaskStatus status();
 
     @Override
     public void run() {
-        before();
-        start();
-        after();
+        execute();
     }
 
-    /**getter„ÄÅsetterÊñπÊ≥ï**/
-    public long getId() {
-        return id;
+    /**getter°¢setter∑Ω∑®**/
+    public CrawlerContext getContext() {
+        return context;
     }
 
-    public CrawlerTask setId(long id) {
-        this.id = id;
-        return this;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public CrawlerTask setDesc(String desc) {
-        this.desc = desc;
-        return this;
+    public void setContext(CrawlerContext context) {
+        this.context = context;
     }
 }

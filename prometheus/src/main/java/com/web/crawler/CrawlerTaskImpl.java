@@ -1,5 +1,6 @@
-package com.web.crawlerr;
+package com.web.crawler;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -9,25 +10,24 @@ import org.springframework.stereotype.Component;
  */
 @Component("CrawlerTaskImpl")
 @Scope("prototype")
-public class CrawlerTaskImpl implements CrawlerTask , Runnable {
+public class CrawlerTaskImpl extends CrawlerTask {
+    @Autowired
     private CrawlerContext context;
 
-    @Override
-    public void start() {
-    }
 
     @Override
     public void stop() {
+        context.stop();
     }
 
     @Override
     public CrawlerTaskStatus status() {
-        return null;
+        return context.status();
     }
 
     @Override
-    public void run() {
-        start();
+    public void execute() {
+        context.execute();
     }
 
     /**getter、setter方法**/

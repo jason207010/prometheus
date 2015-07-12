@@ -1,5 +1,6 @@
-package com.web.scheduler;
+package com.web.analyser;
 
+import com.web.task.TaskExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,22 +12,24 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author jayson   2015-07-10-20:06
+ * @author jayson   2015-07-12 17:26
  * @since v1.0
  */
-@Component("AnalyseScheduler")
-public class AnalyseScheduler implements Scheduler , Runnable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AnalyseScheduler.class);
-    private BlockingQueue<Runnable> queue = new LinkedBlockingQueue<>();
+@Component("AnalyseTaskExecutor")
+public class AnalyseTaskExecutor implements TaskExecutor<AnalyseTask> , Runnable {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnalyseTaskExecutor.class);
+    private BlockingQueue<AnalyseTask> tasks = new LinkedBlockingQueue<>();
     private ExecutorService pool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() + 1);
+
     @PostConstruct
-    public void start() {
+    public void init(){
         new Thread(this).start();
     }
+
     @Override
-    public void schedule(Runnable task) {
+    public void execute(AnalyseTask task) {
         try {
-            queue.put(task);
+            tasks.put(task);
         } catch (InterruptedException e) {
             LOGGER.error("" , e);
         }
@@ -34,16 +37,15 @@ public class AnalyseScheduler implements Scheduler , Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            Runnable task = null;
+        while (true){
+            AnalyseTask task = null;
             try {
-                task = queue.take();
+                task = tasks.take();
             } catch (InterruptedException e) {
-                LOGGER.error("", e);
+                LOGGER.error("" , e);
             }
-            if(task == null)
-                continue;
-            pool.execute(task);
+            if(task != null)
+                pool.execute(task);
         }
     }
 }

@@ -1,8 +1,6 @@
 package com.web.controller;
 
 import com.web.service.CrawlerService;
-import com.web.crawler.CrawlerTask;
-import com.web.crawler.DefaultCrawlerTask;
 import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,18 +20,7 @@ public class TestController {
     @RequestMapping("test")
 
     public String test(){
-        CrawlerTask task = factory.create(DefaultCrawlerTask.class);
-        task.setId(generator.generate())
-                .setDesc("DefaultCrawlerTask")
-                .setDepth(5)
-                .setAutoParse(true)
-                .setThreads(5)
-                .setTopN(100)
-                .setResumable(false)
-                .setCrawlPath("E:\\data")
-                .addSeed("http://blog.csdn.net")
-                .addRegex("http://.*blog.csdn.net/.*/article/details/\\d+$");
-        service.addTask(task);
+
         return "test";
     }
 }
