@@ -17,7 +17,7 @@ public abstract class CrawlerTask implements Task , Runnable {
         execute();
     }
 
-    /**getter¡¢setter·½·¨**/
+    /**getterã€setteræ–¹æ³•**/
     public CrawlerContext getContext() {
         return context;
     }

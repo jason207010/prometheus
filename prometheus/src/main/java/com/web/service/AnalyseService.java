@@ -1,5 +1,6 @@
 package com.web.service;
 
+import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 
 /**
@@ -7,5 +8,5 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
  * @since v1.0
  */
 public interface AnalyseService {
-    public void analyse(Page page);
+    public <T extends Crawler> void analyse(Page page , Class<T> clazz);
 }

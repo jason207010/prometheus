@@ -14,7 +14,7 @@ public abstract class CrawlerContext{
     public abstract void stop();
     public abstract CrawlerTaskStatus status();
 
-    /**getter¡¢setter·½·¨**/
+    /**getterã€setteræ–¹æ³•**/
     public Crawler getCrawler() {
         return crawler;
     }

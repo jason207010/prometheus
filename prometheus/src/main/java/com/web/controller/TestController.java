@@ -1,8 +1,8 @@
 package com.web.controller;
 
-import com.web.crawler.CSDNBlogCrawler;
 import com.web.crawler.CrawlerTask;
 import com.web.crawler.CrawlerTaskBuilder;
+import com.web.crawler.DefaultCrawler;
 import com.web.service.CrawlerTaskService;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +23,13 @@ public class TestController {
     public String test(){
         CrawlerTask task = builder.setCrawlPath("F:\\data")
                 .setAutoParse(true)
-                .setCrawler(CSDNBlogCrawler.class)
+                .setCrawler(DefaultCrawler.class)
                 .setDepth(5)
                 .setDesc("抓取CSDN博客的爬虫任务")
                 .setResumable(false)
                 .setTopN(10)
+                .addSeed("http://blog.csdn.net")
+                .addRegex("http://.*blog.csdn.net/.*/article/details/\\\\d+$")
                 .build();
         service.addTask(task);
         return "test";

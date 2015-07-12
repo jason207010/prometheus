@@ -1,6 +1,7 @@
 package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -18,6 +19,17 @@ public class CrawlerContextImpl extends CrawlerContext {
     @Override
     public void execute() {
         try {
+            if(info.getTopN() > 0)
+                crawler.setTopN(info.getTopN());
+            if(StringUtils.isNotBlank(info.getCrawlPath()))
+                crawler.setCrawlPath(info.getCrawlPath());
+            if(info.getMaxRetry() > 0)
+                crawler.setMaxRetry(info.getMaxRetry());
+            if(info.getRegex().isEmpty()){
+                for(String regex : info.getRegex()){
+                }
+            }
+
             crawler.start(info.getDepth());
         } catch (Exception e) {
             LOGGER.error("" , e);
