@@ -21,7 +21,7 @@ public class TestController {
 
     @RequestMapping("test")
     public String test(){
-        CrawlerTask task = builder.setCrawlPath("")
+        CrawlerTask task = builder.setCrawlPath("F:\\data")
                 .setAutoParse(true)
                 .setCrawler(CSDNBlogCrawler.class)
                 .setDepth(5)
