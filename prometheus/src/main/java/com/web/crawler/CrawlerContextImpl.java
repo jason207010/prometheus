@@ -18,18 +18,29 @@ public class CrawlerContextImpl extends CrawlerContext {
 
     @Override
     public void execute() {
-        try {
-            if(info.getTopN() > 0)
-                crawler.setTopN(info.getTopN());
-            if(StringUtils.isNotBlank(info.getCrawlPath()))
-                crawler.setCrawlPath(info.getCrawlPath());
-            if(info.getMaxRetry() > 0)
-                crawler.setMaxRetry(info.getMaxRetry());
-            if(info.getRegex().isEmpty()){
-                for(String regex : info.getRegex()){
-                }
+        if(info.getTopN() > 0)
+            crawler.setTopN(info.getTopN());
+        if(StringUtils.isNotBlank(info.getCrawlPath()))
+            crawler.setCrawlPath(info.getCrawlPath());
+        if(info.getMaxRetry() > 0)
+            crawler.setMaxRetry(info.getMaxRetry());
+        if(info.getRetry() > 0)
+            crawler.setRetry(info.getRetry());
+        if(info.getThreadNum() > 0)
+            crawler.setThreads(info.getThreadNum());
+        if(info.getRegex() != null && !info.getRegex().isEmpty()){
+            for(String regex : info.getRegex()){
+                crawler.addRegex(regex);
             }
-
+        }
+        if(info.getSeed() != null && !info.getSeed().isEmpty()){
+            for(String seed : info.getSeed()){
+                crawler.addSeed(seed);
+            }
+        }
+        crawler.setAutoParse(info.isAutoParse());
+        crawler.setResumable(info.isResumable());
+        try {
             crawler.start(info.getDepth());
         } catch (Exception e) {
             LOGGER.error("" , e);

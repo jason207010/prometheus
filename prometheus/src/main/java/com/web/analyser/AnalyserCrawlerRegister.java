@@ -26,6 +26,8 @@ public class AnalyserCrawlerRegister implements ApplicationContextAware {
         Map<String, Analyser> analysers = applicationContext.getBeansOfType(Analyser.class);
         for(Analyser a : analysers.values()){
             BindCrawler annotation = a.getClass().getAnnotation(BindCrawler.class);
+            if(annotation == null)
+                continue;
             if(annotation.clazz() == clazz){
                 analyser = a;
                 break;

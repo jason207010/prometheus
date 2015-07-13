@@ -1,13 +1,13 @@
 package com.web.crawler;
 
-import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
+import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 
 /**
  * @author jayson   2015-07-11-16:17
  * @since v1.0
  */
 public abstract class CrawlerContext{
-    protected Crawler crawler;
+    protected BreadthCrawler crawler;
     protected CrawlerInfo info;
 
     public abstract void execute();
@@ -15,11 +15,11 @@ public abstract class CrawlerContext{
     public abstract CrawlerTaskStatus status();
 
     /**getter、setter方法**/
-    public Crawler getCrawler() {
+    public BreadthCrawler getCrawler() {
         return crawler;
     }
 
-    public void setCrawler(Crawler crawler) {
+    public void setCrawler(BreadthCrawler crawler) {
         this.crawler = crawler;
     }
 

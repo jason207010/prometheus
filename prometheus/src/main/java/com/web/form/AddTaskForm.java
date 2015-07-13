@@ -1,24 +1,16 @@
-package com.web.crawler;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+package com.web.form;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author jayson   2015-07-11-11:48
+ * @author jayson   2015-07-13-14:29
  * @since v1.0
  */
-@Component("CrawlerInfo")
-@Scope("prototype")
-public class CrawlerInfo {
-    private long id;
+public class AddTaskForm {
     private String desc;
     private int topN;
     private boolean autoParse = false;
-    private String crawlPath;
     private int threadNum;
     private boolean resumable = false;
     private List<String> seed = new ArrayList<>();
@@ -26,24 +18,6 @@ public class CrawlerInfo {
     private int maxRetry;
     private int retry;
     private int depth;
-    public boolean addSeed(String seed){
-        if(StringUtils.isBlank(seed))
-            return false;
-        return this.seed.add(seed);
-    }
-    public boolean addRegex(String regex){
-        if(StringUtils.isBlank(regex))
-            return false;
-        return this.regex.add(regex);
-    }
-    /**getter、setter方法**/
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getDesc() {
         return desc;
@@ -67,14 +41,6 @@ public class CrawlerInfo {
 
     public void setAutoParse(boolean autoParse) {
         this.autoParse = autoParse;
-    }
-
-    public String getCrawlPath() {
-        return crawlPath;
-    }
-
-    public void setCrawlPath(String crawlPath) {
-        this.crawlPath = crawlPath;
     }
 
     public int getThreadNum() {
