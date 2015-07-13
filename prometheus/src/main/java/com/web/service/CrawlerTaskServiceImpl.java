@@ -13,7 +13,7 @@ import java.util.Vector;
  * @author jayson   2015-07-12 13:38
  * @since v1.0
  */
-@Service("CrawlerTaskManagerImpl")
+@Service("CrawlerTaskServiceImpl")
 public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     @Resource(name = "CrawlerTaskExecutor")
     private TaskExecutor<CrawlerTask> executor;

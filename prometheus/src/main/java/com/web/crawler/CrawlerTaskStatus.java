@@ -5,6 +5,20 @@ package com.web.crawler;
  * @since v1.0
  */
 public enum CrawlerTaskStatus {
-    Running,
-    Stop,
+    Running("运行中"),
+    Stop("已停止");
+
+    private String desc;
+
+    CrawlerTaskStatus(String desc) {
+        this.desc = desc;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 }

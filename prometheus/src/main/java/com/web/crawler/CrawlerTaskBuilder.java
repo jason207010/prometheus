@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -103,6 +104,11 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     public CrawlerTask build() {
         CrawlerTask task = factory.create(CrawlerTask.class);
         info.setId(generator.generate());
+        String path = "E:\\data\\" + task.getClass().getSimpleName();
+        File file = new File(path);
+        if(!file.exists())
+            file.mkdirs();
+        info.setCrawlPath(path);
         context.setInfo(info);
         context.setCrawler(crawler);
         task.setContext(context);

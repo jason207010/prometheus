@@ -9,15 +9,15 @@ import java.util.List;
  */
 public class AddTaskForm {
     private String desc;
-    private int topN;
-    private boolean autoParse = false;
-    private int threadNum;
-    private boolean resumable = false;
+    private Integer topN;
+    private Boolean autoParse = false;
+    private Integer threadNum;
+    private Boolean resumable = false;
     private List<String> seed = new ArrayList<>();
     private List<String> regex = new ArrayList<>();
-    private int maxRetry;
-    private int retry;
-    private int depth;
+    private Integer maxRetry;
+    private Integer retry;
+    private Integer depth;
 
     public String getDesc() {
         return desc;
@@ -27,35 +27,35 @@ public class AddTaskForm {
         this.desc = desc;
     }
 
-    public int getTopN() {
+    public Integer getTopN() {
         return topN;
     }
 
-    public void setTopN(int topN) {
+    public void setTopN(Integer topN) {
         this.topN = topN;
     }
 
-    public boolean isAutoParse() {
+    public Boolean getAutoParse() {
         return autoParse;
     }
 
-    public void setAutoParse(boolean autoParse) {
+    public void setAutoParse(Boolean autoParse) {
         this.autoParse = autoParse;
     }
 
-    public int getThreadNum() {
+    public Integer getThreadNum() {
         return threadNum;
     }
 
-    public void setThreadNum(int threadNum) {
+    public void setThreadNum(Integer threadNum) {
         this.threadNum = threadNum;
     }
 
-    public boolean isResumable() {
+    public Boolean getResumable() {
         return resumable;
     }
 
-    public void setResumable(boolean resumable) {
+    public void setResumable(Boolean resumable) {
         this.resumable = resumable;
     }
 
@@ -75,27 +75,27 @@ public class AddTaskForm {
         this.regex = regex;
     }
 
-    public int getMaxRetry() {
+    public Integer getMaxRetry() {
         return maxRetry;
     }
 
-    public void setMaxRetry(int maxRetry) {
+    public void setMaxRetry(Integer maxRetry) {
         this.maxRetry = maxRetry;
     }
 
-    public int getRetry() {
+    public Integer getRetry() {
         return retry;
     }
 
-    public void setRetry(int retry) {
+    public void setRetry(Integer retry) {
         this.retry = retry;
     }
 
-    public int getDepth() {
+    public Integer getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth) {
+    public void setDepth(Integer depth) {
         this.depth = depth;
     }
 }

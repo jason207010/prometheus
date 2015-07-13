@@ -22,7 +22,7 @@
       <tr>
         <td>${task.context.info.id}</td>
         <td>${task.context.info.desc}</td>
-        <td>${task.context.status}</td>
+        <td>${task.status().desc}</td>
       </tr>
     </c:forEach>
   </table>

@@ -20,14 +20,16 @@ public class CrawlerContextImpl extends CrawlerContext {
     public void execute() {
         if(info.getTopN() > 0)
             crawler.setTopN(info.getTopN());
-        if(StringUtils.isNotBlank(info.getCrawlPath()))
+        crawler.setAutoParse(info.isAutoParse());
+        if (StringUtils.isNotBlank(info.getCrawlPath()))
             crawler.setCrawlPath(info.getCrawlPath());
+        if(info.getThreadNum() > 0)
+            crawler.setThreads(info.getThreadNum());
+        crawler.setResumable(info.isResumable());
         if(info.getMaxRetry() > 0)
             crawler.setMaxRetry(info.getMaxRetry());
         if(info.getRetry() > 0)
             crawler.setRetry(info.getRetry());
-        if(info.getThreadNum() > 0)
-            crawler.setThreads(info.getThreadNum());
         if(info.getRegex() != null && !info.getRegex().isEmpty()){
             for(String regex : info.getRegex()){
                 crawler.addRegex(regex);
@@ -38,8 +40,6 @@ public class CrawlerContextImpl extends CrawlerContext {
                 crawler.addSeed(seed);
             }
         }
-        crawler.setAutoParse(info.isAutoParse());
-        crawler.setResumable(info.isResumable());
         try {
             crawler.start(info.getDepth());
         } catch (Exception e) {
