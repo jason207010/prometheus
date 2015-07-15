@@ -461,7 +461,7 @@ public class Fetcher {
 
     }
 
-    boolean running;
+    volatile boolean running;
 
     /**
      * 停止爬取

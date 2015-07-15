@@ -7,6 +7,7 @@ import com.web.form.AddTaskForm;
 import com.web.service.CrawlerTaskService;
 import com.web.util.ConverseUtil;
 import com.web.util.SpringFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +24,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/crawler")
 public class CrawlerController {
-    @Resource(name = "CrawlerTaskServiceImpl")
+    @Autowired
     private CrawlerTaskService service;
     @Resource(name = "SpringFactory")
     private SpringFactory factory;
@@ -43,7 +44,7 @@ public class CrawlerController {
                 .setThreadNum(util.converse(form.getThreadNum()))
                 .setResumable(util.converse(form.getResumable()))
                 .setSeed(form.getSeed())
-                .setSeed(form.getSeed())
+                .setRegex(form.getRegex())
                 .setMaxRetry(util.converse(form.getMaxRetry()))
                 .setRetry(util.converse(form.getRetry()))
                 .setDepth(util.converse(form.getDepth()))

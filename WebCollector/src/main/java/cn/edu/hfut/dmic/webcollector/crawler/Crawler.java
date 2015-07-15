@@ -41,7 +41,7 @@ public abstract class Crawler implements VisitorFactory {
 
     public static final Logger LOG = LoggerFactory.getLogger(Crawler.class);
 
-    protected int status;
+    protected volatile int status;
     public final static int RUNNING = 1;
     public final static int STOPED = 2;
     protected boolean resumable = false;
@@ -88,7 +88,13 @@ public abstract class Crawler implements VisitorFactory {
             if (dir.exists()) {
                 FileUtils.deleteDir(dir);
             }
-            dir.mkdirs();
+            for(int i = 0 ; i < 3 ; ++i){
+                if(dir.mkdirs()){
+                    break;
+                }else{
+                    Thread.sleep(1000);
+                }
+            }
 
             if (seeds.isEmpty() && forcedSeeds.isEmpty()) {
                 LOG.info("error:Please add at least one seed");

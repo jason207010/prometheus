@@ -20,8 +20,8 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     private List<CrawlerTask> tasks = new Vector<>();
     @Override
     public void addTask(CrawlerTask task) {
-        executor.execute(task);
         tasks.add(task);
+        executor.execute(task);
     }
 
     @Override
@@ -30,6 +30,7 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
         while (iterator.hasNext()){
             CrawlerTask task = iterator.next();
             if(task.getContext().getInfo().getId() == id){
+                task.stop();
                 iterator.remove();
                 break;
             }

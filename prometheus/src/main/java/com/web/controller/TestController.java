@@ -23,9 +23,9 @@ public class TestController {
     @RequestMapping("test")
     public String test(){
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
-        CrawlerTask task = builder.setCrawlPath("E:\\data")
+        CrawlerTask task = builder
                 .setAutoParse(true)
-                .setResumable(true)
+                .setResumable(false)
                 .setCrawler(DefaultCrawler.class)
                 .setDepth(10)
                 .setTopN(999999)
@@ -35,6 +35,15 @@ public class TestController {
                 .addRegex("http://.*blog.csdn.net/.*/article/details/\\d+$")
                 .build();
         service.addTask(task);
+        return "test";
+    }
+    @RequestMapping("testStop")
+    public String testStop(){
+        List<CrawlerTask> tasks = service.tasks();
+        for(CrawlerTask task : tasks){
+            task.stop();
+        }
+        tasks.clear();
         return "test";
     }
     @RequestMapping("list")

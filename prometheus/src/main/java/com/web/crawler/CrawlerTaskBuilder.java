@@ -2,6 +2,7 @@ package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
 import com.web.builder.Builder;
+import com.web.util.Config;
 import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     private IDGenerator generator;
     @Autowired
     private CrawlerContext context;
+    @Autowired
+    private Config config;
 
     private BreadthCrawler crawler;
 
@@ -65,7 +68,9 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     }
 
     public CrawlerTaskBuilder setSeed(List<String> seed){
-        info.setSeed(seed);
+        if(seed != null && !seed.isEmpty()){
+            info.getSeed().addAll(seed);
+        }
         return this;
     }
 
@@ -75,7 +80,9 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     }
 
     public CrawlerTaskBuilder setRegex(List<String> regex){
-        info.setRegex(regex);
+        if(regex != null && !regex.isEmpty()){
+            info.getRegex().addAll(regex);
+        }
         return this;
     }
 
@@ -104,11 +111,7 @@ public class CrawlerTaskBuilder implements Builder<CrawlerTask> {
     public CrawlerTask build() {
         CrawlerTask task = factory.create(CrawlerTask.class);
         info.setId(generator.generate());
-        String path = "E:\\data\\" + task.getClass().getSimpleName();
-        File file = new File(path);
-        if(!file.exists())
-            file.mkdirs();
-        info.setCrawlPath(path);
+        info.setCrawlPath(config.get("crawlerPath") + File.separator + info.getId());
         context.setInfo(info);
         context.setCrawler(crawler);
         task.setContext(context);
