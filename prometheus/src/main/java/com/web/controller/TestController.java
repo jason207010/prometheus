@@ -3,13 +3,16 @@ package com.web.controller;
 import com.web.crawler.CrawlerTask;
 import com.web.crawler.CrawlerTaskBuilder;
 import com.web.crawler.DefaultCrawler;
+import com.web.entity.WebPage;
 import com.web.service.CrawlerTaskService;
+import com.web.service.TestServiceImpl;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Controller
@@ -19,6 +22,9 @@ public class TestController {
     private SpringFactory factory;
     @Autowired
     private CrawlerTaskService service;
+
+    @Autowired
+    private TestServiceImpl testService;
 
     @RequestMapping("test")
     public String test(){
@@ -49,7 +55,20 @@ public class TestController {
     @RequestMapping("list")
     public String list(Model model){
         List<CrawlerTask> tasks = service.tasks();
-        model.addAttribute("tasks" , tasks);
+        model.addAttribute("tasks", tasks);
+        return "list";
+    }
+    @RequestMapping("save")
+    public String save(Model model){
+        WebPage page = new WebPage();
+        try {
+            page.setContent("test".getBytes("UTF-8"));
+            page.setTitle("title");
+            page.setUrl("url");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        testService.save(page);
         return "list";
     }
 }
