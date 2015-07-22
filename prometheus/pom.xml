@@ -21,9 +21,28 @@
     <spring-data-jpa-version>1.8.1.RELEASE</spring-data-jpa-version>
     <commons-io-version>2.4</commons-io-version>
     <hibernate-version>4.3.10.Final</hibernate-version>
+    <lucene-version>5.2.1</lucene-version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-queryparser</artifactId>
+      <version>${lucene-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-analyzers-common</artifactId>
+      <version>${lucene-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-core</artifactId>
+      <version>${lucene-version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
