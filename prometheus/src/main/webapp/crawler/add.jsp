@@ -5,7 +5,7 @@
 %>
 <html>
 <head>
-    <title></title>
+    <title>添加新爬虫任务</title>
 </head>
 <body>
 ${path}crawler/add.do

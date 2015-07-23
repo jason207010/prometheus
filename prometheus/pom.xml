@@ -22,9 +22,16 @@
     <commons-io-version>2.4</commons-io-version>
     <hibernate-version>4.3.10.Final</hibernate-version>
     <lucene-version>5.2.1</lucene-version>
+    <sitemesh-version>3.0.1</sitemesh-version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.sitemesh</groupId>
+      <artifactId>sitemesh</artifactId>
+      <version>${sitemesh-version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-queryparser</artifactId>
