@@ -9,7 +9,7 @@
 
   <properties>
     <project.encoding>UTF-8</project.encoding>
-    <java-version>1.7</java-version>
+    <java-version>1.8</java-version>
     <spring-version>4.1.7.RELEASE</spring-version>
     <junit-version>4.11</junit-version>
     <webcollector-version>2.09</webcollector-version>
@@ -23,9 +23,22 @@
     <hibernate-version>4.3.10.Final</hibernate-version>
     <lucene-version>5.2.1</lucene-version>
     <sitemesh-version>3.0.1</sitemesh-version>
+    <spring-security-version>4.0.1.RELEASE</spring-security-version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-web</artifactId>
+      <version>${spring-security-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
+      <version>${spring-security-version}</version>
+    </dependency>
+
     <dependency>
       <groupId>org.sitemesh</groupId>
       <artifactId>sitemesh</artifactId>

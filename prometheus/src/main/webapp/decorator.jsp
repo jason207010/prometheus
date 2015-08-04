@@ -27,7 +27,6 @@
             </ul>
         </div>
         <div class="col-xs-10">
-            col-xs-10
             <sitemesh:write property='body'/>
         </div>
     </div>
