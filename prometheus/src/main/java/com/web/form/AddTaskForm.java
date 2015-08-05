@@ -1,5 +1,10 @@
 package com.web.form;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +14,24 @@ import java.util.List;
  */
 public class AddTaskForm {
     private String desc;
+    @Min(1)
     private Integer topN;
+    @NotNull
     private Boolean autoParse = false;
+    @Min(1)
     private Integer threadNum;
+    @NotNull
     private Boolean resumable = false;
+    @NotEmpty
     private List<String> seed = new ArrayList<>();
+    @NotEmpty
     private List<String> regex = new ArrayList<>();
+    @Min(1)
+    @Max(5)
     private Integer maxRetry;
+    @Min(1)
     private Integer retry;
+    @Min(1)
     private Integer depth;
 
     public String getDesc() {

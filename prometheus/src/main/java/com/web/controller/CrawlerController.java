@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -36,7 +37,7 @@ public class CrawlerController {
         return "crawler/add";
     }
     @RequestMapping("/add")
-    public String add(@ModelAttribute AddTaskForm form , Model model){
+    public String add(@Valid @ModelAttribute AddTaskForm form , Model model){
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
         CrawlerTask task = builder.setDesc(form.getDesc())
                 .setTopN(util.converse(form.getTopN()))

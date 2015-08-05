@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%
   String path = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/";
   request.setAttribute("path" , path);
@@ -9,11 +10,12 @@
 </head>
 <body>
 ${path}crawler/add.do
-<form action="${path}crawler/add.do" method="post">
+<sf:form action="${path}crawler/add.do" method="post">
+
   <table>
     <tr>
       <td>描述：</td>
-      <td><input name="desc"></td>
+      <td><sf:input path="desc"/><sf:errors path="desc"></sf:errors></td>
     </tr>
     <tr>
       <td>topN：</td>
@@ -67,6 +69,7 @@ ${path}crawler/add.do
       </td>
     </tr>
   </table>
-</form>
+</sf:form>
+
 </body>
 </html>

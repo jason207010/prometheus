@@ -24,6 +24,7 @@
     <lucene-version>5.2.1</lucene-version>
     <sitemesh-version>3.0.1</sitemesh-version>
     <spring-security-version>4.0.1.RELEASE</spring-security-version>
+    <hibernate-validator-version>5.2.1.Final</hibernate-validator-version>
   </properties>
 
   <dependencies>
@@ -79,6 +80,12 @@
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-c3p0</artifactId>
       <version>${hibernate-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>${hibernate-validator-version}</version>
     </dependency>
 
     <dependency>
