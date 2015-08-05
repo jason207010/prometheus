@@ -1,4 +1,4 @@
-package com.web.analyser;
+package com.web.parser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.annotation.BindCrawler;
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
 @Component("DefaultAnalyser")
 @Scope("prototype")
 @BindCrawler(clazz = DefaultCrawler.class)
-public class DefaultAnalyser implements Analyser {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultAnalyser.class);
+public class DefaultParser implements Parser {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultParser.class);
     @Override
     public void analyse(Page page) {
         LOGGER.info("url:" + page.getUrl());

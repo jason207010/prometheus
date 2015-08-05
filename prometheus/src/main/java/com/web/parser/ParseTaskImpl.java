@@ -1,4 +1,4 @@
-package com.web.analyser;
+package com.web.parser;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("AnalyseTaskImpl")
 @Scope("prototype")
-public class AnalyseTaskImpl extends AnalyseTask {
+public class ParseTaskImpl extends ParseTask {
     @Override
     public void execute() {
         analyser.analyse(page);

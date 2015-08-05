@@ -3,7 +3,7 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
-    <title></title>
+    <title>爬虫任务列表</title>
 </head>
 <body>
 <table>

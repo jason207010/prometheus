@@ -20,7 +20,7 @@
         <div class="col-xs-2">
             <ul class="list-group">
                 <li class="list-group-item"><a href="${path}/crawler/addInit.do">添加新爬虫任务</a></li>
-                <li class="list-group-item"><a href="#">menu</a></li>
+                <li class="list-group-item"><a href="${path}/crawler/list.do">爬虫任务列表</a></li>
                 <li class="list-group-item"><a href="#">menu</a></li>
                 <li class="list-group-item"><a href="#">menu</a></li>
                 <li class="list-group-item"><a href="#">menu</a></li>

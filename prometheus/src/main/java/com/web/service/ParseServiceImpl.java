@@ -2,10 +2,9 @@ package com.web.service;
 
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.web.analyser.AnalyseTask;
-import com.web.analyser.AnalyseTaskExecutor;
-import com.web.analyser.Analyser;
-import com.web.analyser.AnalyserCrawlerRegister;
+import com.web.parser.ParseTask;
+import com.web.parser.Parser;
+import com.web.parser.ParserCrawlerRegister;
 import com.web.task.TaskExecutor;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,18 +17,18 @@ import javax.annotation.Resource;
  * @since v1.0
  */
 @Component("AnalyseManagerImpl")
-public class AnalyseServiceImpl implements AnalyseService {
+public class ParseServiceImpl implements ParseService {
     @Autowired
-    private AnalyserCrawlerRegister register;
+    private ParserCrawlerRegister register;
     @Autowired
     private SpringFactory factory;
     @Resource(name = "AnalyseTaskExecutor")
-    private TaskExecutor<AnalyseTask> executor;
+    private TaskExecutor<ParseTask> executor;
 
     @Override
     public <T extends Crawler> void analyse(Page page, Class<T> clazz) {
-        Analyser analyser = register.getAnalyser(clazz);
-        AnalyseTask task = factory.create(AnalyseTask.class);
+        Parser analyser = register.getAnalyser(clazz);
+        ParseTask task = factory.create(ParseTask.class);
         task.setAnalyser(analyser);
         task.setPage(page);
         executor.execute(task);

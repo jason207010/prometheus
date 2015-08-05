@@ -1,4 +1,4 @@
-package com.web.analyser;
+package com.web.parser;
 
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import com.web.annotation.BindCrawler;
@@ -15,16 +15,16 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since v1.0
  */
 @Component("AnalyserCrawlerRegister")
-public class AnalyserCrawlerRegister implements ApplicationContextAware {
+public class ParserCrawlerRegister implements ApplicationContextAware {
     private ApplicationContext applicationContext;
-    private Map<Class<Crawler> , Analyser> map = new ConcurrentHashMap<>();
-    public <T extends Crawler> Analyser getAnalyser(Class<T> clazz){
-        Analyser analyser = map.get(clazz);
+    private Map<Class<Crawler> , Parser> map = new ConcurrentHashMap<>();
+    public <T extends Crawler> Parser getAnalyser(Class<T> clazz){
+        Parser analyser = map.get(clazz);
         if(analyser != null){
             return analyser;
         }
-        Map<String, Analyser> analysers = applicationContext.getBeansOfType(Analyser.class);
-        for(Analyser a : analysers.values()){
+        Map<String, Parser> analysers = applicationContext.getBeansOfType(Parser.class);
+        for(Parser a : analysers.values()){
             BindCrawler annotation = a.getClass().getAnnotation(BindCrawler.class);
             if(annotation == null)
                 continue;
