@@ -1,41 +1,41 @@
 package com.web.crawler;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.web.entity.CrawlerInfoEntity;
+import com.web.task.Task;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * @author jayson   2015-07-11-15:53
+ * @author jayson   2015-08-11 17:42
  * @since v1.0
  */
 @Component("CrawlerTaskImpl")
 @Scope("prototype")
-public class CrawlerTaskImpl extends CrawlerTask {
-    @Autowired
-    private CrawlerContext context;
-
-
+public class CrawlerTaskImpl implements CrawlerTask , Task {
+    private Crawler crawler;
     @Override
     public void stop() {
-        context.stop();
+        crawler.stop();
     }
 
     @Override
-    public CrawlerTaskStatus status() {
-        return context.status();
+    public CrawlerStatus getStatus() {
+        return crawler.getCrawlerStatus();
+    }
+
+    @Override
+    public Crawler getCrawler() {
+        return crawler;
+    }
+
+    @Override
+    public void setCrawler(Crawler crawler) {
+        this.crawler = crawler;
     }
 
     @Override
     public void execute() {
-        context.execute();
+        crawler.start();
     }
 
-    /**getter、setter方法**/
-    public CrawlerContext getContext() {
-        return context;
-    }
-
-    public void setContext(CrawlerContext context) {
-        this.context = context;
-    }
 }

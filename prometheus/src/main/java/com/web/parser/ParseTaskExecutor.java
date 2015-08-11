@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * @author jayson   2015-07-12 17:26
  * @since v1.0
  */
-@Component("AnalyseTaskExecutor")
+@Component("ParseTaskExecutor")
 public class ParseTaskExecutor implements TaskExecutor<ParseTask> , Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ParseTaskExecutor.class);
     private BlockingQueue<ParseTask> tasks = new LinkedBlockingQueue<>();
@@ -38,14 +38,16 @@ public class ParseTaskExecutor implements TaskExecutor<ParseTask> , Runnable {
     @Override
     public void run() {
         while (true){
-            ParseTask task = null;
             try {
-                task = tasks.take();
+                ParseTask task = tasks.take();
+                if(task != null) {
+                    pool.execute(() ->{
+                        task.execute();
+                    });
+                }
             } catch (InterruptedException e) {
                 LOGGER.error("" , e);
             }
-            if(task != null)
-                pool.execute(task);
         }
     }
 }

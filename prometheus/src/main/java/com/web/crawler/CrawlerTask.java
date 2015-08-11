@@ -1,28 +1,15 @@
 package com.web.crawler;
 
+import com.web.entity.CrawlerInfoEntity;
 import com.web.task.Task;
 
 /**
- * @author jayson   2015-07-11-16:58
+ * @author jayson   2015-08-11 17:41
  * @since v1.0
  */
-public abstract class CrawlerTask implements Task , Runnable {
-    private CrawlerContext context;
-
-    public abstract void stop();
-    public abstract CrawlerTaskStatus status();
-
-    @Override
-    public void run() {
-        execute();
-    }
-
-    /**getter、setter方法**/
-    public CrawlerContext getContext() {
-        return context;
-    }
-
-    public void setContext(CrawlerContext context) {
-        this.context = context;
-    }
+public interface CrawlerTask extends Task {
+    public void stop();
+    public CrawlerStatus getStatus();
+    public Crawler getCrawler();
+    public void setCrawler(Crawler crawler);
 }

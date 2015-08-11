@@ -14,28 +14,28 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author jayson   2015-07-10-20:10
  * @since v1.0
  */
-@Component("AnalyserCrawlerRegister")
-public class ParserCrawlerRegister implements ApplicationContextAware {
+@Component("ParserCrawlerMapper")
+public class ParserCrawlerMapper implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     private Map<Class<Crawler> , Parser> map = new ConcurrentHashMap<>();
-    public <T extends Crawler> Parser getAnalyser(Class<T> clazz){
-        Parser analyser = map.get(clazz);
-        if(analyser != null){
-            return analyser;
+    public <T extends Crawler> Parser getParser(Class<T> clazz){
+        Parser parser = map.get(clazz);
+        if(parser != null){
+            return parser;
         }
-        Map<String, Parser> analysers = applicationContext.getBeansOfType(Parser.class);
-        for(Parser a : analysers.values()){
+        Map<String, Parser> parsers = applicationContext.getBeansOfType(Parser.class);
+        for(Parser a : parsers.values()){
             BindCrawler annotation = a.getClass().getAnnotation(BindCrawler.class);
             if(annotation == null)
                 continue;
             if(annotation.clazz() == clazz){
-                analyser = a;
+                parser = a;
                 break;
             }
         }
-        if(analyser != null)
-            map.putIfAbsent((Class<Crawler>) clazz, analyser);
-        return analyser;
+        if(parser != null)
+            map.putIfAbsent((Class<Crawler>) clazz, parser);
+        return parser;
     }
 
     @Override

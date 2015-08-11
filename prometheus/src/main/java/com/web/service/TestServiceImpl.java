@@ -1,7 +1,7 @@
 package com.web.service;
 
 import com.web.dao.TestDao;
-import com.web.entity.WebPage;
+import com.web.entity.WebPageEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +17,12 @@ public class TestServiceImpl {
     @Autowired
     private TestDao dao;
     @Transactional(readOnly = true)
-    public List<WebPage> list(){
-        List<WebPage> list = dao.findAll();
+    public List<WebPageEntity> list(){
+        List<WebPageEntity> list = dao.findAll();
         return list;
     }
     @Transactional
-    public void save(WebPage page){
+    public void save(WebPageEntity page){
         dao.save(page);
     }
 }

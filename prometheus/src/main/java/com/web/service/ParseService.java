@@ -8,5 +8,5 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
  * @since v1.0
  */
 public interface ParseService {
-    public <T extends Crawler> void analyse(Page page , Class<T> clazz);
+    public <T extends Crawler> void parse(Page page , Class<T> clazz);
 }

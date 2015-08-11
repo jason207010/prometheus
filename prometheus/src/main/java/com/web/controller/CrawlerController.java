@@ -10,12 +10,15 @@ import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,18 +36,22 @@ public class CrawlerController {
     private ConverseUtil util;
 
     @RequestMapping("/addInit")
-    public String addInit(){
+    public String addInit(AddTaskForm form , Model model){
+        model.addAttribute("form" , form);
         return "crawler/add";
     }
     @RequestMapping("/add")
-    public String add(@Valid @ModelAttribute AddTaskForm form , Model model){
+    public String add(@Valid @ModelAttribute("form") AddTaskForm form , BindingResult result , Model model){
+        if(result.hasErrors())
+            return "crawler/add";
+
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
         CrawlerTask task = builder.setDesc(form.getDesc())
                 .setTopN(util.converse(form.getTopN()))
                 .setAutoParse(util.converse(form.getAutoParse()))
                 .setThreadNum(util.converse(form.getThreadNum()))
                 .setResumable(util.converse(form.getResumable()))
-                .setSeed(form.getSeed())
+                .setSeeds(form.getSeeds())
                 .setRegex(form.getRegex())
                 .setMaxRetry(util.converse(form.getMaxRetry()))
                 .setRetry(util.converse(form.getRetry()))
@@ -52,6 +59,7 @@ public class CrawlerController {
                 .setCrawler(DefaultCrawler.class)
                 .build();
         service.addTask(task);
+
         model.addAttribute("msg" , "添加爬虫任务成功！");
         return "redirect:list.do";
     }

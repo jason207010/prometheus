@@ -1,5 +1,6 @@
 package com.web.form;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
@@ -13,25 +14,31 @@ import java.util.List;
  * @since v1.0
  */
 public class AddTaskForm {
+    @NotBlank
     private String desc;
     @Min(1)
+    @NotNull
     private Integer topN;
     @NotNull
     private Boolean autoParse = false;
     @Min(1)
+    @NotNull
     private Integer threadNum;
     @NotNull
     private Boolean resumable = false;
-    @NotEmpty
-    private List<String> seed = new ArrayList<>();
-    @NotEmpty
-    private List<String> regex = new ArrayList<>();
+    @NotBlank
+    private String seeds;
+    @NotBlank
+    private String regex;
     @Min(1)
     @Max(5)
+    @NotNull
     private Integer maxRetry;
     @Min(1)
+    @NotNull
     private Integer retry;
     @Min(1)
+    @NotNull
     private Integer depth;
 
     public String getDesc() {
@@ -74,20 +81,20 @@ public class AddTaskForm {
         this.resumable = resumable;
     }
 
-    public List<String> getSeed() {
-        return seed;
-    }
-
-    public void setSeed(List<String> seed) {
-        this.seed = seed;
-    }
-
-    public List<String> getRegex() {
+    public String getRegex() {
         return regex;
     }
 
-    public void setRegex(List<String> regex) {
+    public void setRegex(String regex) {
         this.regex = regex;
+    }
+
+    public String getSeeds() {
+        return seeds;
+    }
+
+    public void setSeeds(String seeds) {
+        this.seeds = seeds;
     }
 
     public Integer getMaxRetry() {

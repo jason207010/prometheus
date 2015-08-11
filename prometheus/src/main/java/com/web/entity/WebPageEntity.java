@@ -6,10 +6,10 @@ import javax.persistence.*;
  * @author jayson   2015-07-21-16:19
  * @since v1.0
  */
-@Entity(name = "webpage")
-public class WebPage {
+@Entity(name = "WebPage")
+public class WebPageEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private long id;
     @Column(name = "title")
     private String title;

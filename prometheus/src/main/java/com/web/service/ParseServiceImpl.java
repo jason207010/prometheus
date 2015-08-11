@@ -3,8 +3,9 @@ package com.web.service;
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.parser.ParseTask;
+import com.web.parser.ParseTaskImpl;
 import com.web.parser.Parser;
-import com.web.parser.ParserCrawlerRegister;
+import com.web.parser.ParserCrawlerMapper;
 import com.web.task.TaskExecutor;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,20 +17,20 @@ import javax.annotation.Resource;
  * @author jayson   2015-07-12 17:01
  * @since v1.0
  */
-@Component("AnalyseManagerImpl")
+@Component("ParseServiceImpl")
 public class ParseServiceImpl implements ParseService {
     @Autowired
-    private ParserCrawlerRegister register;
+    private ParserCrawlerMapper register;
     @Autowired
     private SpringFactory factory;
-    @Resource(name = "AnalyseTaskExecutor")
+    @Resource(name = "ParseTaskExecutor")
     private TaskExecutor<ParseTask> executor;
 
     @Override
-    public <T extends Crawler> void analyse(Page page, Class<T> clazz) {
-        Parser analyser = register.getAnalyser(clazz);
-        ParseTask task = factory.create(ParseTask.class);
-        task.setAnalyser(analyser);
+    public <T extends Crawler> void parse(Page page, Class<T> clazz) {
+        Parser parser = register.getParser(clazz);
+        ParseTask task = factory.create(ParseTaskImpl.class);
+        task.setParser(parser);
         task.setPage(page);
         executor.execute(task);
     }

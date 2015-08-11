@@ -7,5 +7,5 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
  * @since v1.0
  */
 public interface Parser {
-    public void analyse(Page page);
+    public void parse(Page page);
 }

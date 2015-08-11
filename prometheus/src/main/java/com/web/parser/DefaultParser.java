@@ -12,13 +12,12 @@ import org.springframework.stereotype.Component;
  * @author jayson   2015-07-12 19:22
  * @since v1.0
  */
-@Component("DefaultAnalyser")
-@Scope("prototype")
+@Component("DefaultParser")
 @BindCrawler(clazz = DefaultCrawler.class)
 public class DefaultParser implements Parser {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultParser.class);
     @Override
-    public void analyse(Page page) {
+    public void parse(Page page) {
         LOGGER.info("url:" + page.getUrl());
         LOGGER.info("title:" + page.getDoc().title());
     }

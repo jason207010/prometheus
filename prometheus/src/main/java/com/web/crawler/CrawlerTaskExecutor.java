@@ -7,14 +7,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author jayson   2015-07-12 16:45
+ * @author jayson   2015-08-11 17:55
  * @since v1.0
  */
 @Component("CrawlerTaskExecutor")
 public class CrawlerTaskExecutor implements TaskExecutor<CrawlerTask> {
-    private ExecutorService pool = Executors.newCachedThreadPool();
+    private ExecutorService threadPool = Executors.newCachedThreadPool();
     @Override
     public void execute(CrawlerTask task) {
-        pool.execute(task);
+        threadPool.execute(() -> {
+            task.execute();
+        });
     }
 }

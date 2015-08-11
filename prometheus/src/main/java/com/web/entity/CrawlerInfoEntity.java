@@ -1,41 +1,47 @@
-package com.web.crawler;
+package com.web.entity;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
- * @author jayson   2015-07-11-11:48
+ * @author jayson   2015-08-11 15:19
  * @since v1.0
  */
-@Component("CrawlerInfo")
+@Entity(name = "CrawlerTask")
+@Component("CrawlerInfoEntity")
 @Scope("prototype")
-public class CrawlerInfo {
+public class CrawlerInfoEntity {
+    @Id
+    @GeneratedValue
     private long id;
+    @Column(name = "desc")
     private String desc;
+    @Column(name = "topN")
     private int topN;
-    private boolean autoParse = false;
+    @Column(name = "autoParse")
+    private boolean autoParse;
+    @Column(name = "crawlPath")
     private String crawlPath;
+    @Column(name = "threadNum")
     private int threadNum;
-    private boolean resumable = false;
-    private List<String> seed = new ArrayList<>();
-    private List<String> regex = new ArrayList<>();
+    @Column(name = "resumable")
+    private boolean resumable;
+    @Column(name = "seeds")
+    private String seeds;
+    @Column(name = "regex")
+    private String regex;
+    @Column(name = "maxRetry")
     private int maxRetry;
+    @Column(name = "retry")
     private int retry;
+    @Column(name = "depth")
     private int depth;
-    public boolean addSeed(String seed){
-        if(StringUtils.isBlank(seed))
-            return false;
-        return this.seed.add(seed);
-    }
-    public boolean addRegex(String regex){
-        if(StringUtils.isBlank(regex))
-            return false;
-        return this.regex.add(regex);
-    }
+
     /**getter、setter方法**/
     public long getId() {
         return id;
@@ -93,19 +99,19 @@ public class CrawlerInfo {
         this.resumable = resumable;
     }
 
-    public List<String> getSeed() {
-        return seed;
+    public String getSeeds() {
+        return seeds;
     }
 
-    public void setSeed(List<String> seed) {
-        this.seed = seed;
+    public void setSeeds(String seeds) {
+        this.seeds = seeds;
     }
 
-    public List<String> getRegex() {
+    public String getRegex() {
         return regex;
     }
 
-    public void setRegex(List<String> regex) {
+    public void setRegex(String regex) {
         this.regex = regex;
     }
 

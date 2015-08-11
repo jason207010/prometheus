@@ -12,10 +12,7 @@ import java.io.File;
 public class CrawlerTest {
     @Test
     public void test(){
-        File dir = new File("E:\\data");
-        if(dir.exists()){
-            FileUtils.deleteDir(dir);
-        }
-        dir.mkdirs();
+        System.out.println(String.valueOf(Long.MAX_VALUE).length());
+        System.out.println(String.valueOf(Integer.MAX_VALUE).length());
     }
 }
