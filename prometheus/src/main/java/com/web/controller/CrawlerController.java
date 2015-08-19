@@ -1,9 +1,8 @@
 package com.web.controller;
 
-import com.web.crawler.CrawlerTask;
-import com.web.crawler.CrawlerTaskBuilder;
-import com.web.crawler.DefaultCrawler;
+import com.web.crawler.*;
 import com.web.form.AddTaskForm;
+import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
 import com.web.util.ConverseUtil;
 import com.web.util.SpringFactory;
@@ -11,15 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jayson   2015-07-10-22:53
@@ -29,19 +27,23 @@ import java.util.List;
 @RequestMapping("/crawler")
 public class CrawlerController {
     @Autowired
-    private CrawlerTaskService service;
+    private CrawlerTaskService crawlerTaskService;
     @Resource(name = "SpringFactory")
     private SpringFactory factory;
     @Resource(name = "ConverseUtil")
     private ConverseUtil util;
+    @Resource(name = "CrawlerServiceImpl")
+    private CrawlerService crawlerService;
 
     @RequestMapping("/addInit")
     public String addInit(AddTaskForm form , Model model){
-        model.addAttribute("form" , form);
+        model.addAttribute("form", form);
+        Collection<Crawler> crawlers = crawlerService.crawlers();
+        model.addAttribute("crawlers" , crawlers);
         return "crawler/add";
     }
     @RequestMapping("/add")
-    public String add(@Valid @ModelAttribute("form") AddTaskForm form , BindingResult result , Model model){
+    public String add(@Valid AddTaskForm form , BindingResult result , Model model){
         if(result.hasErrors())
             return "crawler/add";
 
@@ -58,20 +60,35 @@ public class CrawlerController {
                 .setDepth(util.converse(form.getDepth()))
                 .setCrawler(DefaultCrawler.class)
                 .build();
-        service.addTask(task);
+        crawlerTaskService.addTask(task);
 
         model.addAttribute("msg" , "添加爬虫任务成功！");
         return "redirect:list.do";
     }
+    @RequestMapping("/addBuildIn")
+    public String addBuildIn(@RequestParam long id){
+        Crawler crawler = crawlerService.get(id);
+        if(crawler == null)
+            return "redirect:404.jsp";
+
+        if(crawler.getCrawlerStatus() == CrawlerStatus.Running)
+            return "redirect:404.jsp";
+
+        CrawlerTask task = factory.create(CrawlerTask.class);
+        task.setCrawler(crawler);
+        crawlerTaskService.addTask(task);
+        return "redirect:list.do";
+    }
+
     @RequestMapping("/list")
     public String list(Model model){
-        List<CrawlerTask> tasks = service.tasks();
+        List<CrawlerTask> tasks = crawlerTaskService.tasks();
         model.addAttribute("tasks", tasks);
         return "crawler/list";
     }
     @RequestMapping("/remove")
     public String remove(@RequestParam(required = true) long id , Model model){
-        service.removeTask(id);
+        crawlerTaskService.removeTask(id);
         model.addAttribute("msg" , "删除爬虫任务成功！");
         return "redirect:list.do";
     }

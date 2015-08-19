@@ -1,9 +1,12 @@
 package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
+import com.alibaba.fastjson.JSON;
 import com.web.entity.CrawlerInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * @author jayson   2015-08-11 16:34
@@ -29,6 +32,23 @@ public abstract class Crawler extends BreadthCrawler {
 
     public void start(){
         try {
+            List<String> regexList = JSON.parseObject(crawlerInfo.getRegex(), List.class);
+            List<String> seedList = JSON.parseObject(crawlerInfo.getSeeds(), List.class);
+
+            for(String seed : seedList)
+                addSeed(seed);
+
+            for(String regex : regexList)
+                addRegex(regex);
+
+            setTopN(crawlerInfo.getTopN());
+            setAutoParse(crawlerInfo.isAutoParse());
+            setCrawlPath(crawlerInfo.getCrawlPath());
+            setThreads(crawlerInfo.getThreadNum());
+            setResumable(crawlerInfo.isResumable());
+            setMaxRetry(crawlerInfo.getMaxRetry());
+            setRetry(crawlerInfo.getRetry());
+
             super.start(crawlerInfo.getDepth());
         } catch (Exception e) {
             LOGGER.error("" , e);
