@@ -4,7 +4,6 @@ import com.web.builder.Builder;
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
 import com.web.entity.CrawlerInfoEntity;
-import com.web.task.Task;
 import com.web.util.SpringFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -116,7 +115,6 @@ public class CrawlerTaskImpl implements CrawlerTask {
         @Override
         public CrawlerTask build() {
             CrawlerTask crawlerTask = factory.create(CrawlerTaskImpl.class);
-            CrawlerInfoEntity crawlerInfo = factory.create(CrawlerInfoEntity.class);
             crawler.setCrawlerInfo(crawlerInfo);
             crawlerTask.setCrawler(crawler);
             return crawlerTask;

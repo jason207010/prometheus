@@ -1,8 +1,9 @@
 package com.web.controller;
 
-import com.web.crawler.*;
+import com.web.crawler.Crawler;
+import com.web.crawler.CrawlerStatus;
+import com.web.crawler.DefaultCrawler;
 import com.web.crawler.task.CrawlerTask;
-import com.web.crawler.task.CrawlerTaskImpl;
 import com.web.crawler.task.CrawlerTaskImpl.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
