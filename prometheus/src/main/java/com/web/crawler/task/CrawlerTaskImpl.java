@@ -1,6 +1,7 @@
-package com.web.crawler;
+package com.web.crawler.task;
 
-import com.web.entity.CrawlerInfoEntity;
+import com.web.crawler.Crawler;
+import com.web.crawler.CrawlerStatus;
 import com.web.task.Task;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;

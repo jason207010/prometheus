@@ -1,6 +1,8 @@
 package com.web.controller;
 
 import com.web.crawler.*;
+import com.web.crawler.task.CrawlerTask;
+import com.web.crawler.task.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
@@ -17,7 +19,6 @@ import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author jayson   2015-07-10-22:53

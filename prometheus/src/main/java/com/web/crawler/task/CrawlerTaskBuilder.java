@@ -1,12 +1,12 @@
-package com.web.crawler;
+package com.web.crawler.task;
 
+import com.web.crawler.Crawler;
 import com.web.entity.CrawlerInfoEntity;
 import com.web.util.SpringFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author jayson   2015-08-11 21:18

@@ -1,4 +1,4 @@
-package com.web.crawler;
+package com.web.crawler.task;
 
 import com.web.task.TaskExecutor;
 import org.springframework.stereotype.Component;

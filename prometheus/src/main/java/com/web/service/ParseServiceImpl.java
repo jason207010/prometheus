@@ -2,8 +2,8 @@ package com.web.service;
 
 import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.web.parser.ParseTask;
-import com.web.parser.ParseTaskImpl;
+import com.web.parser.task.ParseTask;
+import com.web.parser.task.ParseTaskImpl;
 import com.web.parser.Parser;
 import com.web.parser.ParserCrawlerMapper;
 import com.web.task.TaskExecutor;

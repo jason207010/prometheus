@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -18,6 +19,7 @@ public class CrawlerStore implements ApplicationContextAware {
     private ApplicationContext applicationContext;
     private Collection<Crawler> crawlers = Collections.EMPTY_LIST;
 
+    @PostConstruct
     public void init(){
         Map<String, Crawler> crawlerMap = applicationContext.getBeansOfType(Crawler.class, false, true);
         Collection<Crawler> crawlers = crawlerMap.values();

@@ -1,4 +1,4 @@
-package com.web.parser;
+package com.web.parser.task;
 
 import com.web.task.TaskExecutor;
 import org.slf4j.Logger;

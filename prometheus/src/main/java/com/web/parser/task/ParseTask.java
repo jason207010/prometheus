@@ -1,6 +1,7 @@
-package com.web.parser;
+package com.web.parser.task;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
+import com.web.parser.Parser;
 import com.web.task.Task;
 
 /**

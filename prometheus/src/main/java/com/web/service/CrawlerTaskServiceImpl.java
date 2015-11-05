@@ -1,6 +1,6 @@
 package com.web.service;
 
-import com.web.crawler.CrawlerTask;
+import com.web.crawler.task.CrawlerTask;
 import com.web.dao.CrawlerInfoDao;
 import com.web.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
