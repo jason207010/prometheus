@@ -2,7 +2,8 @@ package com.web.controller;
 
 import com.web.crawler.*;
 import com.web.crawler.task.CrawlerTask;
-import com.web.crawler.task.CrawlerTaskBuilder;
+import com.web.crawler.task.CrawlerTaskImpl;
+import com.web.crawler.task.CrawlerTaskImpl.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
@@ -72,7 +73,7 @@ public class CrawlerController {
         if(crawler == null)
             return "redirect:404.jsp";
 
-        if(crawler.getCrawlerStatus() == CrawlerStatus.Running)
+        if(crawler.getStatus() == CrawlerStatus.Running)
             return "redirect:404.jsp";
 
         CrawlerTask task = factory.create(CrawlerTask.class);

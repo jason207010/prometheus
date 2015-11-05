@@ -6,6 +6,7 @@ import com.web.entity.CrawlerInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 /**
@@ -24,10 +25,7 @@ public abstract class Crawler extends BreadthCrawler {
         super(crawlPath, autoParse);
     }
     public Crawler() {
-        super(null, false);
-    }
-    public CrawlerStatus getCrawlerStatus(){
-        return getStatus() == cn.edu.hfut.dmic.webcollector.crawler.Crawler.RUNNING ? CrawlerStatus.Running : CrawlerStatus.Stop;
+        this(null, false);
     }
 
     public void start(){
@@ -43,7 +41,19 @@ public abstract class Crawler extends BreadthCrawler {
 
             setTopN(crawlerInfo.getTopN());
             setAutoParse(crawlerInfo.isAutoParse());
-            setCrawlPath(crawlerInfo.getCrawlPath());
+
+            Class<? extends Crawler> clazz = this.getClass();
+            Class<?> superClazz = null;
+            while (true){
+                superClazz = clazz.getSuperclass();
+                if(superClazz == cn.edu.hfut.dmic.webcollector.crawler.Crawler.class){
+                    break;
+                }
+            }
+            Field field = superClazz.getDeclaredField("crawlPath");
+            field.setAccessible(true);
+            field.set(this , crawlerInfo.getCrawlPath());
+
             setThreads(crawlerInfo.getThreadNum());
             setResumable(crawlerInfo.isResumable());
             setMaxRetry(crawlerInfo.getMaxRetry());
@@ -53,6 +63,10 @@ public abstract class Crawler extends BreadthCrawler {
         } catch (Exception e) {
             LOGGER.error("" , e);
         }
+    }
+
+    public CrawlerStatus getStatus(){
+        return status == RUNNING ? CrawlerStatus.Running : CrawlerStatus.Stop;
     }
 
     /**getter、setter方法**/
