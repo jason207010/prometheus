@@ -5,12 +5,14 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.alibaba.fastjson.JSON;
 import com.web.entity.CrawlerInfoEntity;
 import com.web.service.ParseService;
+import com.web.util.Config;
 import com.web.util.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -27,6 +29,8 @@ public class CSDNBlogCrawler extends Crawler {
     private SpringFactory factory;
     @Resource(name = "IDGenerator")
     private IDGenerator generator;
+    @Resource(name = "Config")
+    private Config config;
 
     private Pattern pattern = Pattern.compile("^http://blog.csdn.net/\\w+/article/details/\\d+$");
 
@@ -50,7 +54,7 @@ public class CSDNBlogCrawler extends Crawler {
         crawlerInfo.setDepth(10);
         crawlerInfo.setRegex(JSON.toJSONString(regex));
         crawlerInfo.setSeeds(JSON.toJSONString(seed));
-        crawlerInfo.setCrawlPath(String.valueOf(id));
+        crawlerInfo.setCrawlPath(String.format("%s%s%s", config.get("crawlerPath"), File.separator, String.valueOf(id)));
         crawlerInfo.setResumable(true);
         crawlerInfo.setDesc("抓取CSDN博客");
         crawlerInfo.setThreadNum(Runtime.getRuntime().availableProcessors());

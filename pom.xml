@@ -26,6 +26,7 @@
     <spring-security-version>4.0.1.RELEASE</spring-security-version>
     <hibernate-validator-version>5.2.1.Final</hibernate-validator-version>
     <fastjson-version>1.2.6</fastjson-version>
+    <xstream-version>1.4.8</xstream-version>
   </properties>
 
   <dependencies>
@@ -175,6 +176,11 @@
       <artifactId>spring-test</artifactId>
       <version>${spring-version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>${xstream-version}</version>
     </dependency>
   </dependencies>
   <build>

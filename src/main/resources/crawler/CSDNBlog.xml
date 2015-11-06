@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<crawler>
+    <id>1</id>
+    <desc>抓取CSDN博客</desc>
+    <topN>2147483647</topN>
+    <autoParse>true</autoParse>
+    <resumable>true</resumable>
+    <resumable>true</resumable>
+    <seeds>
+        <seed></seed>
+        <seed></seed>
+    </seeds>
+    <regexs>
+        <regex></regex>
+        <regex></regex>
+    </regexs>
+    <maxRetry>3</maxRetry>
+    <retry>3</retry>
+    <depth>10</depth>
+</crawler>

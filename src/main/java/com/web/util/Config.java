@@ -29,10 +29,14 @@ public class Config extends FileAlterationListenerAdaptor{
 
     @Override
     public void onFileChange(File file) {
-        init();
+        init0();
     }
     @PostConstruct
-    public void init(){
+    public void init() throws Exception {
+        init0();
+        monitor.start();
+    }
+    private void init0(){
         properties = new Properties();
         try {
             properties.load(resource.getInputStream());

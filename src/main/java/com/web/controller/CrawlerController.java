@@ -48,7 +48,7 @@ public class CrawlerController {
     @RequestMapping("/add")
     public String add(@Valid AddTaskForm form , BindingResult result , Model model){
         if(result.hasErrors())
-            return "crawler/add";
+            return "crawler/addInit";
 
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
         CrawlerTask task = builder.setDesc(form.getDesc())
