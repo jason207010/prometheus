@@ -29,6 +29,9 @@ public abstract class ReloadableProperties extends ReloadableConfig {
     }
 
     public String get(String key){
+        if(properties == null)
+            reload();
+
         return properties.getProperty(key);
     }
 }

@@ -3,6 +3,8 @@ package com.web.crawler;
 import cn.edu.hfut.dmic.webcollector.model.Links;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.web.entity.CrawlerInfoEntity;
 import com.web.service.ParseService;
 import com.web.config.Config;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -36,12 +39,14 @@ public class CSDNBlogCrawler extends Crawler {
     private List<Pattern> patterns = new ArrayList<>();
 
     @PostConstruct
-    public void init(){
+    public void init() throws IOException {
         CrawlerInfoEntity crawlerInfo = factory.create(CrawlerInfoEntity.class);
 
         ClassPathResource resource = new ClassPathResource(config.get("CSDNBlogCrawler"));
-        XStream xStream = new XStream();
-        xStream.fromXML(resource.getPath(), crawlerInfo);
+        XStream xStream = new XStream(new StaxDriver());
+        xStream.alias("CrawlerInfoEntity" , CrawlerInfoEntity.class);
+        xStream.alias("String" , String.class);
+        xStream.fromXML(resource.getFile() , crawlerInfo);
 
         setCrawlerInfo(crawlerInfo);
 

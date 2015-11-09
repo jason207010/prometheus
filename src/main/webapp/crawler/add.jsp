@@ -37,8 +37,8 @@
           </tr>
           <tr>
             <td>抓取正则：</td>
-            <td><sf:input path="regexs"/></td>
-            <td><sf:errors path="regexs"/></td>
+            <td><sf:input path="regex"/></td>
+            <td><sf:errors path="regex"/></td>
           </tr>
           <tr>
             <td>分析正则：</td>

@@ -5,7 +5,6 @@
     <topN>2147483647</topN>
     <autoParse>true</autoParse>
     <resumable>true</resumable>
-    <resumable>true</resumable>
     <seeds>
         <String>http://blog.csdn.net/</String>
     </seeds>
