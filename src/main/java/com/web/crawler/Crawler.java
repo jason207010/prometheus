@@ -1,13 +1,11 @@
 package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
-import com.alibaba.fastjson.JSON;
 import com.web.entity.CrawlerInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.util.List;
 
 /**
  * @author jayson   2015-08-11 16:34
@@ -15,7 +13,7 @@ import java.util.List;
  */
 public abstract class Crawler extends BreadthCrawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
-    private CrawlerInfoEntity crawlerInfo;
+    protected CrawlerInfoEntity crawlerInfo;
 
     /**
      * @param crawlPath 维护URL信息的文件夹，如果爬虫需要断点爬取，每次请选择相同的crawlPath
@@ -25,18 +23,15 @@ public abstract class Crawler extends BreadthCrawler {
         super(crawlPath, autoParse);
     }
     public Crawler() {
-        this(null, false);
+        this(null, true);
     }
 
     public void start(){
         try {
-            List<String> regexList = JSON.parseObject(crawlerInfo.getRegex(), List.class);
-            List<String> seedList = JSON.parseObject(crawlerInfo.getSeeds(), List.class);
-
-            for(String seed : seedList)
+            for(String seed : crawlerInfo.getSeeds())
                 addSeed(seed);
 
-            for(String regex : regexList)
+            for(String regex : crawlerInfo.getRegex())
                 addRegex(regex);
 
             setTopN(crawlerInfo.getTopN());
@@ -52,9 +47,9 @@ public abstract class Crawler extends BreadthCrawler {
             }
             Field field = superClazz.getDeclaredField("crawlPath");
             field.setAccessible(true);
-            field.set(this , crawlerInfo.getCrawlPath());
+            field.set(this , getCrawlPath());
 
-            setThreads(crawlerInfo.getThreadNum());
+            setThreads(Runtime.getRuntime().availableProcessors());
             setResumable(crawlerInfo.isResumable());
             setMaxRetry(crawlerInfo.getMaxRetry());
             setRetry(crawlerInfo.getRetry());
@@ -68,6 +63,8 @@ public abstract class Crawler extends BreadthCrawler {
     public CrawlerStatus getStatus(){
         return status == RUNNING ? CrawlerStatus.Running : CrawlerStatus.Stop;
     }
+
+    public abstract String getCrawlPath();
 
     /**getter、setter方法**/
     public CrawlerInfoEntity getCrawlerInfo() {

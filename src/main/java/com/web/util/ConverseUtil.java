@@ -8,25 +8,46 @@ import org.springframework.stereotype.Component;
  */
 @Component("ConverseUtil")
 public class ConverseUtil {
-    public int converse(Integer i){
+    public int converseInt(Integer i){
         return i == null ? 0 : i.intValue();
     }
-    public long converse(Long l){
+    public int converseInt(String s){
+        return Integer.valueOf(s).intValue();
+    }
+    public long converseLong(Long l){
         return l == null ? 0L : l.longValue();
     }
-    public double converse(Double d){
+    public long converseLong(String s){
+        return Long.valueOf(s).longValue();
+    }
+    public double converseDouble(Double d){
         return d == null ? 0d : d.doubleValue();
     }
-    public float converse(Float f){
+    public double converseDouble(String s){
+        return Double.valueOf(s).doubleValue();
+    }
+    public float converseFloat(Float f){
         return f == null ? 0f : f.floatValue();
     }
-    public short converse(Short s){
+    public float converseFloat(String s){
+        return Float.valueOf(s).floatValue();
+    }
+    public short converseShort(Short s){
         return s == null ? 0 : s.shortValue();
     }
-    public byte converse(Byte b){
+    public short converseShort(String s){
+        return Short.valueOf(s).shortValue();
+    }
+    public byte converseByte(Byte b){
         return b == null ? 0 : b.byteValue();
     }
-    public boolean converse(Boolean b){
+    public byte converseByte(String s){
+        return Byte.valueOf(s).byteValue();
+    }
+    public boolean converseBoolean(Boolean b){
         return b == null ? false : b.booleanValue();
+    }
+    public boolean converseBoolean(String s){
+        return Boolean.valueOf(s).booleanValue();
     }
 }

@@ -3,42 +3,52 @@ package com.web.entity;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author jayson   2015-08-11 15:19
  * @since v1.0
  */
 @Entity(name = "CrawlerInfo")
+@Table(name = "CrawlerInfo")
 @Component("CrawlerInfoEntity")
 @Scope("prototype")
 public class CrawlerInfoEntity {
     @Id
     @GeneratedValue
     private long id;
+
     @Column(name = "desc")
     private String desc;
+
     @Column(name = "topN")
     private int topN;
+
     @Column(name = "autoParse")
     private boolean autoParse;
-    @Column(name = "crawlPath")
-    private String crawlPath;
-    @Column(name = "threadNum")
-    private int threadNum;
+
     @Column(name = "resumable")
     private boolean resumable;
+
+    @ElementCollection
     @Column(name = "seeds")
-    private String seeds;
+    private List<String> seeds;
+
+    @ElementCollection
     @Column(name = "regex")
-    private String regex;
+    private List<String> regex;
+
+    @ElementCollection
+    @Column(name = "matching")
+    private List<String> matching;
+
     @Column(name = "maxRetry")
     private int maxRetry;
+
     @Column(name = "retry")
     private int retry;
+
     @Column(name = "depth")
     private int depth;
 
@@ -75,22 +85,6 @@ public class CrawlerInfoEntity {
         this.autoParse = autoParse;
     }
 
-    public String getCrawlPath() {
-        return crawlPath;
-    }
-
-    public void setCrawlPath(String crawlPath) {
-        this.crawlPath = crawlPath;
-    }
-
-    public int getThreadNum() {
-        return threadNum;
-    }
-
-    public void setThreadNum(int threadNum) {
-        this.threadNum = threadNum;
-    }
-
     public boolean isResumable() {
         return resumable;
     }
@@ -99,20 +93,28 @@ public class CrawlerInfoEntity {
         this.resumable = resumable;
     }
 
-    public String getSeeds() {
+    public List<String> getSeeds() {
         return seeds;
     }
 
-    public void setSeeds(String seeds) {
+    public void setSeeds(List<String> seeds) {
         this.seeds = seeds;
     }
 
-    public String getRegex() {
+    public List<String> getRegex() {
         return regex;
     }
 
-    public void setRegex(String regex) {
+    public void setRegex(List<String> regex) {
         this.regex = regex;
+    }
+
+    public List<String> getMatching() {
+        return matching;
+    }
+
+    public void setMatching(List<String> matching) {
+        this.matching = matching;
     }
 
     public int getMaxRetry() {

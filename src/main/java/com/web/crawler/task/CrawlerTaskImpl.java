@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author jayson   2015-08-11 17:42
@@ -18,6 +19,9 @@ import javax.annotation.Resource;
 @Scope("prototype")
 public class CrawlerTaskImpl implements CrawlerTask {
     private Crawler crawler;
+
+    private CrawlerTaskImpl(){}
+
     @Override
     public void stop() {
         crawler.stop();
@@ -50,12 +54,11 @@ public class CrawlerTaskImpl implements CrawlerTask {
     public static class CrawlerTaskBuilder implements Builder<CrawlerTask>{
         @Resource(name = "SpringFactory")
         private SpringFactory factory;
+
         @Resource(name = "CrawlerInfoEntity")
         private CrawlerInfoEntity crawlerInfo;
 
         private Crawler crawler;
-
-        private CrawlerTaskBuilder(){}
 
         public CrawlerTaskBuilder setDesc(String desc) {
             crawlerInfo.setDesc(desc);
@@ -72,23 +75,23 @@ public class CrawlerTaskImpl implements CrawlerTask {
             return this;
         }
 
-        public CrawlerTaskBuilder setThreadNum(int threadNum) {
-            crawlerInfo.setThreadNum(threadNum);
-            return this;
-        }
-
         public CrawlerTaskBuilder setResumable(boolean resumable) {
             crawlerInfo.setResumable(resumable);
             return this;
         }
 
-        public CrawlerTaskBuilder setSeeds(String seeds) {
+        public CrawlerTaskBuilder setSeeds(List<String> seeds) {
             crawlerInfo.setSeeds(seeds);
             return this;
         }
 
-        public CrawlerTaskBuilder setRegex(String regex) {
+        public CrawlerTaskBuilder setRegex(List<String> regex) {
             crawlerInfo.setRegex(regex);
+            return this;
+        }
+
+        public CrawlerTaskBuilder setMatching(List<String> matching){
+            crawlerInfo.setMatching(matching);
             return this;
         }
 

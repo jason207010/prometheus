@@ -2,12 +2,13 @@ package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.model.Links;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.alibaba.fastjson.JSON;
+import com.thoughtworks.xstream.XStream;
 import com.web.entity.CrawlerInfoEntity;
 import com.web.service.ParseService;
-import com.web.util.Config;
-import com.web.util.IDGenerator;
+import com.web.config.Config;
 import com.web.util.SpringFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,49 +26,43 @@ import java.util.regex.Pattern;
 public class CSDNBlogCrawler extends Crawler {
     @Resource(name = "ParseServiceImpl")
     private ParseService parseService;
+
     @Resource(name = "SpringFactory")
     private SpringFactory factory;
-    @Resource(name = "IDGenerator")
-    private IDGenerator generator;
-    @Resource(name = "Config")
+
+    @Autowired
     private Config config;
 
-    private Pattern pattern = Pattern.compile("^http://blog.csdn.net/\\w+/article/details/\\d+$");
+    private List<Pattern> patterns = new ArrayList<>();
 
     @PostConstruct
     public void init(){
         CrawlerInfoEntity crawlerInfo = factory.create(CrawlerInfoEntity.class);
-        List<String> regex = new ArrayList<>();
-        List<String> seed = new ArrayList<>();
 
-        seed.add("http://blog.csdn.net/");
+        ClassPathResource resource = new ClassPathResource(config.get("CSDNBlogCrawler"));
+        XStream xStream = new XStream();
+        xStream.fromXML(resource.getPath(), crawlerInfo);
 
-        regex.add("http://blog.csdn.net/.+\\.html");
-        regex.add("http://blog.csdn.net/\\w+");
-        regex.add("http://blog.csdn.net/\\w+/article/details/\\d+$");
-
-        long id = generator.generate();
-        crawlerInfo.setId(id);
-        crawlerInfo.setAutoParse(true);
-        crawlerInfo.setRetry(3);
-        crawlerInfo.setMaxRetry(3);
-        crawlerInfo.setDepth(10);
-        crawlerInfo.setRegex(JSON.toJSONString(regex));
-        crawlerInfo.setSeeds(JSON.toJSONString(seed));
-        crawlerInfo.setCrawlPath(String.format("%s%s%s", config.get("crawlerPath"), File.separator, String.valueOf(id)));
-        crawlerInfo.setResumable(true);
-        crawlerInfo.setDesc("抓取CSDN博客");
-        crawlerInfo.setThreadNum(Runtime.getRuntime().availableProcessors());
-        crawlerInfo.setTopN(Integer.MAX_VALUE);
         setCrawlerInfo(crawlerInfo);
+
+        for(String m : crawlerInfo.getMatching())
+            patterns.add(Pattern.compile(m));
     }
 
     @Override
     public void visit(Page page, Links nextLinks) {
         String url = page.getUrl();
-        if(!pattern.matcher(url).matches())
-            return;
 
-        parseService.parse(page , CSDNBlogCrawler.class);
+        for(Pattern p : patterns) {
+            if (p.matcher(url).matches()) {
+                parseService.parse(page, CSDNBlogCrawler.class);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public String getCrawlPath() {
+        return String.format("%s%s%s" , config.get("crawlerPath") , File.separator , getClass().getSimpleName());
     }
 }

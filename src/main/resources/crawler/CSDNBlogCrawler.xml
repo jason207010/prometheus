@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CrawlerInfoEntity>
+    <id>-1</id>
+    <desc>抓取CSDN博客</desc>
+    <topN>2147483647</topN>
+    <autoParse>true</autoParse>
+    <resumable>true</resumable>
+    <resumable>true</resumable>
+    <seeds>
+        <String>http://blog.csdn.net/</String>
+    </seeds>
+    <regex>
+        <String>http://blog.csdn.net/.+\.html</String>
+        <String>http://blog.csdn.net/\w+</String>
+        <String>http://blog.csdn.net/\w+/article/details/\d+$</String>
+    </regex>
+    <matching>
+        <String>^http://blog.csdn.net/\w+/article/details/\d+$</String>
+    </matching>
+    <maxRetry>3</maxRetry>
+    <retry>3</retry>
+    <depth>10</depth>
+</CrawlerInfoEntity>

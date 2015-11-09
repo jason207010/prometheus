@@ -8,6 +8,7 @@ import com.web.crawler.task.CrawlerTaskImpl.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
+import com.web.config.Config;
 import com.web.util.ConverseUtil;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,18 @@ import java.util.List;
 public class CrawlerController {
     @Autowired
     private CrawlerTaskService crawlerTaskService;
-    @Resource(name = "SpringFactory")
+
+    @Autowired
     private SpringFactory factory;
-    @Resource(name = "ConverseUtil")
-    private ConverseUtil util;
+
     @Resource(name = "CrawlerServiceImpl")
     private CrawlerService crawlerService;
+
+    @Autowired
+    private Config config;
+
+    @Autowired
+    private ConverseUtil converseUtil;
 
     @RequestMapping("/addInit")
     public String addInit(AddTaskForm form , Model model){
@@ -51,18 +58,20 @@ public class CrawlerController {
             return "crawler/addInit";
 
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
+
         CrawlerTask task = builder.setDesc(form.getDesc())
-                .setTopN(util.converse(form.getTopN()))
-                .setAutoParse(util.converse(form.getAutoParse()))
-                .setThreadNum(util.converse(form.getThreadNum()))
-                .setResumable(util.converse(form.getResumable()))
-                .setSeeds(form.getSeeds())
                 .setRegex(form.getRegex())
-                .setMaxRetry(util.converse(form.getMaxRetry()))
-                .setRetry(util.converse(form.getRetry()))
-                .setDepth(util.converse(form.getDepth()))
+                .setSeeds(form.getSeeds())
+                .setMatching(form.getMatching())
                 .setCrawler(DefaultCrawler.class)
+                .setTopN(converseUtil.converseInt(config.get("topN")))
+                .setAutoParse(converseUtil.converseBoolean(config.get("autoParse")))
+                .setResumable(converseUtil.converseBoolean(config.get("resumable")))
+                .setMaxRetry(converseUtil.converseInt(config.get("maxRetry")))
+                .setRetry(converseUtil.converseInt(config.get("retry")))
+                .setDepth(converseUtil.converseInt(config.get("depth")))
                 .build();
+
         crawlerTaskService.addTask(task);
 
         model.addAttribute("msg" , "添加爬虫任务成功！");

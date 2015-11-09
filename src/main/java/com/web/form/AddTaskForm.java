@@ -16,31 +16,14 @@ import java.util.List;
 public class AddTaskForm {
     @NotBlank
     private String desc;
-    @Min(1)
-    @NotNull
-    private Integer topN;
-    @NotNull
-    private Boolean autoParse = false;
-    @Min(1)
-    @NotNull
-    private Integer threadNum;
-    @NotNull
-    private Boolean resumable = false;
-    @NotBlank
-    private String seeds;
-    @NotBlank
-    private String regex;
-    @Min(1)
-    @Max(5)
-    @NotNull
-    private Integer maxRetry;
-    @Min(1)
-    @NotNull
-    private Integer retry;
-    @Min(1)
-    @NotNull
-    private Integer depth;
+    @NotEmpty
+    private List<String> seeds;
+    @NotEmpty
+    private List<String> regex;
+    @NotEmpty
+    private List<String> matching;
 
+    /**getter、setter方法**/
     public String getDesc() {
         return desc;
     }
@@ -49,75 +32,27 @@ public class AddTaskForm {
         this.desc = desc;
     }
 
-    public Integer getTopN() {
-        return topN;
-    }
-
-    public void setTopN(Integer topN) {
-        this.topN = topN;
-    }
-
-    public Boolean getAutoParse() {
-        return autoParse;
-    }
-
-    public void setAutoParse(Boolean autoParse) {
-        this.autoParse = autoParse;
-    }
-
-    public Integer getThreadNum() {
-        return threadNum;
-    }
-
-    public void setThreadNum(Integer threadNum) {
-        this.threadNum = threadNum;
-    }
-
-    public Boolean getResumable() {
-        return resumable;
-    }
-
-    public void setResumable(Boolean resumable) {
-        this.resumable = resumable;
-    }
-
-    public String getRegex() {
-        return regex;
-    }
-
-    public void setRegex(String regex) {
-        this.regex = regex;
-    }
-
-    public String getSeeds() {
+    public List<String> getSeeds() {
         return seeds;
     }
 
-    public void setSeeds(String seeds) {
+    public void setSeeds(List<String> seeds) {
         this.seeds = seeds;
     }
 
-    public Integer getMaxRetry() {
-        return maxRetry;
+    public List<String> getRegex() {
+        return regex;
     }
 
-    public void setMaxRetry(Integer maxRetry) {
-        this.maxRetry = maxRetry;
+    public void setRegex(List<String> regex) {
+        this.regex = regex;
     }
 
-    public Integer getRetry() {
-        return retry;
+    public List<String> getMatching() {
+        return matching;
     }
 
-    public void setRetry(Integer retry) {
-        this.retry = retry;
-    }
-
-    public Integer getDepth() {
-        return depth;
-    }
-
-    public void setDepth(Integer depth) {
-        this.depth = depth;
+    public void setMatching(List<String> matching) {
+        this.matching = matching;
     }
 }
