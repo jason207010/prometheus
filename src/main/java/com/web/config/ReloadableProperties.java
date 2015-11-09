@@ -26,6 +26,8 @@ public abstract class ReloadableProperties extends ReloadableConfig {
             LOGGER.error("ClassPathFilePath:{}" , getClassPathFilePath());
             LOGGER.error("" , e);
         }
+
+        System.out.printf("%s reloaded!" , getClassPathFilePath());
     }
 
     public String get(String key){
