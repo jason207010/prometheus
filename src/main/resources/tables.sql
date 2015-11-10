@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `WebPage`(
 	`content` BLOB,
 	`url` VARCHAR(2048),
 	CONSTRAINT pk_webpage_id PRIMARY KEY(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `CrawlerInfo`(
 	`id` INT(16) AUTO_INCREMENT,
@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS `CrawlerInfo`(
 	`retry` INT(1),
 	`depth` INT(2),
 	CONSTRAINT pk_crawlerTask_id PRIMARY KEY(id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin AUTO_INCREMENT=10000000;

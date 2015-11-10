@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CrawlerInfoEntity>
-    <id>-1</id>
+    <id>1</id>
     <desc>抓取CSDN博客</desc>
     <topN>2147483647</topN>
     <autoParse>true</autoParse>

@@ -16,8 +16,6 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
 /**
@@ -35,8 +33,6 @@ public class CSDNBlogCrawler extends Crawler {
     @Autowired
     private Config config;
 
-    private List<Pattern> patterns = new ArrayList<>();
-
     @PostConstruct
     public void init() throws IOException {
         CrawlerInfoEntity crawlerInfo = factory.create(CrawlerInfoEntity.class);
@@ -48,9 +44,6 @@ public class CSDNBlogCrawler extends Crawler {
         xStream.fromXML(resource.getFile() , crawlerInfo);
 
         setCrawlerInfo(crawlerInfo);
-
-        for(String m : crawlerInfo.getMatching())
-            patterns.add(Pattern.compile(m));
     }
 
     @Override

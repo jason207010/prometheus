@@ -16,6 +16,11 @@ public abstract class ReloadableProperties extends ReloadableConfig {
 
     protected Properties properties = null;
 
+    public ReloadableProperties(){
+        super();
+        reload();
+    }
+
     @Override
     public void reload() {
         ClassPathResource resource = new ClassPathResource(getClassPathFilePath());
@@ -26,14 +31,9 @@ public abstract class ReloadableProperties extends ReloadableConfig {
             LOGGER.error("ClassPathFilePath:{}" , getClassPathFilePath());
             LOGGER.error("" , e);
         }
-
-        System.out.printf("%s reloaded!" , getClassPathFilePath());
     }
 
     public String get(String key){
-        if(properties == null)
-            reload();
-
         return properties.getProperty(key);
     }
 }

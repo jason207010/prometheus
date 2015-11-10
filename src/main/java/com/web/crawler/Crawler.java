@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author jayson   2015-08-11 16:34
@@ -14,6 +17,7 @@ import java.lang.reflect.Field;
 public abstract class Crawler extends BreadthCrawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
     protected CrawlerInfoEntity crawlerInfo;
+    protected List<Pattern> patterns = new ArrayList<>();
 
     /**
      * @param crawlPath 维护URL信息的文件夹，如果爬虫需要断点爬取，每次请选择相同的crawlPath
@@ -47,12 +51,16 @@ public abstract class Crawler extends BreadthCrawler {
             }
             Field field = superClazz.getDeclaredField("crawlPath");
             field.setAccessible(true);
-            field.set(this , getCrawlPath());
+            field.set(this, getCrawlPath());
 
             setThreads(Runtime.getRuntime().availableProcessors());
             setResumable(crawlerInfo.isResumable());
             setMaxRetry(crawlerInfo.getMaxRetry());
             setRetry(crawlerInfo.getRetry());
+
+            for(String m : crawlerInfo.getMatching()){
+                patterns.add(Pattern.compile(m));
+            }
 
             super.start(crawlerInfo.getDepth());
         } catch (Exception e) {
