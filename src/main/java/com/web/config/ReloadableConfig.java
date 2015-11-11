@@ -28,6 +28,7 @@ public abstract class ReloadableConfig extends FileAlterationListenerAdaptor imp
                 FileAlterationObserver observer = new FileAlterationObserver(file.getParentFile() , new NameFileFilter(file.getName()));
                 observer.addListener(this);
                 FileAlterationMonitor monitor = new FileAlterationMonitor(interval , observer);
+                LOGGER.debug("监听文件:{}" , file.getPath());
                 monitor.start();
             } catch (Exception e) {
                 LOGGER.error("ClassPathFilePath:{}" , getClassPathFilePath());

@@ -2,14 +2,13 @@ package com.web.service;
 
 import com.web.crawler.task.CrawlerTask;
 import com.web.dao.CrawlerInfoDao;
+import com.web.entity.CrawlerInfoEntity;
 import com.web.task.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 /**
  * @author jayson   2015-07-12 13:38
@@ -22,29 +21,30 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     @Autowired
     private CrawlerInfoDao crawlerTaskDao;
 
-    private List<CrawlerTask> tasks = new Vector<>();
+    private Map<Long , CrawlerTask> tasks = new HashMap<>();
+
     @Override
     public void addTask(CrawlerTask task) {
-        tasks.add(task);
         executor.execute(task);
-        crawlerTaskDao.save(task.getCrawler().getCrawlerInfo());
+        CrawlerInfoEntity crawlerInfo = task.getCrawler().getCrawlerInfo();
+        crawlerTaskDao.save(crawlerInfo);
+        tasks.put(crawlerInfo.getId() , task);
     }
 
     @Override
     public void removeTask(long id) {
-        Iterator<CrawlerTask> iterator = tasks.iterator();
-        while (iterator.hasNext()){
-            CrawlerTask task = iterator.next();
-            if(task.getCrawler().getCrawlerInfo().getId() == id){
-                task.stop();
-                iterator.remove();
-                break;
-            }
-        }
+        CrawlerTask task = tasks.get(id);
+        if(task == null)
+            return;
+
+        tasks.remove(task);
+        task.stop();
     }
 
     @Override
     public List<CrawlerTask> tasks() {
-        return tasks;
+        List<CrawlerTask> list = new ArrayList<>();
+        list.addAll(tasks.values());
+        return list;
     }
 }
