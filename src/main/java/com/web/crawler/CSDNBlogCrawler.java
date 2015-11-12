@@ -8,12 +8,13 @@ import com.web.config.Config;
 import com.web.entity.CrawlerInfoEntity;
 import com.web.service.ParseService;
 import com.web.util.SpringFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -24,10 +25,12 @@ import java.util.regex.Pattern;
  */
 @Component("CSDNBlogCrawler")
 public class CSDNBlogCrawler extends Crawler {
-    @Resource(name = "ParseServiceImpl")
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogCrawler.class);
+
+    @Autowired
     private ParseService parseService;
 
-    @Resource(name = "SpringFactory")
+    @Autowired
     private SpringFactory factory;
 
     @Autowired
@@ -60,6 +63,6 @@ public class CSDNBlogCrawler extends Crawler {
 
     @Override
     public String getCrawlPath() {
-        return String.format("%s%s%s" , config.get("crawlerPath") , File.separator , getClass().getSimpleName());
+        return String.format("%s%s%s" , config.get("crawlerPath") , File.separator , crawlerInfo.getId());
     }
 }

@@ -5,6 +5,7 @@ import com.web.crawler.Crawler;
 import com.web.dao.CrawlerInfoDao;
 import com.web.processor.AfterStartupProcessor;
 import com.web.crawler.IDGenerator;
+import com.web.util.ConverseUtil;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -69,6 +70,6 @@ public class CrawlerServiceImpl implements CrawlerService , ApplicationContextAw
 
     @Override
     public long maxId() {
-        return dao.maxId();
+        return ConverseUtil.converseLong(dao.maxId());
     }
 }

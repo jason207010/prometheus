@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `WebPage`(
 	`id` INT(16) AUTO_INCREMENT,
-	`title` TEXT,
-	`content` TEXT,
-	`url` TEXT,
+	`title` LONGTEXT,
+	`content` LONGTEXT,
+	`url` LONGTEXT,
 	CONSTRAINT pk_webpage_id PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 

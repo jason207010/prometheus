@@ -5,6 +5,7 @@ import com.web.entity.CrawlerInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,16 @@ public abstract class Crawler extends BreadthCrawler {
 
     public void start(){
         try {
+            boolean resumable = crawlerInfo.isResumable();
+
+            File file = new File(getCrawlPath());
+            if(!file.exists()){
+                file.mkdirs();
+
+                if(resumable)
+                    resumable = false;
+            }
+
             for(String seed : crawlerInfo.getSeeds())
                 addSeed(seed);
 
@@ -41,20 +52,21 @@ public abstract class Crawler extends BreadthCrawler {
             setTopN(crawlerInfo.getTopN());
             setAutoParse(crawlerInfo.isAutoParse());
 
-            Class<? extends Crawler> clazz = this.getClass();
+            Class<?> clazz = this.getClass();
             Class<?> superClazz = null;
             while (true){
                 superClazz = clazz.getSuperclass();
                 if(superClazz == cn.edu.hfut.dmic.webcollector.crawler.Crawler.class){
                     break;
                 }
+                clazz = superClazz;
             }
             Field field = superClazz.getDeclaredField("crawlPath");
             field.setAccessible(true);
             field.set(this, getCrawlPath());
 
             setThreads(Runtime.getRuntime().availableProcessors());
-            setResumable(crawlerInfo.isResumable());
+            setResumable(resumable);
             setMaxRetry(crawlerInfo.getMaxRetry());
             setRetry(crawlerInfo.getRetry());
 
@@ -63,6 +75,7 @@ public abstract class Crawler extends BreadthCrawler {
             }
 
             super.start(crawlerInfo.getDepth());
+
         } catch (Exception e) {
             LOGGER.error("" , e);
         }

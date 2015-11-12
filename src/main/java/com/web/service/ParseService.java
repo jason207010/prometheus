@@ -1,7 +1,7 @@
 package com.web.service;
 
-import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
+import com.web.crawler.Crawler;
 
 /**
  * @author jayson   2015-07-12 16:59

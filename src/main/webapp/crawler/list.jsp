@@ -15,10 +15,10 @@
     </tr>
     <c:forEach items="${tasks}" var="task">
         <tr>
-            <td>${task.context.info.id}</td>
-            <td>${task.context.info.desc}</td>
-            <td>${task.status().desc}</td>
-            <td><a href="<s:url value="/crawler/remove.do?id="/>${task.context.info.id}">删除</a></td>
+            <td>${task.crawler.crawlerInfo.id}</td>
+            <td>${task.crawler.crawlerInfo.desc}</td>
+            <td>${task.crawler.status.desc}</td>
+            <td><a href="<s:url value="/crawler/remove.do?id="/>${task.crawler.crawlerInfo.id}">删除</a></td>
         </tr>
     </c:forEach>
 </table>

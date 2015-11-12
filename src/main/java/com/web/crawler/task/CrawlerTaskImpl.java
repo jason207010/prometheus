@@ -47,8 +47,6 @@ public class CrawlerTaskImpl implements CrawlerTask {
         crawler.start();
     }
 
-
-
     @Component("CrawlerTaskBuilder")
     @Scope("prototype")
     public static class CrawlerTaskBuilder implements Builder<CrawlerTask>{

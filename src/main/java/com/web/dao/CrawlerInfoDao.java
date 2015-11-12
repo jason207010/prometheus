@@ -10,5 +10,5 @@ import org.springframework.data.jpa.repository.Query;
  */
 public interface CrawlerInfoDao extends JpaRepository<CrawlerInfoEntity, Long> {
     @Query("select max(id) from CrawlerInfo")
-    public long maxId();
+    public Long maxId();
 }

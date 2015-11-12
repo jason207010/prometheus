@@ -55,7 +55,7 @@
     </div>
     <div role="tabpanel" class="tab-pane" id="build-in">
       <form action="${path}/crawler/addBuildIn.do" method="post">
-        <select>
+        <select name="id">
           <c:forEach items="${crawlers}" var="crawler">
             <option value="${crawler.crawlerInfo.id}">${crawler.crawlerInfo.desc}</option>
           </c:forEach>

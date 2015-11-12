@@ -1,12 +1,15 @@
 package com.web.parser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.web.annotation.BindCrawler;
 import com.web.crawler.CSDNBlogCrawler;
+import com.web.entity.WebPageEntity;
+import com.web.service.WebPageService;
+import com.web.util.SpringFactory;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -14,9 +17,21 @@ import org.springframework.stereotype.Component;
  * @since v1.0
  */
 @Component("CSDNBlogParser")
-@BindCrawler(clazz = CSDNBlogCrawler.class)
-public class CSDNBlogParser implements Parser {
+public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogParser.class);
+
+    @Autowired
+    private SpringFactory factory;
+
+    @Autowired
+    private WebPageService webPageService;
+
+    @Override
+    public Class<CSDNBlogCrawler> getBindCrawler() {
+        return CSDNBlogCrawler.class;
+    }
+
     @Override
     public void parse(Page page) {
         String url = page.getUrl();
@@ -30,10 +45,10 @@ public class CSDNBlogParser implements Parser {
         Elements postDateElements = doc.select(".link_postdate");
         String postDate = postDateElements.text();
 
-        LOGGER.debug(url);
-        LOGGER.debug(title);
-        LOGGER.debug(content);
-        LOGGER.debug(author);
-        LOGGER.debug(postDate);
+        WebPageEntity entity = factory.create(WebPageEntity.class);
+        entity.setContent(content);
+        entity.setTitle(title);
+        entity.setUrl(url);
+        webPageService.scheduleSave(entity);
     }
 }

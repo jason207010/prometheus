@@ -1,5 +1,8 @@
 package com.web.entity;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 /**
@@ -8,6 +11,8 @@ import javax.persistence.*;
  */
 @Entity(name = "WebPage")
 @Table(name = "WebPage")
+@Component("WebPageEntity")
+@Scope("prototype")
 public class WebPageEntity {
     @Id
     @GeneratedValue

@@ -1,11 +1,11 @@
 package com.web.service;
 
-import cn.edu.hfut.dmic.webcollector.crawler.Crawler;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.web.parser.task.ParseTask;
-import com.web.parser.task.ParseTaskImpl;
+import com.web.crawler.Crawler;
 import com.web.parser.Parser;
 import com.web.parser.ParserCrawlerMapper;
+import com.web.parser.task.ParseTask;
+import com.web.parser.task.ParseTaskImpl;
 import com.web.task.TaskExecutor;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,13 @@ import javax.annotation.Resource;
  */
 @Component("ParseServiceImpl")
 public class ParseServiceImpl implements ParseService {
+
     @Autowired
     private ParserCrawlerMapper register;
+
     @Autowired
     private SpringFactory factory;
+
     @Resource(name = "ParseTaskExecutor")
     private TaskExecutor<ParseTask> executor;
 

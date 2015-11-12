@@ -3,10 +3,10 @@ package com.web.processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -17,12 +17,15 @@ import java.util.Map;
  * @since v1.0
  */
 @Component
-public class ProcessorManager implements BeanFactoryPostProcessor , ApplicationContextAware {
+public class ProcessorManager implements ApplicationListener<ContextRefreshedEvent>, ApplicationContextAware {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessorManager.class);
     private ApplicationContext applicationContext;
+
     @Override
-    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-        afterStartup();
+    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        if(contextRefreshedEvent.getApplicationContext().getParent() == null){
+            afterStartup();
+        }
     }
 
     @Override

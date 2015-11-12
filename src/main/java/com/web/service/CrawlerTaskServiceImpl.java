@@ -1,5 +1,6 @@
 package com.web.service;
 
+import com.web.config.Config;
 import com.web.crawler.task.CrawlerTask;
 import com.web.dao.CrawlerInfoDao;
 import com.web.entity.CrawlerInfoEntity;
@@ -18,8 +19,12 @@ import java.util.*;
 public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     @Resource(name = "CrawlerTaskExecutor")
     private TaskExecutor<CrawlerTask> executor;
+
     @Autowired
     private CrawlerInfoDao crawlerTaskDao;
+
+    @Autowired
+    private Config config;
 
     private Map<Long , CrawlerTask> tasks = new HashMap<>();
 
@@ -27,7 +32,10 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     public void addTask(CrawlerTask task) {
         executor.execute(task);
         CrawlerInfoEntity crawlerInfo = task.getCrawler().getCrawlerInfo();
-        crawlerTaskDao.save(crawlerInfo);
+
+        if(crawlerInfo.getId() > config.getStartId())
+            crawlerTaskDao.save(crawlerInfo);
+
         tasks.put(crawlerInfo.getId() , task);
     }
 

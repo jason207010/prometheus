@@ -9,8 +9,8 @@ import com.web.crawler.task.CrawlerTaskImpl.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
-import com.web.util.ConverseUtil;
 import com.web.crawler.IDGenerator;
+import com.web.util.ConverseUtil;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,13 +43,11 @@ public class CrawlerController {
     private Config config;
 
     @Autowired
-    private ConverseUtil converseUtil;
-
-    @Autowired
     private IDGenerator generator;
 
     @RequestMapping("/addInit")
-    public String addInit(Model model){
+    public String addInit(AddTaskForm form , Model model){
+        model.addAttribute("form" , form);
         Collection<Crawler> crawlers = crawlerService.crawlers();
         model.addAttribute("crawlers" , crawlers);
         return "crawler/add";
@@ -67,12 +65,12 @@ public class CrawlerController {
                 .setSeeds(form.getSeeds())
                 .setMatching(form.getMatching())
                 .setCrawler(DefaultCrawler.class)
-                .setTopN(converseUtil.converseInt(config.get("topN")))
-                .setAutoParse(converseUtil.converseBoolean(config.get("autoParse")))
-                .setResumable(converseUtil.converseBoolean(config.get("resumable")))
-                .setMaxRetry(converseUtil.converseInt(config.get("maxRetry")))
-                .setRetry(converseUtil.converseInt(config.get("retry")))
-                .setDepth(converseUtil.converseInt(config.get("depth")))
+                .setTopN(ConverseUtil.converseInt(config.get("topN")))
+                .setAutoParse(ConverseUtil.converseBoolean(config.get("autoParse")))
+                .setResumable(ConverseUtil.converseBoolean(config.get("resumable")))
+                .setMaxRetry(ConverseUtil.converseInt(config.get("maxRetry")))
+                .setRetry(ConverseUtil.converseInt(config.get("retry")))
+                .setDepth(ConverseUtil.converseInt(config.get("depth")))
                 .build();
 
         crawlerTaskService.addTask(task);
@@ -101,6 +99,7 @@ public class CrawlerController {
         model.addAttribute("tasks", tasks);
         return "crawler/list";
     }
+
     @RequestMapping("/remove")
     public String remove(@RequestParam(required = true) long id , Model model){
         crawlerTaskService.removeTask(id);
