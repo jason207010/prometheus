@@ -11,4 +11,5 @@ import java.util.Collection;
 public interface CrawlerService {
     public Collection<Crawler> crawlers();
     public Crawler get(long id);
+    public long maxId();
 }

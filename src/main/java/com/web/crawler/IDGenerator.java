@@ -1,4 +1,4 @@
-package com.web.util;
+package com.web.crawler;
 
 import org.springframework.stereotype.Component;
 
@@ -11,6 +11,11 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component("IDGenerator")
 public final class IDGenerator {
     private AtomicLong id = new AtomicLong(0L);
+
+    public void update(long id){
+        this.id.set(id);
+    }
+
     public long generate(){
         return id.incrementAndGet();
     }

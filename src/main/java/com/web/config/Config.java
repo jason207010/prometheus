@@ -12,4 +12,8 @@ public class Config extends ReloadableProperties{
     protected String getClassPathFilePath() {
         return "config.properties";
     }
+
+    public long getStartId(){
+        return Long.parseLong(properties.getProperty("startId"));
+    }
 }

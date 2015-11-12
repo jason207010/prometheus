@@ -1,5 +1,6 @@
 package com.web.controller;
 
+import com.web.config.Config;
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
 import com.web.crawler.DefaultCrawler;
@@ -8,8 +9,8 @@ import com.web.crawler.task.CrawlerTaskImpl.CrawlerTaskBuilder;
 import com.web.form.AddTaskForm;
 import com.web.service.CrawlerService;
 import com.web.service.CrawlerTaskService;
-import com.web.config.Config;
 import com.web.util.ConverseUtil;
+import com.web.crawler.IDGenerator;
 import com.web.util.SpringFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
@@ -36,7 +36,7 @@ public class CrawlerController {
     @Autowired
     private SpringFactory factory;
 
-    @Resource(name = "CrawlerServiceImpl")
+    @Autowired
     private CrawlerService crawlerService;
 
     @Autowired
@@ -45,9 +45,11 @@ public class CrawlerController {
     @Autowired
     private ConverseUtil converseUtil;
 
+    @Autowired
+    private IDGenerator generator;
+
     @RequestMapping("/addInit")
-    public String addInit(AddTaskForm form , Model model){
-        model.addAttribute("form", form);
+    public String addInit(Model model){
         Collection<Crawler> crawlers = crawlerService.crawlers();
         model.addAttribute("crawlers" , crawlers);
         return "crawler/add";
@@ -59,7 +61,8 @@ public class CrawlerController {
 
         CrawlerTaskBuilder builder = factory.create(CrawlerTaskBuilder.class);
 
-        CrawlerTask task = builder.setDesc(form.getDesc())
+        CrawlerTask task = builder.setId(generator.generate())
+                .setDesc(form.getDesc())
                 .setRegex(form.getRegex())
                 .setSeeds(form.getSeeds())
                 .setMatching(form.getMatching())

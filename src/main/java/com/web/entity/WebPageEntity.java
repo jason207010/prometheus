@@ -7,14 +7,18 @@ import javax.persistence.*;
  * @since v1.0
  */
 @Entity(name = "WebPage")
+@Table(name = "WebPage")
 public class WebPageEntity {
     @Id
     @GeneratedValue
     private long id;
+
     @Column(name = "title")
     private String title;
+
     @Column(name = "content")
-    private byte[] content;
+    private String content;
+
     @Column(name = "url")
     private String url;
 
@@ -34,11 +38,11 @@ public class WebPageEntity {
         this.title = title;
     }
 
-    public byte[] getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(byte[] content) {
+    public void setContent(String content) {
         this.content = content;
     }
 

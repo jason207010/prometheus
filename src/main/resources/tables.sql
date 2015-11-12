@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `WebPage`(
 	`id` INT(16) AUTO_INCREMENT,
-	`title` VARCHAR(1024),
-	`content` BLOB,
-	`url` VARCHAR(2048),
+	`title` TEXT,
+	`content` TEXT,
+	`url` TEXT,
 	CONSTRAINT pk_webpage_id PRIMARY KEY(id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 CREATE TABLE IF NOT EXISTS `CrawlerInfo`(
 	`id` INT(16) AUTO_INCREMENT,

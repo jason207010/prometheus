@@ -60,6 +60,11 @@ public class CrawlerTaskImpl implements CrawlerTask {
 
         private Crawler crawler;
 
+        public CrawlerTaskBuilder setId(long id){
+            crawlerInfo.setId(id);
+            return this;
+        }
+
         public CrawlerTaskBuilder setDesc(String desc) {
             crawlerInfo.setDesc(desc);
             return this;
