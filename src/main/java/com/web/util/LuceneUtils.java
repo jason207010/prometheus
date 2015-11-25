@@ -26,6 +26,7 @@ public final class LuceneUtils {
         FSDirectory directory = FSDirectory.open(Paths.get(path));
         StandardAnalyzer analyzer = new StandardAnalyzer();
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
+        indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);
         return indexWriter;
     }

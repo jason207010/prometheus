@@ -1,4 +1,4 @@
-package com.web.crawler.task;
+package com.web.executor.crawler;
 
 import com.web.builder.Builder;
 import com.web.crawler.Crawler;
@@ -53,10 +53,9 @@ public class CrawlerTaskImpl implements CrawlerTask {
         @Resource(name = "SpringFactory")
         private SpringFactory factory;
 
-        @Resource(name = "CrawlerInfoEntity")
-        private CrawlerInfoEntity crawlerInfo;
-
         private Crawler crawler;
+
+        private CrawlerInfoEntity crawlerInfo = new CrawlerInfoEntity();
 
         public CrawlerTaskBuilder setId(long id){
             crawlerInfo.setId(id);

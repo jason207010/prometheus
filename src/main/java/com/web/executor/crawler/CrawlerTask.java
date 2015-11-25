@@ -1,9 +1,8 @@
-package com.web.crawler.task;
+package com.web.executor.crawler;
 
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
-import com.web.entity.CrawlerInfoEntity;
-import com.web.task.Task;
+import com.web.executor.Task;
 
 /**
  * @author jayson   2015-08-11 17:41

@@ -1,16 +1,26 @@
 package com.web.parser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
+import com.alibaba.fastjson.JSON;
 import com.web.crawler.CSDNBlogCrawler;
 import com.web.entity.WebPageEntity;
+import com.web.service.LuceneService;
 import com.web.service.WebPageService;
-import com.web.util.SpringFactory;
+import com.web.util.digest.CRC32;
+import com.web.util.digest.MessageDigestUtils;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author jayson   2015-08-13 17:18
@@ -21,11 +31,13 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogParser.class);
 
-    @Autowired
-    private SpringFactory factory;
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Autowired
     private WebPageService webPageService;
+
+    @Autowired
+    private LuceneService luceneService;
 
     @Override
     public Class<CSDNBlogCrawler> getBindCrawler() {
@@ -33,22 +45,74 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
     }
 
     @Override
-    public void parse(Page page) {
-        String url = page.getUrl();
+    public void parse(Page page) throws Exception {
         Document doc = page.getDoc();
-        Elements titleElements = doc.select(".article_title a");
-        String title = titleElements.text();
-        Elements contentElements = doc.select(".article_content");
-        String content = contentElements.text();
-        Elements authorElements = doc.select(".user_name");
-        String author = authorElements.text();
-        Elements postDateElements = doc.select(".link_postdate");
-        String postDate = postDateElements.text();
+        String url = page.getUrl();//网页url
+        long crc = CRC32.crc32(url);//网页url的crc32
+        String viceUrl = "";//副url，如ajax翻页的url
+        String md5 = MessageDigestUtils.md5Hex(page.getContent());//整个网页的md5
 
-        WebPageEntity entity = factory.create(WebPageEntity.class);
-        entity.setContent(content);
-        entity.setTitle(title);
+        WebPageEntity entity = webPageService.get(crc, url, viceUrl);//从数据库取出符合的网页实体
+        if (entity == null){
+            entity = new WebPageEntity();
+        } else {
+            if(md5.equals(entity.getMd5()))//数据库中已保存有该网页，且md5相同
+                return;
+        }
+
+        String title = doc.title();//网页标题
+        String content = doc.text();//网页纯文字
+        String html = page.getHtml();//网页html代码
+        int statusCode = page.getResponse().getCode();//服务器返回状态码
+        String contentType = page.getResponse().getContentType();//内容类型
+        Map<String, List<String>> headersMap = page.getResponse().getHeaders();//网页头
+        String headers = JSON.toJSONString(headersMap);//网页头转为JSON格式
+
+
+        String articleTitle = doc.select(".article_title a").text();//文章标题
+        String articleBody = doc.select(".article_content").text();//文章内容
+
+        List<String> categoryList = new ArrayList<>();
+        Elements categories = doc.select("div.category_r label");
+        for(Element e : categories){
+            categoryList.add(e.text());
+        }
+        String category = JSON.toJSONString(categoryList);//文章所属分类JSON
+
+        List<String> tagList = new ArrayList<>();
+        Elements tags = doc.select("span.link_categories>a");
+        for(Element e : tags){
+            tagList.add(e.text());
+        }
+        String tag = JSON.toJSONString(tagList);//文章所属标签JSON
+
+        String releaseTimeStr = doc.select(".link_postdate").text();
+        Timestamp releaseTime = new Timestamp(sdf.parse(releaseTimeStr).getTime());//文章发布时间
+
+        String author = doc.select(".user_name").text();//文章作者
+
+        Timestamp crawlerTime = new Timestamp(System.currentTimeMillis());//爬取时间
+
+
+        entity.setCrc(crc);
         entity.setUrl(url);
-        webPageService.scheduleSave(entity);
+        entity.setViceUrl(viceUrl);
+        entity.setTitle(title);
+        entity.setContent(content);
+        entity.setHtml(html);
+        entity.setStatusCode(statusCode);
+        entity.setContentType(contentType);
+        entity.setHeaders(headers);
+        entity.setMd5(md5);
+        entity.setArticleTitle(articleTitle);
+        entity.setArticleBody(articleBody);
+        entity.setCategory(category);
+        entity.setTag(tag);
+        entity.setReleaseTime(releaseTime);
+        entity.setAuthor(author);
+        entity.setCrawleTime(crawlerTime);
+
+        webPageService.save(entity);
+        luceneService.saveOrUpdate(entity);
     }
 }

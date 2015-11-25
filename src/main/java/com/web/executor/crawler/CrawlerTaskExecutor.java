@@ -1,6 +1,6 @@
-package com.web.crawler.task;
+package com.web.executor.crawler;
 
-import com.web.task.TaskExecutor;
+import com.web.executor.TaskExecutor;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;

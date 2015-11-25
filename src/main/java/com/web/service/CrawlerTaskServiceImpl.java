@@ -1,10 +1,10 @@
 package com.web.service;
 
 import com.web.config.Config;
-import com.web.crawler.task.CrawlerTask;
+import com.web.executor.crawler.CrawlerTask;
 import com.web.dao.CrawlerInfoDao;
 import com.web.entity.CrawlerInfoEntity;
-import com.web.task.TaskExecutor;
+import com.web.executor.TaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

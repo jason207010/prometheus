@@ -27,6 +27,7 @@
     <hibernate-validator-version>5.2.1.Final</hibernate-validator-version>
     <fastjson-version>1.2.6</fastjson-version>
     <xstream-version>1.4.8</xstream-version>
+    <commons-codec-version>1.9</commons-codec-version>
   </properties>
 
   <dependencies>
@@ -181,6 +182,12 @@
       <groupId>com.thoughtworks.xstream</groupId>
       <artifactId>xstream</artifactId>
       <version>${xstream-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>${commons-codec-version}</version>
     </dependency>
   </dependencies>
   <build>

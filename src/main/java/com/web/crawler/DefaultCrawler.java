@@ -3,7 +3,6 @@ package com.web.crawler;
 import cn.edu.hfut.dmic.webcollector.model.Links;
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.config.Config;
-import com.web.service.ParseService;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,6 @@ import java.util.regex.Pattern;
 @Scope("prototype")
 public class DefaultCrawler extends Crawler {
 
-    @Resource(name = "ParseServiceImpl")
-    private ParseService service;
-
     @Resource(name = "Config")
     private Config config;
 
@@ -29,7 +25,6 @@ public class DefaultCrawler extends Crawler {
     public void visit(Page page, Links nextLinks) {
         for(Pattern p : patterns){
             if(p.matcher(page.getUrl()).matches()){
-                service.parse(page , DefaultCrawler.class);
                 break;
             }
         }

@@ -7,6 +7,7 @@ import com.web.entity.WebPageEntity;
  * @since v1.0
  */
 public interface WebPageService {
-    public void scheduleSave(WebPageEntity entity);
-    public void save(Iterable<WebPageEntity> iterator);
+    public void save(Iterable<WebPageEntity> iterable);
+    public void save(WebPageEntity entity);
+    public WebPageEntity get(long crc , String url , String viceUrl);
 }

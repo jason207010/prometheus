@@ -10,10 +10,8 @@ import java.util.List;
  * @author jayson   2015-08-11 15:19
  * @since v1.0
  */
-@Entity(name = "CrawlerInfo")
+@Entity(name = "CrawlerInfoEntity")
 @Table(name = "CrawlerInfo")
-@Component("CrawlerInfoEntity")
-@Scope("prototype")
 public class CrawlerInfoEntity {
     @Id
     @GeneratedValue

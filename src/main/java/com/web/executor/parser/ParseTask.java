@@ -1,8 +1,8 @@
-package com.web.parser.task;
+package com.web.executor.parser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.parser.Parser;
-import com.web.task.Task;
+import com.web.executor.Task;
 
 /**
  * @author jayson   2015-07-10-17:28

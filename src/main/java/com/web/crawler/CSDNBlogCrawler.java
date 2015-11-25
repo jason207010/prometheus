@@ -6,7 +6,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.web.config.Config;
 import com.web.entity.CrawlerInfoEntity;
-import com.web.service.ParseService;
+import com.web.parser.CSDNBlogParser;
+import com.web.scheduler.ParserScheduler;
+import com.web.executor.parser.ParseTask;
 import com.web.util.SpringFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ public class CSDNBlogCrawler extends Crawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogCrawler.class);
 
     @Autowired
-    private ParseService parseService;
+    private ParserScheduler scheduler;
 
     @Autowired
     private SpringFactory factory;
@@ -55,7 +57,15 @@ public class CSDNBlogCrawler extends Crawler {
 
         for(Pattern p : patterns) {
             if (p.matcher(url).matches()) {
-                parseService.parse(page, CSDNBlogCrawler.class);
+                try {
+                    ParseTask task = factory.create(ParseTask.class);
+                    CSDNBlogParser parser = factory.create(CSDNBlogParser.class);
+                    task.setPage(page);
+                    task.setParser(parser);
+                    scheduler.schedule(task);
+                } catch (InterruptedException e) {
+                    LOGGER.error("" , e);
+                }
                 break;
             }
         }

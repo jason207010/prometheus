@@ -24,23 +24,10 @@ public class Indexer {
     @Autowired
     private Config config;
 
-    public void add(Document document){
+    public void saveOrUpdate(Term term , Document document){
         IndexWriter indexWriter = null;
         try {
             indexWriter = LuceneUtils.getIndexWriter(config.get("indexPath"));
-            indexWriter.addDocument(document);
-        } catch (IOException e) {
-            LOGGER.error("" , e);
-        } finally {
-            LuceneUtils.closeGracefully(indexWriter);
-        }
-    }
-
-    public void update(Document document , Term term){
-        IndexWriter indexWriter = null;
-        try {
-            indexWriter = LuceneUtils.getIndexWriter(config.get("indexPath"));
-            indexWriter.addDocument(document);
             indexWriter.updateDocument(term , document);
         } catch (IOException e) {
             LOGGER.error("" , e);

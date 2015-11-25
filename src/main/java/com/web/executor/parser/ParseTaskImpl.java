@@ -1,7 +1,9 @@
-package com.web.parser.task;
+package com.web.executor.parser;
 
 import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.web.parser.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -12,11 +14,17 @@ import org.springframework.stereotype.Component;
 @Component("ParseTaskImpl")
 @Scope("prototype")
 public class ParseTaskImpl implements ParseTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ParseTaskImpl.class);
+
     private Parser parser;
     private Page page;
     @Override
     public void execute() {
-        parser.parse(page);
+        try {
+            parser.parse(page);
+        } catch (Exception e) {
+            LOGGER.error("" , e);
+        }
     }
 
     @Override
