@@ -1,4 +1,4 @@
-package com.web.executor.parser;
+package com.web.executor.lucene;
 
 import com.web.executor.TaskExecutor;
 import org.springframework.stereotype.Component;
@@ -7,15 +7,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author jayson   2015-07-12 17:26
+ * @author jayson  <br/> 2015-11-25 18:01
  * @since v1.0
  */
-@Component("ParseTaskExecutor")
-public class ParseTaskExecutor implements TaskExecutor<ParseTask> {
+@Component("LuceneTaskExecutor")
+public class LuceneTaskExecutor implements TaskExecutor<LuceneTask> {
+
     private ExecutorService pool = Executors.newCachedThreadPool();
 
     @Override
-    public void execute(ParseTask task) {
+    public void execute(LuceneTask task) {
         pool.execute(()->{
             task.execute();
         });

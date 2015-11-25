@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
  * @author jayson  <br/> 2015-11-17 16:29
  * @since v1.0
  */
-@Component("ParserScheduler")
-public class ParserScheduler extends Scheduler<ParseTask> {
+@Component("ParserTaskScheduler")
+public class ParserTaskScheduler extends Scheduler<ParseTask> {
 
     @Autowired
     private ParseTaskExecutor executor;

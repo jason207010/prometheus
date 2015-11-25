@@ -4,8 +4,12 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.alibaba.fastjson.JSON;
 import com.web.crawler.CSDNBlogCrawler;
 import com.web.entity.WebPageEntity;
-import com.web.service.LuceneService;
+import com.web.executor.lucene.LuceneTask;
+import com.web.executor.webpage.WebPageTask;
+import com.web.scheduler.LuceneTaskScheduler;
+import com.web.scheduler.WebPageTaskScheduler;
 import com.web.service.WebPageService;
+import com.web.util.SpringFactory;
 import com.web.util.digest.CRC32;
 import com.web.util.digest.MessageDigestUtils;
 import org.jsoup.nodes.Document;
@@ -34,10 +38,16 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
     @Autowired
+    private WebPageTaskScheduler webPageTaskScheduler;
+
+    @Autowired
     private WebPageService webPageService;
 
     @Autowired
-    private LuceneService luceneService;
+    private LuceneTaskScheduler luceneTaskScheduler;
+
+    @Autowired
+    private SpringFactory factory;
 
     @Override
     public Class<CSDNBlogCrawler> getBindCrawler() {
@@ -112,7 +122,12 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         entity.setAuthor(author);
         entity.setCrawleTime(crawlerTime);
 
-        webPageService.save(entity);
-        luceneService.saveOrUpdate(entity);
+        WebPageTask webPageTask = factory.create(WebPageTask.class);
+        webPageTask.setEntity(entity);
+        webPageTaskScheduler.schedule(webPageTask);
+
+        LuceneTask luceneTask = factory.create(LuceneTask.class);
+        luceneTask.setEntity(entity);
+        luceneTaskScheduler.schedule(luceneTask);
     }
 }
