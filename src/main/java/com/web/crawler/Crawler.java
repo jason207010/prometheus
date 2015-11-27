@@ -1,7 +1,6 @@
 package com.web.crawler;
 
 import cn.edu.hfut.dmic.webcollector.crawler.BreadthCrawler;
-import com.web.entity.CrawlerInfoEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public abstract class Crawler extends BreadthCrawler {
     private static final Logger LOGGER = LoggerFactory.getLogger(Crawler.class);
-    protected CrawlerInfoEntity crawlerInfo;
+    protected CrawlerInfo crawlerInfo;
     protected List<Pattern> patterns = new ArrayList<>();
 
     /**
@@ -88,11 +87,11 @@ public abstract class Crawler extends BreadthCrawler {
     public abstract String getCrawlPath();
 
     /**getter、setter方法**/
-    public CrawlerInfoEntity getCrawlerInfo() {
+    public CrawlerInfo getCrawlerInfo() {
         return crawlerInfo;
     }
 
-    public void setCrawlerInfo(CrawlerInfoEntity crawlerInfo) {
+    public void setCrawlerInfo(CrawlerInfo crawlerInfo) {
         this.crawlerInfo = crawlerInfo;
     }
 }

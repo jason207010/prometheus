@@ -1,15 +1,17 @@
 package com.web.service;
 
 import com.web.config.Config;
-import com.web.executor.crawler.CrawlerTask;
-import com.web.dao.CrawlerInfoDao;
-import com.web.entity.CrawlerInfoEntity;
+import com.web.crawler.CrawlerInfo;
 import com.web.executor.TaskExecutor;
+import com.web.executor.crawler.CrawlerTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author jayson   2015-07-12 13:38
@@ -21,9 +23,6 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     private TaskExecutor<CrawlerTask> executor;
 
     @Autowired
-    private CrawlerInfoDao crawlerTaskDao;
-
-    @Autowired
     private Config config;
 
     private Map<Long , CrawlerTask> tasks = new HashMap<>();
@@ -31,11 +30,7 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
     @Override
     public void addTask(CrawlerTask task) {
         executor.execute(task);
-        CrawlerInfoEntity crawlerInfo = task.getCrawler().getCrawlerInfo();
-
-        if(crawlerInfo.getId() > config.getStartId())
-            crawlerTaskDao.save(crawlerInfo);
-
+        CrawlerInfo crawlerInfo = task.getCrawler().getCrawlerInfo();
         tasks.put(crawlerInfo.getId() , task);
     }
 

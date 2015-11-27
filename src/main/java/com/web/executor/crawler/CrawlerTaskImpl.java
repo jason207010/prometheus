@@ -1,9 +1,9 @@
 package com.web.executor.crawler;
 
-import com.web.builder.Builder;
+import com.web.common.Builder;
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
-import com.web.entity.CrawlerInfoEntity;
+import com.web.crawler.CrawlerInfo;
 import com.web.util.SpringFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -55,7 +55,7 @@ public class CrawlerTaskImpl implements CrawlerTask {
 
         private Crawler crawler;
 
-        private CrawlerInfoEntity crawlerInfo = new CrawlerInfoEntity();
+        private CrawlerInfo crawlerInfo = new CrawlerInfo();
 
         public CrawlerTaskBuilder setId(long id){
             crawlerInfo.setId(id);

@@ -5,7 +5,6 @@ import cn.edu.hfut.dmic.webcollector.model.Page;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.web.config.Config;
-import com.web.entity.CrawlerInfoEntity;
 import com.web.executor.parser.ParseTask;
 import com.web.parser.CSDNBlogParser;
 import com.web.scheduler.ParserTaskScheduler;
@@ -40,11 +39,11 @@ public class CSDNBlogCrawler extends Crawler {
 
     @PostConstruct
     public void init() throws IOException {
-        CrawlerInfoEntity crawlerInfo = factory.create(CrawlerInfoEntity.class);
+        CrawlerInfo crawlerInfo = factory.create(CrawlerInfo.class);
 
         ClassPathResource resource = new ClassPathResource(config.get("CSDNBlogCrawler"));
         XStream xStream = new XStream(new StaxDriver());
-        xStream.alias("CrawlerInfoEntity" , CrawlerInfoEntity.class);
+        xStream.alias("CrawlerInfo" , CrawlerInfo.class);
         xStream.alias("String" , String.class);
         xStream.fromXML(resource.getFile() , crawlerInfo);
 

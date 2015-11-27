@@ -1,4 +1,4 @@
-package com.web.builder;
+package com.web.common;
 
 /**
  * @author jayson   2015-07-11-11:44
