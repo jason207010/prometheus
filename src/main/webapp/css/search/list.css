@@ -7,3 +7,16 @@
     height: 30px;
     width: 100px;
 }
+
+.article{
+    margin: 10px 0 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 2px 2px 1px #ddd;
+}
+
+.line{
+    margin: 0;
+    padding: 0;
+    border: solid 1px #ddd;
+}

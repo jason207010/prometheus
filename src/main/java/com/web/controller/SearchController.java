@@ -27,6 +27,10 @@ public class SearchController {
     @RequestMapping("/search")
     public String search(String keyWord , Page<SearchResult> page , Model model){
         model.addAttribute("keyWord" , keyWord);
+        if(page.getCurPage() <= 0)
+            page.setCurPage(1);
+        if(page.getPageSize() <= 0)
+            page.setPageSize(10);
         luceneService.search(keyWord , page);
         return "search/list";
     }
