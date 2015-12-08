@@ -16,6 +16,7 @@ import org.apache.lucene.search.*;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.junit.Test;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -27,8 +28,8 @@ import java.nio.file.Paths;
 public class LuceneTest {
     @Test
     public void test() throws IOException, ParseException {
-        Directory directory = FSDirectory.open(Paths.get("E:\\data\\lucene"));
-        Analyzer analyzer = new StandardAnalyzer();
+        Directory directory = FSDirectory.open(Paths.get("d:\\data1\\lucene"));
+        Analyzer analyzer = new IKAnalyzer();
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
         indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);

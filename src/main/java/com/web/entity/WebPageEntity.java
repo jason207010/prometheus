@@ -70,6 +70,30 @@ public class WebPageEntity {
     @Column(name = "crawle_time")
     private Timestamp crawleTime;
 
+    @Override
+    public String toString() {
+        return "WebPageEntity{" +
+                "id=" + id +
+                ", crc=" + crc +
+                ", url='" + url + '\'' +
+                ", viceUrl='" + viceUrl + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", html='" + html + '\'' +
+                ", statusCode=" + statusCode +
+                ", contentType='" + contentType + '\'' +
+                ", headers='" + headers + '\'' +
+                ", md5='" + md5 + '\'' +
+                ", articleTitle='" + articleTitle + '\'' +
+                ", articleBody='" + articleBody + '\'' +
+                ", category='" + category + '\'' +
+                ", tag='" + tag + '\'' +
+                ", releaseTime=" + releaseTime +
+                ", author='" + author + '\'' +
+                ", crawleTime=" + crawleTime +
+                '}';
+    }
+
     public long getId() {
         return id;
     }

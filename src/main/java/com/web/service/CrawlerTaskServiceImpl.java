@@ -40,8 +40,8 @@ public class CrawlerTaskServiceImpl implements CrawlerTaskService {
         if(task == null)
             return;
 
-        tasks.remove(task);
         task.stop();
+        tasks.remove(id);
     }
 
     @Override

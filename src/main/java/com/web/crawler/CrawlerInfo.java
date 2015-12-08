@@ -1,11 +1,16 @@
 package com.web.crawler;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
 /**
  * @author jayson   2015-08-11 15:19
  * @since v1.0
  */
+@Component("CrawlerInfo")
+@Scope("prototype")
 public class CrawlerInfo {
     private long id;
 

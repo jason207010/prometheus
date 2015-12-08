@@ -22,9 +22,10 @@ public abstract class Scheduler<T> implements Runnable {
         while (true){
             try {
                 T product = queue.poll(getPollTimeMillis(), TimeUnit.MILLISECONDS);
-                if(product == null)
+                if(product == null){
                     Thread.sleep(getSleepTimeMillis());//没有事情可做，先休眠一段时间，把CPU资源让给其他线程
-
+                    continue;
+                }
                 execute(product);
             } catch (InterruptedException e) {
                 LOGGER.error("" , e);

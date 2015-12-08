@@ -83,7 +83,7 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         String articleBody = doc.select(".article_content").text();//文章内容
 
         List<String> categoryList = new ArrayList<>();
-        Elements categories = doc.select("div.category_r label");
+        Elements categories = doc.select("div.category_r label span");
         for(Element e : categories){
             categoryList.add(e.text());
         }
@@ -99,7 +99,7 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         String releaseTimeStr = doc.select(".link_postdate").text();
         Timestamp releaseTime = new Timestamp(sdf.parse(releaseTimeStr).getTime());//文章发布时间
 
-        String author = doc.select(".user_name").text();//文章作者
+        String author = doc.select("#panel_Profile #blog_userface a.user_name").text();//文章作者
 
         Timestamp crawlerTime = new Timestamp(System.currentTimeMillis());//爬取时间
 

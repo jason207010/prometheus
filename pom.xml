@@ -21,13 +21,14 @@
     <spring-data-jpa-version>1.8.1.RELEASE</spring-data-jpa-version>
     <commons-io-version>2.4</commons-io-version>
     <hibernate-version>4.3.10.Final</hibernate-version>
-    <lucene-version>5.2.1</lucene-version>
+    <lucene-version>5.3.0</lucene-version>
     <sitemesh-version>3.0.1</sitemesh-version>
     <spring-security-version>4.0.1.RELEASE</spring-security-version>
     <hibernate-validator-version>5.2.1.Final</hibernate-validator-version>
     <fastjson-version>1.2.6</fastjson-version>
     <xstream-version>1.4.8</xstream-version>
     <commons-codec-version>1.9</commons-codec-version>
+    <IKAnalyzer-version>2012FF_u1</IKAnalyzer-version>
   </properties>
 
   <dependencies>
@@ -70,6 +71,18 @@
     <dependency>
       <groupId>org.apache.lucene</groupId>
       <artifactId>lucene-core</artifactId>
+      <version>${lucene-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-backward-codecs</artifactId>
+      <version>${lucene-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.lucene</groupId>
+      <artifactId>lucene-highlighter</artifactId>
       <version>${lucene-version}</version>
     </dependency>
 
@@ -188,6 +201,12 @@
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
       <version>${commons-codec-version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.wltea.ik-analyzer</groupId>
+      <artifactId>ik-analyzer</artifactId>
+      <version>5.3.0</version>
     </dependency>
   </dependencies>
   <build>

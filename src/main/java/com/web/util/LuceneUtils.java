@@ -1,14 +1,14 @@
 package com.web.util;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.index.DirectoryReader;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.store.FSDirectory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.wltea.analyzer.lucene.IKAnalyzer;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -24,7 +24,7 @@ public final class LuceneUtils {
 
     public static IndexWriter getIndexWriter(String path) throws IOException {
         FSDirectory directory = FSDirectory.open(Paths.get(path));
-        StandardAnalyzer analyzer = new StandardAnalyzer();
+        Analyzer analyzer = new IKAnalyzer();
         IndexWriterConfig indexWriterConfig = new IndexWriterConfig(analyzer);
         indexWriterConfig.setOpenMode(IndexWriterConfig.OpenMode.CREATE_OR_APPEND);
         IndexWriter indexWriter = new IndexWriter(directory, indexWriterConfig);

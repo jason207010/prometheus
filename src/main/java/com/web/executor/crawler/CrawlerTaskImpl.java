@@ -1,15 +1,9 @@
 package com.web.executor.crawler;
 
-import com.web.common.Builder;
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
-import com.web.crawler.CrawlerInfo;
-import com.web.util.SpringFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author jayson   2015-08-11 17:42
@@ -19,8 +13,6 @@ import java.util.List;
 @Scope("prototype")
 public class CrawlerTaskImpl implements CrawlerTask {
     private Crawler crawler;
-
-    private CrawlerTaskImpl(){}
 
     @Override
     public void stop() {
@@ -45,84 +37,5 @@ public class CrawlerTaskImpl implements CrawlerTask {
     @Override
     public void execute() {
         crawler.start();
-    }
-
-    @Component("CrawlerTaskBuilder")
-    @Scope("prototype")
-    public static class CrawlerTaskBuilder implements Builder<CrawlerTask>{
-        @Resource(name = "SpringFactory")
-        private SpringFactory factory;
-
-        private Crawler crawler;
-
-        private CrawlerInfo crawlerInfo = new CrawlerInfo();
-
-        public CrawlerTaskBuilder setId(long id){
-            crawlerInfo.setId(id);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setDesc(String desc) {
-            crawlerInfo.setDesc(desc);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setTopN(int topN) {
-            crawlerInfo.setTopN(topN);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setAutoParse(boolean autoParse) {
-            crawlerInfo.setAutoParse(autoParse);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setResumable(boolean resumable) {
-            crawlerInfo.setResumable(resumable);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setSeeds(List<String> seeds) {
-            crawlerInfo.setSeeds(seeds);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setRegex(List<String> regex) {
-            crawlerInfo.setRegex(regex);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setMatching(List<String> matching){
-            crawlerInfo.setMatching(matching);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setMaxRetry(int maxRetry) {
-            crawlerInfo.setMaxRetry(maxRetry);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setRetry(int retry) {
-            crawlerInfo.setRetry(retry);
-            return this;
-        }
-
-        public CrawlerTaskBuilder setDepth(int depth) {
-            crawlerInfo.setDepth(depth);
-            return this;
-        }
-
-        public <T extends Crawler> CrawlerTaskBuilder setCrawler(Class<T> crawler) {
-            T instance = factory.create(crawler);
-            this.crawler = instance;
-            return this;
-        }
-        @Override
-        public CrawlerTask build() {
-            CrawlerTask crawlerTask = factory.create(CrawlerTaskImpl.class);
-            crawler.setCrawlerInfo(crawlerInfo);
-            crawlerTask.setCrawler(crawler);
-            return crawlerTask;
-        }
     }
 }

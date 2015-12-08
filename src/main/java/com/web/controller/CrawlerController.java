@@ -1,6 +1,5 @@
 package com.web.controller;
 
-import com.web.config.Config;
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;
 import com.web.executor.crawler.CrawlerTask;
@@ -33,9 +32,6 @@ public class CrawlerController {
     @Autowired
     private CrawlerService crawlerService;
 
-    @Autowired
-    private Config config;
-
     @RequestMapping("/addInit")
     public String addInit(AddTaskForm form , Model model){
         model.addAttribute("form", form);
@@ -43,8 +39,9 @@ public class CrawlerController {
         model.addAttribute("crawlers" , crawlers);
         return "crawler/add";
     }
-    @RequestMapping("/addBuildIn")
-    public String addBuildIn(@RequestParam long id){
+
+    @RequestMapping("/add")
+    public String add(@RequestParam long id){
         Crawler crawler = crawlerService.get(id);
         if(crawler == null)
             return "redirect:404.jsp";

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh>
-    <mapping path="*.do" decorator="/decorator.jsp"/>
-    <mapping path="*.jsp" decorator="/decorator.jsp"/>
+    <mapping path="/crawler/*.do" decorator="/decorator.jsp"/>
+    <mapping path="/crawler/*.jsp" decorator="/decorator.jsp"/>
 </sitemesh>

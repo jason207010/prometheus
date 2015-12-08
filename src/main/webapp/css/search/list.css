@@ -1,0 +1,9 @@
+.top{
+    border: solid 1px #ddd;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.top img{
+    height: 30px;
+    width: 100px;
+}
