@@ -1,4 +1,4 @@
-package com.web.controller;
+package com.web.controller.admin;
 
 import com.web.crawler.Crawler;
 import com.web.crawler.CrawlerStatus;

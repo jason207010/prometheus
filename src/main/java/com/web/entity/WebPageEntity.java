@@ -11,7 +11,7 @@ import java.sql.Timestamp;
  * @since v1.0
  */
 @Entity(name = "WebPageEntity")
-@Table(name = "WebPage")
+@Table(name = "webpage")
 public class WebPageEntity {
 
     @Id

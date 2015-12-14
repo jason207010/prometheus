@@ -1,0 +1,46 @@
+package com.web.entity;
+
+import javax.persistence.*;
+import java.util.List;
+
+/**
+ * @author jayson  <br/> 2015-12-12 15:35
+ * @since v1.0
+ */
+@Entity(name = "ResourceEntity")
+@Table(name = "resource")
+public class ResourceEntity {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue
+    private long id;
+    @Column(name = "url" , nullable = false)
+    private String url;
+    @ManyToMany(mappedBy = "resourceEntities")
+    private List<RoleEntity> roleEntities;
+
+    /**getter、setter方法**/
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<RoleEntity> getRoleEntities() {
+        return roleEntities;
+    }
+
+    public void setRoleEntities(List<RoleEntity> roleEntities) {
+        this.roleEntities = roleEntities;
+    }
+}
