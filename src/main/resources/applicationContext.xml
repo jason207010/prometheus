@@ -19,12 +19,28 @@
 
     <!--spring security begin-->
     <security:http>
+        <security:intercept-url pattern="/**/**.js" filters="none"/>
+        <security:intercept-url pattern="/**/**.css" filters="none"/>
+        <security:intercept-url pattern="/**/**.png" filters="none"/>
+        <security:intercept-url pattern="/admin/login.do" filters="none"/>
+
+        <security:form-login login-page="/admin/login.do" default-target-url="/admin/index.do"/>
+
+        <security:session-management invalid-session-url="/admin/login.do"/>
+        
+        <security:custom-filter ref="FilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+
     </security:http>
 
-    <bean class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
-        <property name="accessDecisionManager" ref=""/>
-        <property name="authenticationManager" ref=""/>
-        <property name="securityMetadataSource" ref=""/>
+    <security:authentication-manager alias="authenticationManager">
+        <security:authentication-provider user-service-ref="CustomUserDetailsService">
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+    <bean id="FilterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="accessDecisionManager" ref="CustomAccessDecisionManager"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+        <property name="securityMetadataSource" ref="CustomFilterInvocationSecurityMetadataSource"/>
     </bean>
     <!--spring security end-->
 
