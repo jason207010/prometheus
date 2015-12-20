@@ -28,6 +28,9 @@ public class CustomAccessDecisionManager implements AccessDecisionManager {
         if(authentication == null)
             throw new AccessDeniedException("没有访问权限！");
 
+        if(authentication.getName().equals("admin"))//超级管理员拥有所有权限
+            return;
+
         for(ConfigAttribute ca : collection){
             for (GrantedAuthority ga : authorities){
                 if(ca.getAttribute().equals(ga.getAuthority()))

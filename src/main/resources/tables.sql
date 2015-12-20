@@ -62,10 +62,7 @@ CREATE TABLE IF NOT EXISTS `role_resource`(
 CREATE TABLE IF NOT EXISTS `menu`(
 	`id` BIGINT AUTO_INCREMENT,
 	`name` VARCHAR(256) NOT NULL COMMENT '菜单名',
-	`parent_id` BIGINT DEFAULT 0 COMMENT '父级菜单ID',
 	`resource_id` BIGINT COMMENT '资源ID',
-	CONSTRAINT `pk_menu_id` PRIMARY KEY (`id`),
-	CONSTRAINT `fk_menu_parent_id` FOREIGN KEY (`parent_id`) REFERENCES `menu`(`id`),
-	CONSTRAINT `fk_menu_resource_id` FOREIGN KEY (`resource_id`) REFERENCES `resource`(`id`)
+	CONSTRAINT `pk_menu_id` PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '菜单表';
 

@@ -1,11 +1,15 @@
 package com.web.form.admin;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * @author jayson  <br/> 2015-12-14 21:23
  * @since v1.0
  */
 public class LoginForm {
+    @NotBlank(message = "请填写用户名！")
     private String name;
+    @NotBlank(message = "请填写密码！")
     private String password;
 
     public String getName() {

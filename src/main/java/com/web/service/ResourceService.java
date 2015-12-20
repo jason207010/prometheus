@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ResourceService {
     public ResourceEntity findByUrl(String url);
+    public void add(ResourceEntity entity);
+    public List<ResourceEntity> findAll();
 }

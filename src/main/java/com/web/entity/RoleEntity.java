@@ -16,7 +16,7 @@ public class RoleEntity {
     private long id;
     @Column(name = "name" , nullable = false)
     private String name;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "role_resource",
             joinColumns = {@JoinColumn(name = "role_id" , referencedColumnName = "id")},

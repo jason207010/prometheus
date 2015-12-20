@@ -21,7 +21,7 @@ import java.util.List;
  * @since v1.0
  */
 @Controller
-@RequestMapping("/crawler")
+@RequestMapping("/admin/crawler")
 public class CrawlerController {
     @Autowired
     private CrawlerTaskService crawlerTaskService;

@@ -20,7 +20,7 @@ public class UserEntity {
     private String password;
     @Column(name = "enable" , nullable = false)
     private boolean enable = true;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role" ,
             joinColumns = {@JoinColumn(name = "user_id" , referencedColumnName = "id")},

@@ -19,7 +19,7 @@ public class MenuEntity {
     @JoinColumn(name = "id")
     private MenuEntity menuEntity;
     @OneToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "resource_id")
     private ResourceEntity resourceEntity;
 
     /**getter、setter方法**/
