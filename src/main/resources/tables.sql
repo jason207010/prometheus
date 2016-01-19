@@ -25,16 +25,18 @@ CREATE TABLE IF NOT EXISTS `webpage`(
 
 CREATE TABLE IF NOT EXISTS `user`(
 	`id` BIGINT AUTO_INCREMENT,
-	`name` VARCHAR(256) NOT NULL COMMENT '用户名',
+	`name` VARCHAR(32) NOT NULL COMMENT '用户名',
 	`password` VARCHAR(512) NOT NULL COMMENT '密码',
 	`enable` BOOLEAN DEFAULT TRUE COMMENT '是否可用',
-	CONSTRAINT `pk_user_id` PRIMARY KEY(`id`)
+	CONSTRAINT `pk_user_id` PRIMARY KEY(`id`),
+	UNIQUE KEY `uc_user_name` (`name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '用户表';
 
 CREATE TABLE IF NOT EXISTS `role`(
 	`id` BIGINT AUTO_INCREMENT,
-	`name` VARCHAR(256) NOT NULL COMMENT '角色名',
-	CONSTRAINT `pk_role_id` PRIMARY KEY(`id`)
+	`name` VARCHAR(32) NOT NULL COMMENT '角色名',
+	CONSTRAINT `pk_role_id` PRIMARY KEY(`id`),
+	UNIQUE KEY `uc_role_name`(`name`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '角色表';
 
 CREATE TABLE IF NOT EXISTS `user_role`(
@@ -66,3 +68,18 @@ CREATE TABLE IF NOT EXISTS `menu`(
 	CONSTRAINT `pk_menu_id` PRIMARY KEY (`id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '菜单表';
 
+
+INSERT INTO `resource`(`url`) VALUES('/admin/index.do');
+INSERT INTO `resource`(`url`) VALUES('/admin/resource/addInit.do');
+INSERT INTO `resource`(`url`) VALUES('/admin/menu/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/list.do');
+
+INSERT INTO `role`(`name`) VALUES('admin');
+INSERT INTO `user`(`name`,`password`) VALUES('admin','123456');
+INSERT INTO `user_role` VALUES((SELECT `id` FROM `user` WHERE `name`='admin'),(SELECT `id` FROM `role` WHERE `name`='admin'));
+
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('添加资源',(SELECT `id` from `resource` where `url`='/admin/resource/addInit.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('添加菜单',(SELECT `id` from `resource` where `url`='/admin/menu/addInit.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/resource/list.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/menu/list.do'));

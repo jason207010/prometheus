@@ -34,4 +34,9 @@ public class ResourceServiceImpl implements ResourceService {
     public List<ResourceEntity> findAll() {
         return resourceDao.findAll();
     }
+
+    @Override
+    public ResourceEntity findOne(Long id) {
+        return resourceDao.findOne(id);
+    }
 }

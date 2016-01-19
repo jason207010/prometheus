@@ -45,8 +45,11 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
         List<RoleEntity> roleEntities = resourceEntity.getRoleEntities();
 
 
-        if(roleEntities == null || roleEntities.isEmpty())
+        if(roleEntities == null || roleEntities.isEmpty()){
+            ConfigAttribute attribute = new SecurityConfig("forbid");
+            configAttributes.add(attribute);
             return configAttributes;
+        }
 
         for(RoleEntity re : roleEntities){
             ConfigAttribute attribute = new SecurityConfig(re.getName());

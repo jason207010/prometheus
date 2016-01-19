@@ -31,8 +31,7 @@
     </security:http>
 
     <security:authentication-manager alias="authenticationManager">
-        <security:authentication-provider user-service-ref="CustomUserDetailsService">
-        </security:authentication-provider>
+        <security:authentication-provider user-service-ref="CustomUserDetailsService"/>
     </security:authentication-manager>
 
     <bean id="FilterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">

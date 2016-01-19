@@ -24,4 +24,20 @@ public class MenuServiceImpl implements MenuService {
     public List<MenuEntity> findAll() {
         return menuDao.findAll();
     }
+
+    @Override
+    public MenuEntity save(MenuEntity entity) {
+        return menuDao.save(entity);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public MenuEntity findOne(Long id) {
+        return menuDao.findOne(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        menuDao.delete(id);
+    }
 }

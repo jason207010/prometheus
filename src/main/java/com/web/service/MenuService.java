@@ -10,4 +10,7 @@ import java.util.List;
  */
 public interface MenuService {
     public List<MenuEntity> findAll();
+    public MenuEntity save(MenuEntity entity);
+    public MenuEntity findOne(Long id);
+    public void delete(Long id);
 }

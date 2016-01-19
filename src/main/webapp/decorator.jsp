@@ -15,14 +15,9 @@
     <div class="row">
         <div class="col-xs-2">
             <ul class="list-group">
-                <li class="list-group-item"><a href="${path}/crawler/addInit.do">添加新爬虫任务</a></li>
-                <li class="list-group-item"><a href="${path}/crawler/list.do">爬虫任务列表</a></li>
                 <c:forEach items="${sessionScope.menus}" var="menu">
                     <li class="list-group-item"><a href="${menu.resourceEntity.url}">${menu.name}</a></li>
                 </c:forEach>
-                <li class="list-group-item"><a href="#">menu</a></li>
-                <li class="list-group-item"><a href="#">menu</a></li>
-                <li class="list-group-item"><a href="#">menu</a></li>
             </ul>
         </div>
         <div class="col-xs-10">
