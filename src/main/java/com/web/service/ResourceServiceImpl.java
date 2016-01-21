@@ -26,7 +26,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public void add(ResourceEntity entity) {
+    public void save(ResourceEntity entity) {
         resourceDao.save(entity);
     }
 
@@ -38,5 +38,10 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public ResourceEntity findOne(Long id) {
         return resourceDao.findOne(id);
+    }
+
+    @Override
+    public void delete(Long id) {
+        resourceDao.delete(id);
     }
 }

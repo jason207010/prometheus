@@ -10,7 +10,8 @@ import java.util.List;
  */
 public interface ResourceService {
     public ResourceEntity findByUrl(String url);
-    public void add(ResourceEntity entity);
+    public void save(ResourceEntity entity);
     public List<ResourceEntity> findAll();
     public ResourceEntity findOne(Long id);
+    public void delete(Long id);
 }
