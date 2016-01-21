@@ -23,4 +23,14 @@ public class RoleServiceImpl implements RoleService {
     public List<RoleEntity> findAll() {
         return roleDao.findAll();
     }
+
+    @Override
+    public RoleEntity save(RoleEntity entity) {
+        return roleDao.save(entity);
+    }
+
+    @Override
+    public RoleEntity findOne(Long id) {
+        return roleDao.findOne(id);
+    }
 }

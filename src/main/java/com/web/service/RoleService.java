@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface RoleService {
     public List<RoleEntity> findAll();
+    public RoleEntity save(RoleEntity entity);
+    public RoleEntity findOne(Long id);
 }
