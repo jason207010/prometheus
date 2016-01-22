@@ -71,10 +71,37 @@ CREATE TABLE IF NOT EXISTS `menu`(
 
 INSERT INTO `resource`(`url`) VALUES('/admin/index.do');
 INSERT INTO `resource`(`url`) VALUE ('/admin/resource/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/add.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/editInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/edit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/resource/delete.do');
+
 INSERT INTO `resource`(`url`) VALUE ('/admin/menu/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/add.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/editInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/edit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/menu/delete.do');
+
 INSERT INTO `resource`(`url`) VALUE ('/admin/role/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/add.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/editInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/edit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/delete.do');
+
 INSERT INTO `resource`(`url`) VALUE ('/admin/user/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/add.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/editInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/edit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/delete.do');
+
 INSERT INTO `resource`(`url`) VALUE ('/admin/crawler/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/crawler/addInit.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/crawler/add.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/crawler/delete.do');
 
 INSERT INTO `role`(`name`) VALUES('admin');
 INSERT INTO `user`(`name`,`password`) VALUES('admin','123456');

@@ -38,7 +38,7 @@ public class CrawlerController {
         model.addAttribute("form", form);
         Collection<Crawler> crawlers = crawlerService.crawlers();
         model.addAttribute("crawlers" , crawlers);
-        return "crawler/add";
+        return "admin/crawler/add";
     }
 
     @RequestMapping("/add")
@@ -60,13 +60,13 @@ public class CrawlerController {
     public String list(Model model){
         List<CrawlerTask> tasks = crawlerTaskService.tasks();
         model.addAttribute("tasks", tasks);
-        return "crawler/list";
+        return "admin/crawler/list";
     }
 
-    @RequestMapping("/remove")
+    @RequestMapping("/delete")
     public String remove(@RequestParam(required = true) long id , Model model){
         crawlerTaskService.removeTask(id);
         model.addAttribute("msg" , "删除爬虫任务成功！");
-        return "redirect:list.do";
+        return "redirect:/admin/crawler/list.do";
     }
 }

@@ -20,8 +20,8 @@
 
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="disabled">
-                        <a href="#">欢迎登陆，${sessionScope.SPRING_SECURITY_CONTEXT.authentication.name}</a>
+                    <li>
+                        <a class="disabled" href="javascript:void(0);">欢迎登陆，${sessionScope.SPRING_SECURITY_CONTEXT.authentication.name}</a>
                     </li>
                     <li>
                         <a href="${path}/admin/logout.do">退出</a>

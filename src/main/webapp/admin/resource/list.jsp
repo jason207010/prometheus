@@ -22,6 +22,7 @@
                 <table class="table table-bordered table-striped table-hover">
                     <tr>
                         <th>资源url</th>
+                        <th>操作</th>
                     </tr>
                     <c:forEach items="${resourceEntities}" var="r">
                         <tr>

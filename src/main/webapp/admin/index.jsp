@@ -4,6 +4,8 @@
     <title>欢迎登陆Prometheus后台管理系统</title>
 </head>
 <body>
-<h2>欢迎登陆Prometheus后台管理系统</h2>
+    <div class="container-fluid text-center">
+        <h2>欢迎登陆Prometheus后台管理系统</h2>
+    </div>
 </body>
 </html>
