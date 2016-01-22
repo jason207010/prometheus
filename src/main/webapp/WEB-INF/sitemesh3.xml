@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemesh>
-    <mapping path="/admin/*.do" decorator="/decorator.jsp"/>
     <mapping path="/admin/loginInit.do" exclue="true"/>
-    <mapping path="/admin/login.do" exclue="true"/>
-    <mapping path="/crawler/*.do" decorator="/decorator.jsp"/>
-    <mapping path="/crawler/*.jsp" decorator="/decorator.jsp"/>
+    <mapping path="/admin/*.do" decorator="/WEB-INF/admin/decorator.jsp"/>
+    <mapping path="/admin/crawler/*.do" decorator="/WEB-INF/admin/decorator.jsp"/>
 </sitemesh>
