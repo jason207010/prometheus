@@ -4,6 +4,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * @author jayson  <br/> 2016-01-21 15:50
@@ -22,6 +23,8 @@ public class AddForm {
 
     @NotNull
     private Boolean enable;
+
+    private List<Long> roleIds;
 
     public String getName() {
         return name;
@@ -45,5 +48,13 @@ public class AddForm {
 
     public void setEnable(Boolean enable) {
         this.enable = enable;
+    }
+
+    public List<Long> getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 }

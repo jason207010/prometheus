@@ -25,6 +25,7 @@
 
     <security:http>
         <security:form-login login-page="/admin/loginInit.do" login-processing-url="/admin/login.do" default-target-url="/admin/index.do" authentication-failure-url="/admin/loginInit.do?authError=true" username-parameter="name" password-parameter="password"/>
+        <security:logout logout-url="/admin/logout.do"/>
         <security:session-management invalid-session-url="/admin/loginInit.do"/>
         <security:custom-filter ref="FilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
         <security:csrf disabled="true"/>

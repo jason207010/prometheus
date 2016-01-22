@@ -23,15 +23,7 @@ public class CrawlerServiceImpl implements CrawlerService , ApplicationContextAw
 
     private ApplicationContext context;
 
-    private Map<Long , Crawler> crawlers = new HashMap<>();
-
-    @Override
-    public void afterStartup() {
-        Map<String, Crawler> crawlerMap = context.getBeansOfType(Crawler.class, false, true);
-        for(Entry<String , Crawler> e : crawlerMap.entrySet()){
-            crawlers.put(e.getValue().getCrawlerInfo().getId() , e.getValue());
-        }
-    }
+    private static Map<Long , Crawler> crawlers = new HashMap<>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -46,5 +38,13 @@ public class CrawlerServiceImpl implements CrawlerService , ApplicationContextAw
     @Override
     public Crawler get(long id) {
         return crawlers.get(id);
+    }
+
+    @Override
+    public void afterStartup() {
+        Map<String, Crawler> crawlerMap = context.getBeansOfType(Crawler.class, false, true);
+        for(Entry<String , Crawler> e : crawlerMap.entrySet()){
+            crawlers.put(e.getValue().getCrawlerInfo().getId() , e.getValue());
+        }
     }
 }

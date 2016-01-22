@@ -4,14 +4,12 @@ import com.web.entity.MenuEntity;
 import com.web.form.admin.LoginForm;
 import com.web.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -29,16 +27,13 @@ public class AdminController {
     public String index(HttpSession session){
         List<MenuEntity> menus = menuService.findAll();
         session.setAttribute("menus" , menus);
+        SecurityContext sc = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        sc.getAuthentication().getName();
         return "admin/index";
     }
 
     @RequestMapping("/loginInit")
     public String loginInit(@ModelAttribute("LoginForm") LoginForm form){
-        return "admin/login";
-    }
-
-    @RequestMapping("/login")
-    public String login(@Valid @ModelAttribute("LoginForm") LoginForm form , BindingResult result , Model model){
         return "admin/login";
     }
 }

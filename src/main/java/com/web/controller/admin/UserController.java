@@ -1,8 +1,10 @@
 package com.web.controller.admin;
 
+import com.web.entity.RoleEntity;
 import com.web.entity.UserEntity;
 import com.web.form.admin.user.AddForm;
 import com.web.form.admin.user.EditForm;
+import com.web.service.RoleService;
 import com.web.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,11 +22,14 @@ import java.util.List;
  * @since v1.0
  */
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/admin/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping("/list")
     public String list(Model model){
@@ -33,12 +39,14 @@ public class UserController {
     }
 
     @RequestMapping("/addInit")
-    public String addInit(){
+    public String addInit(Model model){
+        List<RoleEntity> roleEntities = roleService.findAll();
+        model.addAttribute("roleEntities" , roleEntities);
         return "admin/user/add";
     }
 
     @RequestMapping("/add")
-    public String add(@Validated AddForm form , BindingResult result , Model model){
+    public String add(@Validated AddForm form , BindingResult result){
         if(result.hasErrors())
             return "admin/user/add";
 
@@ -47,9 +55,18 @@ public class UserController {
         userEntity.setPassword(form.getPassword());
         userEntity.setEnable(form.getEnable());
 
+        if(form.getRoleIds() != null){
+            List<RoleEntity> roleEntities = new ArrayList<>();
+            for(Long id : form.getRoleIds()){
+                RoleEntity roleEntity = roleService.findOne(id);
+                roleEntities.add(roleEntity);
+            }
+            userEntity.setRoleEntities(roleEntities);
+        }
+
         userService.save(userEntity);
 
-        return "admin/user/list";
+        return "forward:/admin/user/list.do";
     }
 
     @RequestMapping("/editInit")
@@ -59,6 +76,9 @@ public class UserController {
             model.addAttribute("errorMsg" , "该用户不存在");
             return "admin/user/list";
         }
+
+        List<RoleEntity> roleEntities = roleService.findAll();
+        model.addAttribute("roleEntities" , roleEntities);
 
         model.addAttribute("userEntity", userEntity);
         return "admin/user/edit";
@@ -79,6 +99,15 @@ public class UserController {
         userEntity.setPassword(form.getPassword());
         userEntity.setEnable(form.getEnable());
 
+        if(form.getRoleIds() != null){
+            List<RoleEntity> roleEntities = new ArrayList<>();
+            for(Long id : form.getRoleIds()){
+                RoleEntity roleEntity = roleService.findOne(id);
+                roleEntities.add(roleEntity);
+            }
+            userEntity.setRoleEntities(roleEntities);
+        }
+
         userService.save(userEntity);
         return "admin/user/list";
     }
@@ -87,6 +116,6 @@ public class UserController {
     public String delete(@RequestParam Long id){
         userService.delete(id);
 
-        return "admin/user/list";
+        return "forward:/admin/user/list.do";
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.annotation.Resource;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class CrawlerController {
     @Autowired
     private SpringFactory factory;
 
-    @Autowired
+    @Resource(name = "CrawlerServiceImpl")
     private CrawlerService crawlerService;
 
     @RequestMapping("/addInit")

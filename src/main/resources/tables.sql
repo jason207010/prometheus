@@ -70,16 +70,18 @@ CREATE TABLE IF NOT EXISTS `menu`(
 
 
 INSERT INTO `resource`(`url`) VALUES('/admin/index.do');
-INSERT INTO `resource`(`url`) VALUES('/admin/resource/addInit.do');
-INSERT INTO `resource`(`url`) VALUES('/admin/menu/addInit.do');
 INSERT INTO `resource`(`url`) VALUE ('/admin/resource/list.do');
 INSERT INTO `resource`(`url`) VALUE ('/admin/menu/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/role/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/user/list.do');
+INSERT INTO `resource`(`url`) VALUE ('/admin/crawler/list.do');
 
 INSERT INTO `role`(`name`) VALUES('admin');
 INSERT INTO `user`(`name`,`password`) VALUES('admin','123456');
 INSERT INTO `user_role` VALUES((SELECT `id` FROM `user` WHERE `name`='admin'),(SELECT `id` FROM `role` WHERE `name`='admin'));
 
-INSERT INTO `menu`(`name`,`resource_id`) VALUES('添加资源',(SELECT `id` from `resource` where `url`='/admin/resource/addInit.do'));
-INSERT INTO `menu`(`name`,`resource_id`) VALUES('添加菜单',(SELECT `id` from `resource` where `url`='/admin/menu/addInit.do'));
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/resource/list.do'));
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/menu/list.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('角色列表',(SELECT `id` from `resource` where `url`='/admin/role/list.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('用户列表',(SELECT `id` from `resource` where `url`='/admin/user/list.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('爬虫列表',(SELECT `id` from `resource` where `url`='/admin/crawler/list.do'));
