@@ -13,7 +13,7 @@ public class MenuEntity {
     @Column(name = "id")
     @GeneratedValue
     private long id;
-    @Column(name = "name")
+    @Column(name = "`name`")
     private String name;
     @OneToOne
     @JoinColumn(name = "id")

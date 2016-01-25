@@ -6,11 +6,13 @@ import com.web.form.admin.menu.AddForm;
 import com.web.form.admin.menu.EditForm;
 import com.web.service.MenuService;
 import com.web.service.ResourceService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,18 +33,21 @@ public class MenuController {
     private MenuService menuService;
 
     @RequestMapping("/addInit")
-    public String addInit(Model model){
-        List<MenuEntity> menuEntities = menuService.findAll();
-        model.addAttribute("menuEntities" , menuEntities);
+    public String addInit(AddForm form , Model model){
+        model.addAttribute("form" , form);
+
         List<ResourceEntity> resourceEntities = resourceService.findAll();
         model.addAttribute("resourceEntities" , resourceEntities);
         return "admin/menu/add";
     }
 
     @RequestMapping("/add")
-    public String add(@Validated AddForm form , BindingResult bindingResult , Model model){
-        if(bindingResult.hasErrors())
+    public String add(@ModelAttribute("form") @Validated AddForm form , BindingResult bindingResult , Model model){
+        if(bindingResult.hasErrors()){
+            List<ResourceEntity> resourceEntities = resourceService.findAll();
+            model.addAttribute("resourceEntities" , resourceEntities);
             return "admin/menu/add";
+        }
 
         MenuEntity parent = null;
         if(form.getParentId() != null)
@@ -73,21 +78,28 @@ public class MenuController {
     }
 
     @RequestMapping("/editInit")
-    public String editInit(@RequestParam Long id , Model model){
-        List<MenuEntity> menuEntities = menuService.findAll();
-        model.addAttribute("menuEntities" , menuEntities);
+    public String editInit(@RequestParam Long id , EditForm form , Model model){
+
         List<ResourceEntity> resourceEntities = resourceService.findAll();
         model.addAttribute("resourceEntities" , resourceEntities);
 
         MenuEntity entity = menuService.findOne(id);
         model.addAttribute("entity" , entity);
+
+        BeanUtils.copyProperties(entity , form);
+        form.setResourceId(entity.getResourceEntity().getId());
+        model.addAttribute("form" , form);
+
         return "admin/menu/edit";
     }
 
     @RequestMapping("/edit")
-    public String edit(@Validated EditForm form , BindingResult bindingResult){
-        if(bindingResult.hasErrors())
+    public String edit(@ModelAttribute("form") @Validated EditForm form , BindingResult bindingResult , Model model){
+        if(bindingResult.hasErrors()){
+            List<ResourceEntity> resourceEntities = resourceService.findAll();
+            model.addAttribute("resourceEntities" , resourceEntities);
             return "admin/menu/edit";
+        }
 
         MenuEntity parent = null;
         if(form.getParentId() != null)

@@ -5,6 +5,7 @@
 <head>
     <link rel="stylesheet" href="${path}/lib/bootstrap-3.3.5-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="${path}/lib/bootstrap-3.3.5-dist/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="${path}/css/common.css">
     <script type="text/javascript" src="${path}/lib/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="${path}/lib/bootstrap-3.3.5-dist/js/bootstrap.min.js"></script>
     <sitemesh:write property='head'/>

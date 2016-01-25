@@ -6,11 +6,13 @@ import com.web.form.admin.user.AddForm;
 import com.web.form.admin.user.EditForm;
 import com.web.service.RoleService;
 import com.web.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,16 +41,22 @@ public class UserController {
     }
 
     @RequestMapping("/addInit")
-    public String addInit(Model model){
+    public String addInit(AddForm form , Model model){
+        model.addAttribute("form" , form);
+        
         List<RoleEntity> roleEntities = roleService.findAll();
         model.addAttribute("roleEntities" , roleEntities);
         return "admin/user/add";
     }
 
     @RequestMapping("/add")
-    public String add(@Validated AddForm form , BindingResult result){
-        if(result.hasErrors())
+    public String add(@ModelAttribute("form") @Validated AddForm form , BindingResult result , Model model){
+        if(result.hasErrors()){
+            List<RoleEntity> roleEntities = roleService.findAll();
+            model.addAttribute("roleEntities" , roleEntities);
+
             return "admin/user/add";
+        }
 
         UserEntity userEntity = new UserEntity();
         userEntity.setName(form.getName());
@@ -70,7 +78,8 @@ public class UserController {
     }
 
     @RequestMapping("/editInit")
-    public String editInit(@RequestParam Long id , Model model){
+    public String editInit(@RequestParam Long id , Model model , EditForm form){
+
         UserEntity userEntity = userService.findOne(id);
         if(userEntity == null){
             model.addAttribute("errorMsg" , "该用户不存在");
@@ -80,14 +89,27 @@ public class UserController {
         List<RoleEntity> roleEntities = roleService.findAll();
         model.addAttribute("roleEntities" , roleEntities);
 
-        model.addAttribute("userEntity", userEntity);
+        BeanUtils.copyProperties(userEntity , form);
+        if(userEntity.getRoleEntities() != null){
+            List<Long> roleIds = new ArrayList<>();
+            for(RoleEntity r : userEntity.getRoleEntities()){
+                roleIds.add(r.getId());
+            }
+            form.setRoleIds(roleIds);
+        }
+        model.addAttribute("form" , form);
+
         return "admin/user/edit";
     }
 
     @RequestMapping("/edit")
-    public String edit(@Validated EditForm form , BindingResult result , Model model){
-        if(result.hasErrors())
+    public String edit(@ModelAttribute("form") @Validated EditForm form , BindingResult result , Model model){
+        if(result.hasErrors()){
+            List<RoleEntity> roleEntities = roleService.findAll();
+            model.addAttribute("roleEntities" , roleEntities);
+
             return "admin/user/edit";
+        }
 
         UserEntity userEntity = userService.findOne(form.getId());
         if(userEntity == null){

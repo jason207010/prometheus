@@ -10,8 +10,6 @@ import java.util.List;
  * @author jayson  <br/> 2015-12-12 15:35
  * @since v1.0
  */
-@Component("ResourceEntity")
-@Scope("prototype")
 @Entity(name = "ResourceEntity")
 @Table(name = "resource")
 public class ResourceEntity {

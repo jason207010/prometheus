@@ -6,11 +6,13 @@ import com.web.form.admin.role.AddForm;
 import com.web.form.admin.role.EditForm;
 import com.web.service.ResourceService;
 import com.web.service.RoleService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -39,14 +41,17 @@ public class RoleController {
     }
 
     @RequestMapping("/addInit")
-    public String addInit(Model model){
+    public String addInit(AddForm form , Model model){
+        model.addAttribute("form" , form);
+
         List<ResourceEntity> resourceEntities = resourceService.findAll();
         model.addAttribute("resourceEntities" , resourceEntities);
+
         return "admin/role/add";
     }
 
     @RequestMapping("/add")
-    public String add(@Validated AddForm form , BindingResult bindingResult , Model model){
+    public String add(@ModelAttribute("form") @Validated AddForm form , BindingResult bindingResult , Model model){
         if(bindingResult.hasErrors()){
             List<ResourceEntity> resourceEntities = resourceService.findAll();
             model.addAttribute("resourceEntities" , resourceEntities);
@@ -72,9 +77,20 @@ public class RoleController {
     }
 
     @RequestMapping("/editInit")
-    public String editInit(@RequestParam Long id , Model model){
+    public String editInit(@RequestParam Long id , EditForm form , Model model){
+
         RoleEntity entity = roleService.findOne(id);
         model.addAttribute("entity", entity);
+
+        BeanUtils.copyProperties(entity, form);
+        if(entity.getResourceEntities() != null){
+            List<Long> resourceIds = new ArrayList<>();
+            for(ResourceEntity e : entity.getResourceEntities()){
+                resourceIds.add(e.getId());
+            }
+            form.setResourceIds(resourceIds);
+        }
+        model.addAttribute("form", form);
 
         List<ResourceEntity> resourceEntities = resourceService.findAll();
         model.addAttribute("resourceEntities" , resourceEntities);
@@ -83,9 +99,12 @@ public class RoleController {
     }
 
     @RequestMapping("/edit")
-    public String edit(@Validated EditForm form , BindingResult bindingResult){
-        if(bindingResult.hasErrors())
+    public String edit(@ModelAttribute("form") @Validated EditForm form , BindingResult bindingResult , Model model){
+        if(bindingResult.hasErrors()){
+            List<ResourceEntity> resourceEntities = resourceService.findAll();
+            model.addAttribute("resourceEntities" , resourceEntities);
             return "admin/role/edit";
+        }
 
         RoleEntity roleEntity = roleService.findOne(form.getId());
         roleEntity.setName(form.getName());

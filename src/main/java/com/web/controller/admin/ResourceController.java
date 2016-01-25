@@ -4,12 +4,13 @@ import com.web.entity.ResourceEntity;
 import com.web.form.admin.resource.AddForm;
 import com.web.form.admin.resource.EditForm;
 import com.web.service.ResourceService;
-import com.web.util.SpringFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,24 +26,21 @@ import java.util.List;
 public class ResourceController {
 
     @Autowired
-    private SpringFactory factory;
-
-    @Autowired
     private ResourceService resourceService;
 
     @RequestMapping("/addInit")
-    public String addInit(){
+    public String addInit(AddForm form , Model model){
+        model.addAttribute("form" , form);
         return "admin/resource/add";
     }
 
     @RequestMapping("/add")
-    public String add(@Valid AddForm form , BindingResult result , Model model){
-        if(result.hasErrors()){
-            model.addAttribute("result" , result);
+    public String add(@ModelAttribute("form") @Valid AddForm form , BindingResult result){
+        if(result.hasErrors())
             return "admin/resource/add";
-        }
 
-        ResourceEntity entity = factory.create(ResourceEntity.class);
+        ResourceEntity entity = new ResourceEntity();
+
         entity.setUrl(form.getUrl());
 
         resourceService.save(entity);
@@ -59,19 +57,25 @@ public class ResourceController {
     @RequestMapping("/delete")
     public String delete(@RequestParam Long id){
         resourceService.delete(id);
-        return "admin/resource/list";
+        return "forward:/admin/resource/list.do";
     }
 
     @RequestMapping("/editInit")
-    public String editInit(@RequestParam Long id , Model model){
+    public String editInit(@RequestParam Long id , Model model , EditForm form){
         ResourceEntity entity = resourceService.findOne(id);
+
         model.addAttribute("entity", entity);
+
+        BeanUtils.copyProperties(entity, form);
+
+        model.addAttribute("form" , form);
+
         return "admin/resource/edit";
     }
 
     @RequestMapping("/edit")
-    public String edit(@Validated EditForm form , BindingResult bindingResult){
-        if(bindingResult.hasErrors())
+    public String edit(@ModelAttribute("form") @Validated EditForm form , BindingResult result){
+        if(result.hasErrors())
             return "admin/resource/edit";
 
         ResourceEntity entity = resourceService.findOne(form.getId());

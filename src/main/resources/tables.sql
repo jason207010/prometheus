@@ -108,7 +108,7 @@ INSERT INTO `user`(`name`,`password`) VALUES('admin','123456');
 INSERT INTO `user_role` VALUES((SELECT `id` FROM `user` WHERE `name`='admin'),(SELECT `id` FROM `role` WHERE `name`='admin'));
 
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/resource/list.do'));
-INSERT INTO `menu`(`name`,`resource_id`) VALUES('资源列表',(SELECT `id` from `resource` where `url`='/admin/menu/list.do'));
+INSERT INTO `menu`(`name`,`resource_id`) VALUES('菜单列表',(SELECT `id` from `resource` where `url`='/admin/menu/list.do'));
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('角色列表',(SELECT `id` from `resource` where `url`='/admin/role/list.do'));
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('用户列表',(SELECT `id` from `resource` where `url`='/admin/user/list.do'));
 INSERT INTO `menu`(`name`,`resource_id`) VALUES('爬虫列表',(SELECT `id` from `resource` where `url`='/admin/crawler/list.do'));
