@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import javax.annotation.PreDestroy;
 
 /**
  * @author Jayson Chan<br/>2015-11-13 16:23
@@ -24,15 +24,20 @@ public class Indexer {
     @Autowired
     private Config config;
 
-    public void saveOrUpdate(Term term , Document document){
+    public synchronized void saveOrUpdate(Term term , Document document){
         IndexWriter indexWriter = null;
         try {
             indexWriter = LuceneUtils.getIndexWriter(config.get("indexPath"));
             indexWriter.updateDocument(term , document);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOGGER.error("" , e);
         } finally {
             LuceneUtils.closeGracefully(indexWriter);
         }
     }
+
+    @PreDestroy
+    public void onDestroy(){
+    }
+
 }

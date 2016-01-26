@@ -54,7 +54,6 @@ public class Searcher {
             Query query = parser.parse(keyWord);
             TopScoreDocCollector collector = TopScoreDocCollector.create(ConverseUtil.converseInt(config.get("hits")));
             searcher.search(query, collector);
-//            TopDocs topDocs = collector.topDocs(0 , 10);
             TopDocs topDocs = collector.topDocs(page.getStart() - 1, page.getPageSize());
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             page.setTotal(collector.getTotalHits());

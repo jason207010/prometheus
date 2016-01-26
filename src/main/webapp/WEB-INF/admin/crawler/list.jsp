@@ -29,7 +29,7 @@
                             <td>${task.crawler.crawlerInfo.id}</td>
                             <td>${task.crawler.crawlerInfo.desc}</td>
                             <td>${task.crawler.status.desc}</td>
-                            <td><a href="<s:url value="/crawler/remove.do?id="/>${task.crawler.crawlerInfo.id}">删除</a></td>
+                            <td><a href="<s:url value="/admin/crawler/delete.do?id="/>${task.crawler.crawlerInfo.id}">删除</a></td>
                         </tr>
                     </c:forEach>
                 </table>

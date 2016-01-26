@@ -33,8 +33,6 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
         FilterInvocation invocation = (FilterInvocation) o;
         String servletPath = invocation.getRequest().getServletPath();
 
-        System.err.printf("servletPath:%s\r\n" , servletPath);
-
         List<ConfigAttribute> configAttributes = new ArrayList<>();
 
         ResourceEntity resourceEntity = resourceService.findByUrl(servletPath);

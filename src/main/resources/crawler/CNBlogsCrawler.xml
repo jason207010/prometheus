@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CrawlerInfo>
+<id>2</id>
+<desc>抓取博客园博客</desc>
+<topN>2147483647</topN>
+<autoParse>true</autoParse>
+<resumable>true</resumable>
+<seeds>
+    <String>http://www.cnblogs.com/</String>
+</seeds>
+<regex>
+    <String>http://www.cnblogs.com/.+\.html</String>
+    <String>http://www.cnblogs.com/\w+/</String>
+</regex>
+<matching>
+    <String>^http://www.cnblogs.com/\w+/p/\d+\.html$</String>
+</matching>
+<maxRetry>3</maxRetry>
+<retry>3</retry>
+<depth>10</depth>
+</CrawlerInfo>
