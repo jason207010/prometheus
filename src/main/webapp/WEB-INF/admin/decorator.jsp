@@ -36,7 +36,7 @@
         <div class="col-xs-2">
             <ul class="list-group">
                 <c:forEach items="${sessionScope.menus}" var="menu">
-                    <li class="list-group-item"><a href="${menu.resourceEntity.url}">${menu.name}</a></li>
+                    <li class="list-group-item"><a href="${path}${menu.resourceEntity.url}">${menu.name}</a></li>
                 </c:forEach>
             </ul>
         </div>

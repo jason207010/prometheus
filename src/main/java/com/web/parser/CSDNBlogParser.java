@@ -12,11 +12,10 @@ import com.web.service.WebPageService;
 import com.web.util.SpringFactory;
 import com.web.util.digest.CRC32;
 import com.web.util.digest.MessageDigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,9 +32,12 @@ import java.util.Map;
 @Component("CSDNBlogParser")
 public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CSDNBlogParser.class);
-
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        }
+    };
 
     @Autowired
     private WebPageTaskScheduler webPageTaskScheduler;
@@ -56,6 +58,7 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
 
     @Override
     public void parse(Page page) throws Exception {
+
         Document doc = page.getDoc();
         String url = page.getUrl();//网页url
         long crc = CRC32.crc32(url);//网页url的crc32
@@ -97,7 +100,9 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         String tag = JSON.toJSONString(tagList);//文章所属标签JSON
 
         String releaseTimeStr = doc.select(".link_postdate").text();
-        Timestamp releaseTime = new Timestamp(sdf.parse(releaseTimeStr).getTime());//文章发布时间
+        Timestamp releaseTime = null;//文章发布时间
+        if(StringUtils.isNotBlank(releaseTimeStr))
+            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
 
         String author = doc.select("#panel_Profile #blog_userface a.user_name").text();//文章作者
 
