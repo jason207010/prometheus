@@ -16,6 +16,13 @@ import org.springframework.stereotype.Service;
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
+
+    /**
+     * 根据用户名查找用户信息，如果查找不到，抛出UsernameNotFoundException
+     * @param s 用户名
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         UserEntity userEntity = userService.findByName(s);

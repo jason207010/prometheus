@@ -15,6 +15,7 @@ import java.util.Collection;
  */
 public class CustomUserDetails implements UserDetails {
     private UserEntity userEntity;
+    //用户所拥有的权限
     private Collection<GrantedAuthority> authorities = new ArrayList<>();
 
     public CustomUserDetails(UserEntity userEntity) {

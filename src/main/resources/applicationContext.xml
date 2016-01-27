@@ -10,6 +10,8 @@
       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd
       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+    <!--通过注解来依赖注入，由于spring mvc的配置是必须单独配置的，所以这里要排除对Controller的扫描-->
     <context:component-scan base-package="com.web">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
@@ -24,21 +26,40 @@
     <security:http pattern="/admin/loginInit.do" security="none"/>
 
     <security:http>
+        <!--
+            login-page:登陆页面，即返回到登陆jsp的页面url
+            login-processing-url:登陆逻辑处理url，这里只需要定义一个url即可，登陆逻辑不需要写，因为已经交给spring-security自动处理了
+            default-target-url:登陆成功后跳转的页面
+            authentication-failure-url:登陆失败后跳转的页面
+            username-parameter:登陆form的用户名input的name属性
+            password-parameter:登陆form的密码input的password属性
+        -->
         <security:form-login login-page="/admin/loginInit.do" login-processing-url="/admin/login.do" default-target-url="/admin/index.do" authentication-failure-url="/admin/loginInit.do?authError=true" username-parameter="name" password-parameter="password"/>
+        <!--退出登陆url，这里只需要定义一个url即可，退出登陆逻辑不需要写，因为已经交给spring-security自动处理了-->
         <security:logout logout-url="/admin/logout.do"/>
+        <!--没有权限时返回的页面-->
         <security:access-denied-handler error-page="/WEB-INF/admin/403.jsp"></security:access-denied-handler>
+        <!--session过期后，访问其他资源时跳转到登陆页面-->
         <security:session-management invalid-session-url="/admin/loginInit.do"/>
+        <!--自定义过滤器，为spring-security提供用户名、密码、权限等信息，有了这些信息，spring-security才能自动去处理登陆及权限的逻辑-->
         <security:custom-filter ref="FilterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+        <!--禁用csrf，否则需要在登陆form配置csrf字段-->
         <security:csrf disabled="true"/>
     </security:http>
 
+    <!--身份认证管理器-->
     <security:authentication-manager alias="authenticationManager">
+        <!--自定义身份认证管理器-->
         <security:authentication-provider user-service-ref="CustomUserDetailsService"/>
     </security:authentication-manager>
 
+    <!--自定义过滤器，为spring-security提供用户名、密码、权限等信息，有了这些信息，spring-security才能自动去处理登陆及权限的逻辑-->
     <bean id="FilterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <!--自定义权限决定器，根据用户是否拥有某资源的权限，从而决定是否让用户访问某资源-->
         <property name="accessDecisionManager" ref="CustomAccessDecisionManager"/>
+        <!--自定义身份认证管理器-->
         <property name="authenticationManager" ref="authenticationManager"/>
+        <!--自定义权限信息数据源-->
         <property name="securityMetadataSource" ref="CustomFilterInvocationSecurityMetadataSource"/>
     </bean>
     <!--spring security end-->

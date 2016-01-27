@@ -1,6 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="sp" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -28,14 +26,14 @@
     <div class="row main-row">
         <div class="col-md-4"></div>
         <div class="col-md-4 col-xs-12">
-            <input class="form-control" name="name" placeholder="请输入用户名"">
+            <input class="form-control" name="name" placeholder="请输入用户名">
         </div>
         <div class="col-md-4"></div>
     </div>
     <div class="row main-row">
         <div class="col-md-4"></div>
         <div class="col-md-4 col-xs-12">
-            <input class="form-control" type="password" name="password" placeholder="请输入密码"">
+            <input class="form-control" type="password" name="password" placeholder="请输入密码">
         </div>
         <div class="col-md-4"></div>
     </div>
