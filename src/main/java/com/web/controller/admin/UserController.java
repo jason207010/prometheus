@@ -131,7 +131,7 @@ public class UserController {
         }
 
         userService.save(userEntity);
-        return "admin/user/list";
+        return "forward:/admin/user/list.do";
     }
 
     @RequestMapping("/delete")
