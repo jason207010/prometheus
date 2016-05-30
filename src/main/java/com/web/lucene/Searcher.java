@@ -6,9 +6,10 @@ import com.web.util.ConverseUtil;
 import com.web.util.LuceneUtils;
 import com.web.util.SpringFactory;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.MultiReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.search.*;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.wltea.analyzer.lucene.IKAnalyzer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -44,16 +46,29 @@ public class Searcher {
     private SpringFactory factory;
 
     public Page<SearchResult> search(String keyWord , Page<SearchResult> page){
-        DirectoryReader reader = null;
+        MultiReader multiReader = null;
         try {
-            reader = DirectoryReader.open(FSDirectory.open(Paths.get(config.get("indexPath"))));
-            IndexSearcher searcher = new IndexSearcher(reader);
+
+            File file = new File(config.get("indexPath"));
+            File[] files = file.listFiles();
+
+            if(files == null || files.length == 0)
+                return page;
+
+            IndexReader[] indexReaders = new IndexReader[files.length];
+            for(int i = 0 ; i < indexReaders.length ; ++i)
+                indexReaders[i] = DirectoryReader.open(FSDirectory.open(Paths.get(files[i].getPath())));
+
+            multiReader = new MultiReader(indexReaders);
+
+            IndexSearcher searcher = new IndexSearcher(multiReader);
             Analyzer analyzer = new IKAnalyzer();
             String[] fields = {config.get("articleTitle") , config.get("articleBody")};
             MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, analyzer);
             Query query = parser.parse(keyWord);
             TopScoreDocCollector collector = TopScoreDocCollector.create(ConverseUtil.converseInt(config.get("hits")));
             searcher.search(query, collector);
+
             TopDocs topDocs = collector.topDocs(page.getStart() - 1, page.getPageSize());
             ScoreDoc[] scoreDocs = topDocs.scoreDocs;
             page.setTotal(collector.getTotalHits());
@@ -103,7 +118,7 @@ public class Searcher {
         } catch (ParseException e) {
             LOGGER.error("" , e);
         } finally {
-            LuceneUtils.closeGracefully(reader);
+            LuceneUtils.closeGracefully(multiReader);
         }
         return page;
     }
