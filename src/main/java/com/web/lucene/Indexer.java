@@ -57,7 +57,6 @@ public class Indexer {
             File file = null;
             try {
                 file = indexPaths.take();
-                LOGGER.info(file.getPath());
                 indexWriter = LuceneUtils.getIndexWriter(file.getPath());
                 indexWriter.updateDocument(term , document);
             } catch (Exception e) {
