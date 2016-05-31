@@ -38,7 +38,7 @@ public class LuceneServiceImpl implements LuceneService {
         document.add(new StringField(config.get("author") , entity.getAuthor() , Field.Store.YES));
         document.add(new StringField(config.get("articleTitle") , entity.getArticleTitle() , Field.Store.YES));
         document.add(new TextField(config.get("articleBody"), entity.getArticleBody(), Field.Store.YES));
-        Term term = new Term(config.get("md5"), entity.getMd5());
+        Term term = new Term(config.get("url"), entity.getUrl() + entity.getViceUrl());
         indexer.saveOrUpdate(term , document);
     }
 
