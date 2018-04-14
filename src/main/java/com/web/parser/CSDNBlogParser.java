@@ -35,7 +35,7 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
     private ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>() {
         @Override
         protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            return new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
         }
     };
 
@@ -81,10 +81,6 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         Map<String, List<String>> headersMap = page.getResponse().getHeaders();//网页头
         String headers = JSON.toJSONString(headersMap);//网页头转为JSON格式
 
-
-        String articleTitle = doc.select(".article_title a").text();//文章标题
-        String articleBody = doc.select(".article_content").text();//文章内容
-
         List<String> categoryList = new ArrayList<>();
         Elements categories = doc.select("div.category_r label span");
         for(Element e : categories){
@@ -98,17 +94,16 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
             tagList.add(e.text());
         }
         String tag = JSON.toJSONString(tagList);//文章所属标签JSON
-
-        String releaseTimeStr = doc.select(".link_postdate").text();
-        Timestamp releaseTime = null;//文章发布时间
-        if(StringUtils.isNotBlank(releaseTimeStr))
-            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
-
-        String author = doc.select("#panel_Profile #blog_userface a.user_name").text();//文章作者
-
         Timestamp crawlerTime = new Timestamp(System.currentTimeMillis());//爬取时间
 
+        Elements elements = doc.select(".csdn_top");
+        if(elements.isEmpty())
+            parseOldStyle(doc, entity);
+        else
+            parseNewStyle(doc, entity);
 
+        entity.setCategory(category);
+        entity.setTag(tag);
         entity.setCrc(crc);
         entity.setUrl(url);
         entity.setViceUrl(viceUrl);
@@ -119,12 +114,6 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         entity.setContentType(contentType);
         entity.setHeaders(headers);
         entity.setMd5(md5);
-        entity.setArticleTitle(articleTitle);
-        entity.setArticleBody(articleBody);
-        entity.setCategory(category);
-        entity.setTag(tag);
-        entity.setReleaseTime(releaseTime);
-        entity.setAuthor(author);
         entity.setCrawleTime(crawlerTime);
 
         WebPageTask webPageTask = factory.create(WebPageTask.class);
@@ -134,5 +123,36 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         LuceneTask luceneTask = factory.create(LuceneTask.class);
         luceneTask.setEntity(entity);
         luceneTaskScheduler.schedule(luceneTask);
+    }
+
+    private void parseOldStyle(Document doc, WebPageEntity webPageEntity) throws Exception {
+        String articleTitle = doc.select(".article_title a").text();
+        String articleBody = doc.select(".article_content").text();
+        String releaseTimeStr = doc.select(".link_postdate").text();
+        Timestamp releaseTime = null;
+        if(StringUtils.isNotBlank(releaseTimeStr)){
+            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
+        }
+        String author = doc.select(".user_info a").text();
+
+        webPageEntity.setArticleTitle(articleTitle);
+        webPageEntity.setArticleBody(articleBody);
+        webPageEntity.setReleaseTime(releaseTime);
+        webPageEntity.setAuthor(author);
+    }
+
+    private void parseNewStyle(Document doc, WebPageEntity webPageEntity) throws Exception {
+        String articleTitle = doc.select(".csdn_top").text();
+        String articleBody = doc.select(".article_content").text();
+        String releaseTimeStr = doc.select(".time").text();
+        Timestamp releaseTime = null;
+        if(StringUtils.isNotBlank(releaseTimeStr)){
+            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
+        }
+        String author = doc.select("#uid").text();
+        webPageEntity.setArticleTitle(articleTitle);
+        webPageEntity.setArticleBody(articleBody);
+        webPageEntity.setReleaseTime(releaseTime);
+        webPageEntity.setAuthor(author);
     }
 }

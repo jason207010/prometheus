@@ -14,6 +14,7 @@ import com.web.util.digest.CRC32;
 import com.web.util.digest.MessageDigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author jayson  <br/> 2016-01-25 15:06
@@ -36,6 +39,11 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
         }
     };
 
+    private Pattern pattern1 = Pattern.compile("posted @ (\\d+-\\d+-\\d+ \\d+:\\d+) (\\S+)\\s.+");
+
+    private Pattern pattern2 = Pattern.compile("(\\d+-\\d+-\\d+ \\d+:\\d+) by (\\S+),.+");
+
+
     @Autowired
     private WebPageService webPageService;
 
@@ -50,6 +58,10 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
 
     @Override
     public void parse(Page page) throws Exception {
+        Document doc = page.getDoc();
+        if(!doc.select("#tb_password").isEmpty())
+            return;
+
         String url = page.getUrl();
         long crc = CRC32.crc32(url);
         String viceUrl = "";
@@ -63,7 +75,6 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
                 return;
         }
 
-        Document doc = page.getDoc();
         String title = doc.title();
         String content = doc.text();
         String html = doc.html();
@@ -71,15 +82,12 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
         String contentType = page.getResponse().getContentType();
         Map<String, List<String>> headersMap = page.getResponse().getHeaders();
         String headers = JSON.toJSONString(headersMap);
-        String articleTitle = doc.select("#cb_post_title_url").text();
-        String articleBody = doc.select("div#cnblogs_post_body").text();
-        String releaseTimeStr = doc.select("#post-date").text();
-        Timestamp releaseTime = null;
-        if(StringUtils.isNotBlank(releaseTimeStr)){
-            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
-        }
-        String author = doc.select("#post-date+a").text();
 
+        Elements elements = doc.select("#cb_post_title_url");
+        if(elements.isEmpty())
+            parseStyle1(doc, webPageEntity);
+        else
+            parseStyle2(doc, webPageEntity);
 
         webPageEntity.setCrc(crc);
         webPageEntity.setUrl(url);
@@ -91,12 +99,8 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
         webPageEntity.setContentType(contentType);
         webPageEntity.setHeaders(headers);
         webPageEntity.setMd5(md5);
-        webPageEntity.setArticleTitle(articleTitle);
-        webPageEntity.setArticleBody(articleBody);
         webPageEntity.setCategory("");
         webPageEntity.setTag("");
-        webPageEntity.setReleaseTime(releaseTime);
-        webPageEntity.setAuthor(author);
         webPageEntity.setCrawleTime(new Timestamp(System.currentTimeMillis()));
 
         WebPageTask webPageTask = factory.create(WebPageTask.class);
@@ -107,6 +111,47 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
         luceneTask.setEntity(webPageEntity);
         luceneTaskScheduler.schedule(luceneTask);
 
+    }
+
+    private void parseStyle1(Document doc, WebPageEntity webPageEntity) throws Exception {
+        String articleTitle = doc.select(".postTitle2").text();
+        String articleBody = doc.select(".postCon").text();
+        String postDesc = doc.select(".postDesc").text();
+        Matcher matcher = pattern1.matcher(postDesc);
+        matcher.matches();
+        String author = matcher.group(2);
+        String releaseTimeStr = matcher.group(1);
+        Timestamp releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
+
+        webPageEntity.setArticleTitle(articleTitle);
+        webPageEntity.setArticleBody(articleBody);
+        webPageEntity.setReleaseTime(releaseTime);
+        webPageEntity.setAuthor(author);
+    }
+
+    private void parseStyle2(Document doc, WebPageEntity webPageEntity) throws Exception {
+        String articleTitle = doc.select("#cb_post_title_url").text();
+        String articleBody = doc.select("#cnblogs_post_body").text();
+        String postDesc = doc.select("#post small").text();
+        String author;
+        String releaseTimeStr = null;
+        Timestamp releaseTime;
+        if(StringUtils.isNotBlank(postDesc)) {
+            Matcher matcher = pattern2.matcher(postDesc);
+            matcher.matches();
+            releaseTimeStr = matcher.group(1);
+            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
+            author = matcher.group(2);
+        } else {
+            releaseTimeStr = doc.select("#post-date").text();
+            releaseTime = new Timestamp(threadLocal.get().parse(releaseTimeStr).getTime());
+            author = doc.select("#post-date+a").text();
+        }
+
+        webPageEntity.setArticleTitle(articleTitle);
+        webPageEntity.setArticleBody(articleBody);
+        webPageEntity.setReleaseTime(releaseTime);
+        webPageEntity.setAuthor(author);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class ParseTaskImpl implements ParseTask {
         try {
             parser.parse(page);
         } catch (Exception e) {
-            LOGGER.error("" , e);
+            LOGGER.error("" + page.getUrl() , e);
         }
     }
 

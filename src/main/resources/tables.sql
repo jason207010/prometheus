@@ -1,4 +1,6 @@
+DROP DATABASE `prometheus`;
 CREATE DATABASE `prometheus`;
+USE `prometheus`;
 CREATE TABLE IF NOT EXISTS `webpage`(
 	`id` BIGINT AUTO_INCREMENT,
 	`crc` BIGINT COMMENT '网址的CRC32',
@@ -19,7 +21,7 @@ CREATE TABLE IF NOT EXISTS `webpage`(
 	release_time TIMESTAMP COMMENT '文章发布时间',
 	author VARCHAR(64) COMMENT '作者',
 
-	crawle_time TIMESTAMP COMMENT '爬取时间',
+	crawle_time TIMESTAMP COMMENT '爬取时间' DEFAULT NOW(),
 	CONSTRAINT pk_webpage_id PRIMARY KEY(`id`),
 	INDEX index_url_crc(`crc`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT '网页数据表';
