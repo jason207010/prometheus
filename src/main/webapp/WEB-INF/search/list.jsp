@@ -23,12 +23,12 @@
         <div class="col-md-9 col-sm-12">
           <div class="row">
             <div class="col-md-2 col-sm-12 text-center">
-              <a href="/search/searchIndex.do">
-                <img src="/img/logo_top.png">
+              <a href="${path}/search/searchIndex.do">
+                <img src="${path}/img/logo_top.png">
               </a>
             </div>
             <div class="col-md-8 col-sm-12">
-              <form action="/search/search.do" method="post">
+              <form action="${path}/search/search.do" method="post">
                 <div class="input-group">
                   <input type="text" class="form-control" name="keyWord" value="${keyWord}">
                   <span class="input-group-btn">
