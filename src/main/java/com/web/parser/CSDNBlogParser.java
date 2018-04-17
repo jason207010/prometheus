@@ -102,6 +102,8 @@ public class CSDNBlogParser implements Parser<CSDNBlogCrawler> {
         else
             parseNewStyle(doc, entity);
 
+        if(entity.getId() == 0L) entity.setId(webPageService.increaseAndGetId());
+
         entity.setCategory(category);
         entity.setTag(tag);
         entity.setCrc(crc);

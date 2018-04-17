@@ -11,4 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface WebPageDao extends JpaRepository<WebPageEntity, Long> {
     @Query("select w from WebPageEntity w where w.crc=?1 and w.url=?2 and w.viceUrl=?3")
     public WebPageEntity get(long crc , String url , String viceUrl);
+
+    WebPageEntity getById(long id);
+
+    @Query("select max(w.id) from WebPageEntity w")
+    Long getMaxId();
 }

@@ -61,7 +61,11 @@
       <div class="container article">
         <div class="row">
           <div class="col-xs-12">
-            <h4><a href="${l.url}" target="_blank">${l.articleTitle}</a></h4>
+            <h4>
+              <a href="${path}/search/view.do?id=${l.id}" target="_blank">${l.articleTitle}</a>
+              <small><a href="${l.url}" target="_blank">查看原文</a></small>
+            </h4>
+
           </div>
           <div class="col-xs-12 no_padding">
             <hr class="no_padding no_margin"/>

@@ -81,6 +81,7 @@ public class Searcher {
                 SearchResult result = factory.create(SearchResult.class);
                 int doc = scoreDocs[i].doc;
                 Document document = searcher.doc(doc);
+                result.setId(ConverseUtil.converseLong(document.get(config.get("id"))));
                 result.setCrc(ConverseUtil.converseLong(document.get(config.get("crc"))));
                 result.setUrl(document.get(config.get("url")));
                 result.setViceUrl(document.get(config.get("viceUrl")));

@@ -89,6 +89,8 @@ public class CNBlogsParser implements Parser<CNBlogsCrawler> {
         else
             parseStyle2(doc, webPageEntity);
 
+        if(webPageEntity.getId() == 0L) webPageEntity.setId(webPageService.increaseAndGetId());
+
         webPageEntity.setCrc(crc);
         webPageEntity.setUrl(url);
         webPageEntity.setViceUrl(viceUrl);

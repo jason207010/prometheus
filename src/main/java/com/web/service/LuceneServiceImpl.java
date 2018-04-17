@@ -31,6 +31,7 @@ public class LuceneServiceImpl implements LuceneService {
     @Override
     public void saveOrUpdate(WebPageEntity entity) {
         Document document = new Document();
+        document.add(new LongField(config.get("id"), entity.getId(), Field.Store.YES));
         document.add(new StringField(config.get("crc") , String.valueOf(entity.getCrc()), Field.Store.YES));
         document.add(new StringField(config.get("url") , entity.getUrl() , Field.Store.YES));
         document.add(new StringField(config.get("viceUrl") , entity.getViceUrl() , Field.Store.YES));

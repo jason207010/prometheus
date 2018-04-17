@@ -10,4 +10,6 @@ public interface WebPageService {
     public void save(Iterable<WebPageEntity> iterable);
     public void save(WebPageEntity entity);
     public WebPageEntity get(long crc , String url , String viceUrl);
+    WebPageEntity getById(long id);
+    long increaseAndGetId();
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Component("SearchResult")
 @Scope("prototype")
 public class SearchResult {
+    private long id;
     private long crc;
     private String url;
     private String viceUrl;
@@ -18,6 +19,15 @@ public class SearchResult {
     private String articleBody;
 
     /**getter、setter方法**/
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public long getCrc() {
         return crc;
     }
